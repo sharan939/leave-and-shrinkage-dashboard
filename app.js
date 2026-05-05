@@ -1,3 +1,80 @@
+// ========== GOOGLE SHEETS BACKEND CONFIG ==========
+// Set this URL after deploying the Google Apps Script as a Web App
+// Leave empty to use localStorage only (offline mode)
+let SHEET_API_URL = ''; // e.g., 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec'
+
+// Sync mode: 'local' (localStorage only) or 'cloud' (Google Sheets + localStorage cache)
+let SYNC_MODE = SHEET_API_URL ? 'cloud' : 'local';
+
+// ========== CLOUD SYNC FUNCTIONS ==========
+async function cloudFetch(params) {
+  if (!SHEET_API_URL) return null;
+  try {
+    const url = SHEET_API_URL + '?' + new URLSearchParams(params).toString();
+    const res = await fetch(url);
+    return await res.json();
+  } catch (e) { console.warn('Cloud fetch failed:', e); return null; }
+}
+
+async function cloudPost(data) {
+  if (!SHEET_API_URL) return null;
+  try {
+    const res = await fetch(SHEET_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    return await res.json();
+  } catch (e) { console.warn('Cloud post failed:', e); return null; }
+}
+
+async function syncToCloud() {
+  if (!SHEET_API_URL) return;
+  // Flatten leaves for cloud
+  const allLeaves = [];
+  Object.entries(db.leaves).forEach(([mgr, leaves]) => {
+    leaves.forEach(l => { allLeaves.push({ ...l, manager: mgr }); });
+  });
+  // Flatten daily tracker
+  const allDaily = [];
+  Object.entries(db.dailyTracker || {}).forEach(([mgr, aliases]) => {
+    Object.entries(aliases).forEach(([alias, dates]) => {
+      Object.entries(dates).forEach(([date, rec]) => {
+        allDaily.push({ date, alias, manager: mgr, status: rec.status, notes: rec.notes || '' });
+      });
+    });
+  });
+  await cloudPost({ action: 'bulkSync', leaves: allLeaves, daily: allDaily });
+  toast('Synced to cloud!');
+}
+
+async function syncFromCloud() {
+  if (!SHEET_API_URL) return;
+  const result = await cloudFetch({ action: 'readAll' });
+  if (!result) return;
+  // Rebuild leaves
+  if (result.leaves) {
+    db.leaves = {};
+    result.leaves.forEach(l => {
+      const mgr = l.manager || 'aggannam';
+      if (!db.leaves[mgr]) db.leaves[mgr] = [];
+      db.leaves[mgr].push({ id: l.id, alias: l.alias, type: l.type, from: l.from, to: l.to, days: parseFloat(l.days), status: l.status, reason: l.reason, appliedOn: l.appliedOn });
+    });
+  }
+  // Rebuild daily tracker
+  if (result.daily) {
+    db.dailyTracker = {};
+    result.daily.forEach(d => {
+      if (!db.dailyTracker[d.manager]) db.dailyTracker[d.manager] = {};
+      if (!db.dailyTracker[d.manager][d.alias]) db.dailyTracker[d.manager][d.alias] = {};
+      db.dailyTracker[d.manager][d.alias][d.date] = { status: d.status, notes: d.notes || '' };
+    });
+  }
+  save();
+  render();
+  toast('Synced from cloud!');
+}
+
 // ========== ORG DATA ==========
 const ORG = {
   'agasarad': { name: 'Sarad Agarwal', title: 'Manager, TPM', level: 6, isMgr: true, mgr: null, directs: ['shoyaba', 'jorrigal', 'kumarshu', 'bhrgar', 'sidhanp', 'duraiv', 'girisada', 'sylimm', 'nidhivya', 'prtbht'] },
@@ -109,7 +186,15 @@ function defaultDB() {
 
 let db;
 try { const s = localStorage.getItem(SK); db = s ? JSON.parse(s) : defaultDB(); } catch (e) { db = defaultDB(); }
-function save() { localStorage.setItem(SK, JSON.stringify(db)); }
+function save() {
+  localStorage.setItem(SK, JSON.stringify(db));
+  // Auto-sync individual changes to cloud if connected
+  if (SHEET_API_URL && SYNC_MODE === 'cloud') {
+    // Debounced cloud sync (don't flood on every keystroke)
+    clearTimeout(save._timer);
+    save._timer = setTimeout(() => syncToCloud(), 5000);
+  }
+}
 
 // ========== HELPERS ==========
 function getMgrs(alias) { const o = ORG[alias]; if (!o) return []; return o.directs.filter(d => ORG[d] && ORG[d].isMgr && ORG[d].directs.length > 0); }
@@ -121,8 +206,39 @@ function toast(msg) { const t = document.getElementById('toast'); t.textContent 
 function closeModal(e) { if (e.target.id === 'modal') document.getElementById('modal').classList.remove('show'); }
 function showModal(html) { document.getElementById('modal-content').innerHTML = html; document.getElementById('modal').classList.add('show'); }
 function hideModal() { document.getElementById('modal').classList.remove('show'); }
-function refreshDashboard() { render(); toast('Dashboard refreshed!'); }
+function refreshDashboard() {
+  if (SHEET_API_URL) { syncFromCloud().then(() => render()); }
+  else { render(); toast('Dashboard refreshed!'); }
+}
 function getMonthKey(y, m) { return `${y}-${String(m + 1).padStart(2, '0')}`; }
+function showSyncSettings() {
+  let h = '<h2>&#9729; Cloud Sync Settings</h2>';
+  h += '<p style="font-size:12px;color:var(--muted);margin-bottom:12px">Connect to Google Sheets so all team members share the same data.</p>';
+  h += `<div class="fg"><label>Google Apps Script URL</label><input type="text" id="sync-url" value="${SHEET_API_URL}" placeholder="https://script.google.com/macros/s/.../exec"></div>`;
+  h += '<div class="modal-foot">';
+  h += '<button class="btn btn-s" onclick="hideModal()">Cancel</button>';
+  h += '<button class="btn btn-p" onclick="saveSyncUrl()">Save & Connect</button>';
+  if (SHEET_API_URL) {
+    h += ' <button class="btn btn-g" onclick="syncToCloud()">Push to Cloud</button>';
+    h += ' <button class="btn btn-s" onclick="syncFromCloud()">Pull from Cloud</button>';
+  }
+  h += '</div>';
+  showModal(h);
+}
+function saveSyncUrl() {
+  const url = document.getElementById('sync-url').value.trim();
+  SHEET_API_URL = url;
+  SYNC_MODE = url ? 'cloud' : 'local';
+  localStorage.setItem('sheet_api_url', url);
+  hideModal();
+  toast(url ? 'Connected to Google Sheets!' : 'Cloud sync disabled. Using local storage.');
+  render();
+}
+// Load saved API URL on startup
+(function loadSyncUrl() {
+  const saved = localStorage.getItem('sheet_api_url');
+  if (saved) { SHEET_API_URL = saved; SYNC_MODE = 'cloud'; }
+})();
 
 // ========== SIDEBAR ==========
 function renderSidebar() {

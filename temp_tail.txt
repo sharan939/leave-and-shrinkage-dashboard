@@ -1,0 +1,292 @@
+﻿h>Type</th><th>From</th><th>To</th><th>Days</th><th>Reason</th><th>Actions</th></tr></thead><tbody>';
+    pending.forEach(l=>{
+      const lt=LEAVE_TYPES.find(t=>t.id===l.type);
+      h+=`<tr><td><strong>${l.alias}</strong><br><span style="font-size:11px;color:var(--muted)">${ORG[l.alias]?ORG[l.alias].name:''}</span></td>
+        <td><span class="badge ${lt?lt.badge:'b-gray'}">${lt?lt.name:l.type}</span></td>
+        <td>${l.from}</td><td>${l.to}</td><td class="num">${l.days}</td><td>${l.reason||'-'}</td>
+        <td><button class="btn btn-g btn-sm" onclick="approveLeave('${l.id}')">Approve</button> <button class="btn btn-d btn-sm" onclick="rejectLeave('${l.id}')">Reject</button></td></tr>`;
+    });
+    h+='</tbody></table></div>';
+  }
+
+  h+='<div class="card"><h2>All Leave Records ('+leaves.length+')</h2>';
+  h+='<div style="margin-bottom:12px;display:flex;gap:8px"><button class="btn btn-p btn-sm" onclick="setNav(\'apply\')">+ Apply Leave</button></div>';
+  h+='<table><thead><tr><th>ID</th><th>Associate</th><th>Type</th><th>From</th><th>To</th><th>Days</th><th>Status</th><th>Reason</th><th>Action</th></tr></thead><tbody>';
+  const sorted=leaves.slice().sort((a,b)=>b.from.localeCompare(a.from));
+  sorted.forEach(l=>{
+    const lt=LEAVE_TYPES.find(t=>t.id===l.type);
+    const stBadge=l.status==='approved'?'b-green':l.status==='pending'?'b-orange':'b-red';
+    h+=`<tr><td style="font-size:11px;color:var(--muted)">${l.id}</td><td><strong>${l.alias}</strong></td>
+      <td><span class="badge ${lt?lt.badge:'b-gray'}">${lt?lt.name:l.type}</span></td>
+      <td>${l.from}</td><td>${l.to}</td><td class="num">${l.days}</td>
+      <td><span class="badge ${stBadge}">${l.status}</span></td><td>${l.reason||'-'}</td>
+      <td><button class="btn btn-sm btn-s" onclick="deleteLeave('${l.id}')" title="Delete">&#128465;</button></td></tr>`;
+  });
+  h+='</tbody></table></div>';
+  return h;
+}
+
+function approveLeave(id){
+  const leaves=getLeaves(state.mgr);
+  const l=leaves.find(x=>x.id===id);
+  if(l){l.status='approved';save();render();}
+}
+function rejectLeave(id){
+  const leaves=getLeaves(state.mgr);
+  const l=leaves.find(x=>x.id===id);
+  if(l){l.status='rejected';save();render();}
+}
+function deleteLeave(id){
+  if(!confirm('Delete this leave record?'))return;
+  db.leaves[state.mgr]=getLeaves(state.mgr).filter(l=>l.id!==id);
+  save();render();
+}
+
+// ========== APPLY LEAVE ==========
+function renderApplyLeave(){
+  const ics=getICs(state.mgr);
+  let opts='';ics.forEach(a=>{const i=ORG[a];opts+=`<option value="${a}">${a} - ${i?i.name:a}</option>`;});
+  let typeOpts='';LEAVE_TYPES.forEach(t=>{typeOpts+=`<option value="${t.id}">${t.name}</option>`;});
+
+  let h=`<div class="card"><h2>&#10133; Apply Leave</h2>
+    <div class="fr">
+      <div class="fg" style="min-width:180px"><label>Associate</label><select id="al-alias">${opts}</select></div>
+      <div class="fg"><label>Leave Type</label><select id="al-type">${typeOpts}</select></div>
+      <div class="fg"><label>From Date</label><input type="date" id="al-from"></div>
+      <div class="fg"><label>To Date</label><input type="date" id="al-to"></div>
+      <div class="fg"><label>Days</label><input type="number" id="al-days" min="0.5" step="0.5" value="1" style="width:70px"></div>
+    </div>
+    <div class="fr" style="margin-top:8px">
+      <div class="fg" style="flex:1"><label>Reason</label><input type="text" id="al-reason" placeholder="Optional reason"></div>
+      <div class="fg"><label>Status</label><select id="al-status"><option value="approved">Approved</option><option value="pending">Pending</option></select></div>
+      <button class="btn btn-p" onclick="submitLeave()" style="margin-bottom:12px">Submit</button>
+    </div>
+  </div>`;
+
+  // Quick bulk entry
+  h+=`<div class="card"><h2>Quick Bulk Entry</h2><p style="font-size:12px;color:var(--muted);margin-bottom:12px">Paste data in format: alias,planned,unplanned,halfday (one per line). Date will be set to today.</p>
+    <textarea id="bulk-data" style="width:100%;min-height:120px;padding:8px;border:1px solid var(--border);border-radius:4px;font-family:monospace;font-size:12px" placeholder="sharkoth,1,0,0&#10;ketiredd,0,1,0"></textarea>
+    <div style="margin-top:8px"><button class="btn btn-p btn-sm" onclick="bulkImport()">Import</button></div>
+  </div>`;
+  return h;
+}
+
+function submitLeave(){
+  const alias=document.getElementById('al-alias').value;
+  const type=document.getElementById('al-type').value;
+  const from=document.getElementById('al-from').value;
+  const to=document.getElementById('al-to').value;
+  const days=parseFloat(document.getElementById('al-days').value)||1;
+  const reason=document.getElementById('al-reason').value;
+  const status=document.getElementById('al-status').value;
+  if(!alias||!from||!to){alert('Fill in associate, from and to dates');return;}
+  if(!db.leaves[state.mgr])db.leaves[state.mgr]=[];
+  const id='L'+Date.now();
+  db.leaves[state.mgr].push({id,alias,type,from,to,days,status,reason,appliedOn:new Date().toISOString().slice(0,10)});
+  save();
+  alert('Leave submitted!');
+  state.nav='leaves';render();
+}
+
+function bulkImport(){
+  const text=document.getElementById('bulk-data').value.trim();
+  if(!text){alert('Paste data first');return;}
+  const today=new Date().toISOString().slice(0,10);
+  const lines=text.split('\n');
+  let count=0;
+  if(!db.leaves[state.mgr])db.leaves[state.mgr]=[];
+  lines.forEach(line=>{
+    const parts=line.trim().split(',');
+    if(parts.length<4)return;
+    const alias=parts[0].trim();
+    const p=parseInt(parts[1])||0;
+    const u=parseInt(parts[2])||0;
+    const hd=parseInt(parts[3])||0;
+    if(p>0){db.leaves[state.mgr].push({id:'L'+Date.now()+count,alias,type:'planned',from:today,to:today,days:p,status:'approved',reason:'Bulk import',appliedOn:today});count++;}
+    if(u>0){db.leaves[state.mgr].push({id:'L'+Date.now()+count,alias,type:'unplanned',from:today,to:today,days:u,status:'approved',reason:'Bulk import',appliedOn:today});count++;}
+    if(hd>0){db.leaves[state.mgr].push({id:'L'+Date.now()+count,alias,type:'halfday',from:today,to:today,days:hd,status:'approved',reason:'Bulk import',appliedOn:today});count++;}
+  });
+  save();
+  alert(count+' records imported!');
+  state.nav='leaves';render();
+}
+
+// ========== BALANCES ==========
+function renderBalances(){
+  const ics=getICs(state.mgr);
+  const leaves=getLeaves(state.mgr).filter(l=>l.status==='approved');
+  const used={};
+  ics.forEach(a=>{used[a]={planned:0,unplanned:0,halfday:0};});
+  leaves.forEach(l=>{if(used[l.alias]&&used[l.alias][l.type]!==undefined)used[l.alias][l.type]+=l.days;});
+
+  let h='<div class="card"><h2>Leave Balances</h2><table><thead><tr><th>Associate</th><th>Name</th>';
+  LEAVE_TYPES.forEach(t=>{h+=`<th style="text-align:center">${t.name}<br><span style="font-size:10px;font-weight:400">${t.annual?'('+t.annual+'/yr)':'N/A'}</span></th>`;});
+  h+='<th style="text-align:center">Total Used</th></tr></thead><tbody>';
+  ics.forEach(a=>{
+    const info=ORG[a]||{name:a};
+    const u=used[a]||{planned:0,unplanned:0,halfday:0};
+    const total=u.planned+u.unplanned+u.halfday;
+    h+=`<tr><td><strong>${a}</strong></td><td>${info.name}</td>`;
+    LEAVE_TYPES.forEach(t=>{
+      const val=u[t.id]||0;
+      const rem=t.annual?t.annual-val:'-';
+      const cls=t.annual&&val>t.annual*0.8?'high':'';
+      h+=`<td class="num ${cls}">${val} used${t.annual?' / <span style="color:var(--success)">'+ rem+' left</span>':''}</td>`;
+    });
+    h+=`<td class="num" style="font-weight:700">${total}</td></tr>`;
+  });
+  h+='</tbody></table></div>';
+  return h;
+}
+
+// ========== TEAM ==========
+function renderTeam(){
+  const ics=getICs(state.mgr);
+  let h=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+    <h2>Team Members (${ics.length})</h2>
+    <button class="btn btn-p btn-sm" onclick="showAddAssocModal()">+ Add Associate</button>
+  </div><table><thead><tr><th>Alias</th><th>Name</th><th>Title</th><th>Level</th><th>Action</th></tr></thead><tbody>`;
+  ics.forEach(a=>{
+    const i=ORG[a]||{name:a,title:'-',level:'-'};
+    h+=`<tr><td><strong>${a}</strong></td><td>${i.name}</td><td>${i.title}</td><td><span class="badge b-purple">L${i.level}</span></td>
+      <td><button class="btn btn-sm btn-s" onclick="removeAssoc('${a}')" title="Remove">&#128465;</button></td></tr>`;
+  });
+  h+='</tbody></table></div>';
+  return h;
+}
+
+function showAddAssocModal(){
+  const mc=document.getElementById('modal-content');
+  mc.innerHTML=`<h2>Add Associate</h2>
+    <div class="fg"><label>Alias</label><input type="text" id="na-alias" placeholder="e.g. johndoe"></div>
+    <div class="fg"><label>Name</label><input type="text" id="na-name" placeholder="e.g. John Doe"></div>
+    <div class="modal-foot"><button class="btn btn-s" onclick="closeModal()">Cancel</button><button class="btn btn-p" onclick="addAssoc()">Add</button></div>`;
+  document.getElementById('modal').classList.add('show');
+}
+
+function addAssoc(){
+  const alias=document.getElementById('na-alias').value.trim().toLowerCase();
+  const name=document.getElementById('na-name').value.trim();
+  if(!alias){alert('Enter alias');return;}
+  if(ORG[state.mgr].directs.includes(alias)){alert('Already exists');return;}
+  ORG[state.mgr].directs.push(alias);
+  if(!ORG[alias])ORG[alias]={name:name||alias,title:'Associate',level:3,mgr:state.mgr,directs:[]};
+  save();closeModal();render();
+}
+
+function removeAssoc(alias){
+  if(!confirm('Remove '+alias+'?'))return;
+  ORG[state.mgr].directs=ORG[state.mgr].directs.filter(d=>d!==alias);
+  save();render();
+}
+
+function closeModal(){document.getElementById('modal').classList.remove('show');}
+
+// ========== REPORTS ==========
+function renderReports(){
+  const ics=getICs(state.mgr);
+  const leaves=getLeaves(state.mgr).filter(l=>l.status==='approved');
+
+  // Monthly breakdown
+  const monthly={};
+  leaves.forEach(l=>{
+    const m=l.from.slice(0,7);
+    if(!monthly[m])monthly[m]={planned:0,unplanned:0,halfday:0};
+    if(monthly[m][l.type]!==undefined)monthly[m][l.type]+=l.days;
+  });
+
+  let h='<div class="card"><h2>Monthly Summary</h2><table><thead><tr><th>Month</th><th style="text-align:center">Planned</th><th style="text-align:center">Unplanned</th><th style="text-align:center">Half-day</th><th style="text-align:center">Total</th></tr></thead><tbody>';
+  Object.keys(monthly).sort().reverse().forEach(m=>{
+    const d=monthly[m];const t=d.planned+d.unplanned+d.halfday;
+    h+=`<tr><td><strong>${m}</strong></td><td class="num">${d.planned}</td><td class="num ${d.unplanned>5?'high':''}">${d.unplanned}</td><td class="num">${d.halfday}</td><td class="num" style="font-weight:700">${t}</td></tr>`;
+  });
+  h+='</tbody></table></div>';
+
+  // Per-associate summary
+  const perA={};
+  ics.forEach(a=>{perA[a]={planned:0,unplanned:0,halfday:0};});
+  leaves.forEach(l=>{if(perA[l.alias]&&perA[l.alias][l.type]!==undefined)perA[l.alias][l.type]+=l.days;});
+
+  h+='<div class="card"><h2>Associate Summary</h2><table><thead><tr><th>Associate</th><th>Name</th><th style="text-align:center">Planned</th><th style="text-align:center">Unplanned</th><th style="text-align:center">Half-day</th><th style="text-align:center">Total</th><th>Shrinkage %</th></tr></thead><tbody>';
+  const workDays=22; // approx per month
+  const monthsTracked=Math.max(Object.keys(monthly).length,1);
+  const totalWorkDays=workDays*monthsTracked;
+
+  Object.entries(perA).sort((a,b)=>{
+    const ta=a[1].planned+a[1].unplanned+a[1].halfday;
+    const tb=b[1].planned+b[1].unplanned+b[1].halfday;
+    return tb-ta;
+  }).forEach(([a,v])=>{
+    const total=v.planned+v.unplanned+v.halfday;
+    const pct=totalWorkDays>0?(total/totalWorkDays*100).toFixed(1):'0';
+    const info=ORG[a]||{name:a};
+    h+=`<tr><td><strong>${a}</strong></td><td>${info.name}</td>
+      <td class="num">${v.planned}</td><td class="num ${v.unplanned>3?'high':''}">${v.unplanned}</td><td class="num">${v.halfday}</td>
+      <td class="num" style="font-weight:700">${total}</td>
+      <td class="num"><span class="badge ${parseFloat(pct)>15?'b-red':parseFloat(pct)>8?'b-orange':'b-green'}">${pct}%</span></td></tr>`;
+  });
+  h+='</tbody></table></div>';
+  return h;
+}
+
+// ========== NOTES ==========
+function renderNotes(){
+  const notes=db.notes[state.mgr]||{};
+  const keys=Object.keys(notes).sort().reverse();
+  let opts='';keys.forEach(k=>{opts+=`<option value="${k}">${k}</option>`;});
+  opts+='<option value="__new__">+ New Entry</option>';
+
+  const selKey=keys[0]||'';
+  const noteText=notes[selKey]||'';
+
+  let h=`<div class="card"><h2>Sprint / Weekly Notes</h2>
+    <div class="fr" style="margin-bottom:12px">
+      <div class="fg"><label>Entry</label><select id="note-sel" onchange="noteSelChange()">${opts}</select></div>
+      <div class="fg" id="new-note-key-wrap" style="display:none"><label>Key (e.g. 2025-W47)</label><input type="text" id="new-note-key" placeholder="2025-W47"></div>
+    </div>
+    <textarea id="note-text" class="notes-area" style="min-height:200px">${noteText}</textarea>
+    <div style="margin-top:10px"><button class="btn btn-p" onclick="saveNote()">Save</button></div>
+  </div>`;
+  return h;
+}
+
+function noteSelChange(){
+  const sel=document.getElementById('note-sel');
+  const wrap=document.getElementById('new-note-key-wrap');
+  if(sel.value==='__new__'){wrap.style.display='block';document.getElementById('note-text').value='';}
+  else{wrap.style.display='none';const notes=db.notes[state.mgr]||{};document.getElementById('note-text').value=notes[sel.value]||'';}
+}
+
+function saveNote(){
+  const sel=document.getElementById('note-sel');
+  let key=sel.value;
+  if(key==='__new__'){key=document.getElementById('new-note-key').value.trim();if(!key){alert('Enter a key');return;}}
+  if(!db.notes[state.mgr])db.notes[state.mgr]={};
+  db.notes[state.mgr][key]=document.getElementById('note-text').value;
+  save();alert('Saved!');render();
+}
+
+// ========== EXPORT ==========
+function exportCSV(){
+  if(!state.mgr){alert('Select a manager first');return;}
+  const ics=getICs(state.mgr);
+  const leaves=getLeaves(state.mgr);
+  let csv='ID,Associate,Name,Type,From,To,Days,Status,Reason,Applied On\n';
+  leaves.forEach(l=>{
+    const info=ORG[l.alias]||{name:''};
+    const lt=LEAVE_TYPES.find(t=>t.id===l.type);
+    csv+=`${l.id},${l.alias},"${info.name}",${lt?lt.name:l.type},${l.from},${l.to},${l.days},${l.status},"${(l.reason||'').replace(/"/g,"'")}",${l.appliedOn||''}\n`;
+  });
+  const blob=new Blob([csv],{type:'text/csv'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`leaves_${state.mgr}_export.csv`;
+  a.click();URL.revokeObjectURL(url);
+}
+
+// ========== INIT ==========
+render();
+</script>
+</body>
+</html>
+
