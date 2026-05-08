@@ -295,7 +295,8 @@ const ORG = {
 const LEAVE_TYPES = [
   { id: 'planned', name: 'Planned Leave', color: '#0073bb', bg: '#dbeafe', badge: 'b-blue', calClass: 'planned', annual: 24 },
   { id: 'unplanned', name: 'Unplanned Leave', color: '#d13212', bg: '#fce9e6', badge: 'b-red', calClass: 'unplanned', annual: 12 },
-  { id: 'halfday', name: 'Half-day', color: '#ff9900', bg: '#fff3e0', badge: 'b-orange', calClass: 'halfday', annual: null }
+  { id: 'halfday', name: 'Half-day', color: '#ff9900', bg: '#fff3e0', badge: 'b-orange', calClass: 'halfday', annual: null },
+  { id: 'mandatory_off', name: 'Mandatory Off', color: '#6b21a8', bg: '#f3e8ff', badge: 'b-purple', calClass: 'planned', annual: null }
 ];
 
 const SK = 'leave_mgmt_v4';
@@ -413,9 +414,7 @@ function renderSidebar() {
     h += `<div class="nav-item ${n === 'apply' ? 'active' : ''}" onclick="setNav('apply')"><span class="icon">&#10133;</span>Apply Leave</div>`;
     h += `<div class="nav-item ${n === 'team' ? 'active' : ''}" onclick="setNav('team')"><span class="icon">&#128101;</span>Team</div>`;
     h += `<div class="nav-item ${n === 'reports' ? 'active' : ''}" onclick="setNav('reports')"><span class="icon">&#128200;</span>Reports</div>`;
-    if (state.mgr === 'aggannam') {
-      h += `<div class="nav-item ${n === 'daily' ? 'active' : ''}" onclick="setNav('daily')"><span class="icon">&#128197;</span>Daily Tracker</div>`;
-    }
+    h += `<div class="nav-item ${n === 'daily' ? 'active' : ''}" onclick="setNav('daily')"><span class="icon">&#128197;</span>Daily Tracker</div>`;
     h += '</div>';
   }
   sb.innerHTML = h;
@@ -518,7 +517,20 @@ function renderDashboard() {
   });
   const onLeaveToday = [];
   leaves.forEach(l => { if (l.status === 'approved' && l.from <= today && l.to >= today) onLeaveToday.push(l); });
-  const availableToday = ics.length - new Set(onLeaveToday.map(l => l.alias)).size;
+
+  // Count availability using daily tracker (most accurate) + leave records as fallback
+  let availableCount = 0;
+  ics.forEach(a => {
+    const trackerRec = db.dailyTracker && db.dailyTracker[state.mgr] && db.dailyTracker[state.mgr][a] && db.dailyTracker[state.mgr][a][today];
+    if (trackerRec && trackerRec.status !== 'present') {
+      // Not available
+    } else if (onLeaveToday.find(l => l.alias === a)) {
+      // Not available
+    } else {
+      availableCount++;
+    }
+  });
+  const availableToday = availableCount;
 
   let h = `<div class="stats">
     <div class="stat green"><div class="val">${availableToday}/${ics.length}</div><div class="lbl">Available Today</div></div>
@@ -533,32 +545,47 @@ function renderDashboard() {
   h += '<div class="card"><h2>&#128994; Today\'s Availability</h2><div class="avail-grid">';
   ics.forEach(a => {
     const info = ORG[a] || { name: a };
+    // Check daily tracker first (most up-to-date), then fall back to leave records
+    const trackerRec = db.dailyTracker && db.dailyTracker[state.mgr] && db.dailyTracker[state.mgr][a] && db.dailyTracker[state.mgr][a][today];
     const leave = onLeaveToday.find(l => l.alias === a);
-    if (leave) {
-      const cls = leave.type === 'halfday' ? 'half' : 'on-leave';
+
+    let status = 'available';
+    let badgeClass = 'b-green';
+    let badgeText = 'Available';
+    let cardClass = 'available';
+
+    if (trackerRec && trackerRec.status !== 'present') {
+      // Daily tracker takes priority
+      if (trackerRec.status === 'absent') { status = 'absent'; badgeClass = 'b-red'; badgeText = trackerRec.leaveType ? trackerRec.leaveType.charAt(0).toUpperCase() + trackerRec.leaveType.slice(1) + ' Leave' : 'Absent'; cardClass = 'on-leave'; }
+      else if (trackerRec.status === 'halfday') { status = 'halfday'; badgeClass = 'b-orange'; badgeText = 'Half-day'; cardClass = 'half'; }
+      else if (trackerRec.status === 'mandate_off') { status = 'mandate_off'; badgeClass = 'b-purple'; badgeText = 'Mandate Off'; cardClass = 'on-leave'; }
+    } else if (leave) {
+      // Fall back to leave records
       const lt = LEAVE_TYPES.find(t => t.id === leave.type);
-      h += `<div class="avail-card ${cls}"><div class="aa">${a}</div>${info.name}<br><span class="badge ${lt ? lt.badge : 'b-red'}">${lt ? lt.name : leave.type}</span></div>`;
-    } else {
-      h += `<div class="avail-card available"><div class="aa">${a}</div>${info.name}<br><span class="badge b-green">Available</span></div>`;
+      if (leave.type === 'halfday') { cardClass = 'half'; badgeClass = lt ? lt.badge : 'b-orange'; badgeText = 'Half-day'; }
+      else { cardClass = 'on-leave'; badgeClass = lt ? lt.badge : 'b-red'; badgeText = lt ? lt.name : leave.type; }
     }
+
+    h += `<div class="avail-card ${cardClass}"><div class="aa">${a}</div>${info.name}<br><span class="badge ${badgeClass}">${badgeText}</span></div>`;
   });
   h += '</div></div>';
 
   // Leave distribution chart
   const perA = {};
-  ics.forEach(a => { perA[a] = [0, 0, 0]; });
+  ics.forEach(a => { perA[a] = [0, 0, 0, 0]; });
   leaves.forEach(l => { if (!perA[l.alias]) return; const ti = LEAVE_TYPES.findIndex(t => t.id === l.type); if (ti >= 0) perA[l.alias][ti] += l.days; });
-  const maxV = Math.max(...Object.values(perA).map(v => v[0] + v[1] + v[2]), 1);
-  const sorted = Object.entries(perA).sort((a, b) => (b[1][0] + b[1][1] + b[1][2]) - (a[1][0] + a[1][1] + a[1][2]));
+  const maxV = Math.max(...Object.values(perA).map(v => v[0] + v[1] + v[2] + v[3]), 1);
+  const sorted = Object.entries(perA).sort((a, b) => (b[1][0] + b[1][1] + b[1][2] + b[1][3]) - (a[1][0] + a[1][1] + a[1][2] + a[1][3]));
   h += '<div class="card"><h2>Leave Distribution</h2>';
-  h += '<div class="legend"><div class="legend-i"><div class="legend-d" style="background:#0073bb"></div>Planned</div><div class="legend-i"><div class="legend-d" style="background:#d13212"></div>Unplanned</div><div class="legend-i"><div class="legend-d" style="background:#ff9900"></div>Half-day</div></div>';
+  h += '<div class="legend"><div class="legend-i"><div class="legend-d" style="background:#0073bb"></div>Planned</div><div class="legend-i"><div class="legend-d" style="background:#d13212"></div>Unplanned</div><div class="legend-i"><div class="legend-d" style="background:#ff9900"></div>Half-day</div><div class="legend-i"><div class="legend-d" style="background:#6b21a8"></div>Mandatory Off</div></div>';
   h += '<div class="bar-chart">';
   sorted.forEach(([a, v]) => {
-    const t = v[0] + v[1] + v[2]; if (t === 0) return;
+    const t = v[0] + v[1] + v[2] + v[3]; if (t === 0) return;
     h += `<div class="bar-row"><div class="bar-lbl" title="${ORG[a] ? ORG[a].name : a}">${a}</div><div class="bar-track"><div style="display:flex;height:100%">`;
     if (v[0]) h += `<div class="bar-fill" style="width:${v[0] / maxV * 100}%;background:#0073bb">${v[0]}</div>`;
     if (v[1]) h += `<div class="bar-fill" style="width:${v[1] / maxV * 100}%;background:#d13212">${v[1]}</div>`;
     if (v[2]) h += `<div class="bar-fill" style="width:${v[2] / maxV * 100}%;background:#ff9900">${v[2]}</div>`;
+    if (v[3]) h += `<div class="bar-fill" style="width:${v[3] / maxV * 100}%;background:#6b21a8">${v[3]}</div>`;
     h += '</div></div></div>';
   });
   h += '</div></div>';
@@ -575,32 +602,36 @@ function renderDashboard() {
   });
   h += '</tbody></table></div>';
 
-  // Daily tracker summary for Akhila
-  if (state.mgr === 'aggannam') {
-    h += renderDailySnapshot();
-  }
+  // Daily tracker summary for all managers
+  h += renderDailySnapshot();
   return h;
 }
 
-// ========== DAILY SNAPSHOT (for Akhila's dashboard) ==========
+// ========== DAILY SNAPSHOT (for any manager's dashboard) ==========
 function renderDailySnapshot() {
+  const mgr = state.mgr;
   const today = new Date().toISOString().slice(0, 10);
-  const tracker = db.dailyTracker['aggannam'] || {};
-  const ics = ORG['aggannam'].directs;
-  let present = 0, absent = 0, half = 0;
+  const tracker = db.dailyTracker[mgr] || {};
+  const ics = getICs(mgr);
+  let present = 0, absent = 0, half = 0, mandateOff = 0;
   ics.forEach(a => {
     const rec = tracker[a] && tracker[a][today];
     if (rec) {
       if (rec.status === 'present') present++;
       else if (rec.status === 'absent') absent++;
       else if (rec.status === 'halfday') half++;
+      else if (rec.status === 'mandate_off') mandateOff++;
     } else { present++; }
   });
+  const totalAbsent = absent + half * 0.5 + mandateOff;
+  const shrinkage = ics.length > 0 ? ((totalAbsent / ics.length) * 100).toFixed(1) : 0;
   let h = `<div class="card"><h2>&#128197; Today's Daily Tracker Summary</h2>
     <div class="stats">
       <div class="stat green"><div class="val">${present}</div><div class="lbl">Present</div></div>
       <div class="stat red"><div class="val">${absent}</div><div class="lbl">Absent</div></div>
       <div class="stat orange"><div class="val">${half}</div><div class="lbl">Half-day</div></div>
+      <div class="stat"><div class="val">${mandateOff}</div><div class="lbl">Mandate Off</div></div>
+      <div class="stat ${parseFloat(shrinkage) > 20 ? 'red' : 'green'}"><div class="val">${shrinkage}%</div><div class="lbl">Shrinkage</div></div>
     </div>
     <button class="btn btn-p" onclick="setNav('daily')">Open Daily Tracker &rarr;</button>
   </div>`;
@@ -833,7 +864,8 @@ function renderSpreadsheet() {
   h += '<div style="margin-bottom:10px;font-size:11px;display:flex;gap:12px;flex-wrap:wrap">';
   h += '<span><strong>P</strong>=Present</span><span style="color:var(--primary)"><strong>PL</strong>=Planned Leave</span>';
   h += '<span style="color:var(--danger)"><strong>UL</strong>=Unplanned Leave</span><span style="color:var(--warn)"><strong>HD</strong>=Half-day</span>';
-  h += '<span style="color:var(--muted)"><strong>WO</strong>=Week Off</span><span style="color:var(--purple)"><strong>H</strong>=Holiday</span>';
+  h += '<span style="color:var(--muted)"><strong>WO</strong>=Week Off</span><span style="color:var(--purple)"><strong>MO</strong>=Mandatory Off</span>';
+  h += '<span style="color:#555"><strong>H</strong>=Holiday</span>';
   h += '</div>';
 
   // Spreadsheet table
@@ -862,12 +894,14 @@ function renderSpreadsheet() {
       else if (val === 'UL') bg = 'background:#fce9e6';
       else if (val === 'HD') bg = 'background:#fff3e0';
       else if (val === 'WO') bg = 'background:#f0f0f0';
-      else if (val === 'H') bg = 'background:#f3e8ff';
+      else if (val === 'MO') bg = 'background:#f3e8ff';
+      else if (val === 'H') bg = 'background:#e8e8e8';
       h += `<td style="text-align:center;padding:2px;${bg}"><select style="width:42px;font-size:10px;padding:1px;border:1px solid #eee;border-radius:2px" onchange="updateSheetCell('${a}','${ds}',this.value)">
         <option value="P" ${val === 'P' ? 'selected' : ''}>P</option>
         <option value="PL" ${val === 'PL' ? 'selected' : ''}>PL</option>
         <option value="UL" ${val === 'UL' ? 'selected' : ''}>UL</option>
         <option value="HD" ${val === 'HD' ? 'selected' : ''}>HD</option>
+        <option value="MO" ${val === 'MO' ? 'selected' : ''}>MO</option>
         <option value="WO" ${val === 'WO' ? 'selected' : ''}>WO</option>
         <option value="H" ${val === 'H' ? 'selected' : ''}>H</option>
       </select></td>`;
@@ -928,6 +962,8 @@ function syncSheetToLeaves(alias, date, value) {
     db.leaves[mgr].push({ id: 'L' + Date.now(), alias, type: 'unplanned', from: date, to: date, days: 1, status: 'approved', reason: 'From sheet', appliedOn: new Date().toISOString().slice(0, 10) });
   } else if (value === 'HD') {
     db.leaves[mgr].push({ id: 'L' + Date.now(), alias, type: 'halfday', from: date, to: date, days: 0.5, status: 'approved', reason: 'From sheet', appliedOn: new Date().toISOString().slice(0, 10) });
+  } else if (value === 'MO') {
+    db.leaves[mgr].push({ id: 'L' + Date.now(), alias, type: 'mandatory_off', from: date, to: date, days: 1, status: 'approved', reason: 'Mandatory Off', appliedOn: new Date().toISOString().slice(0, 10) });
   }
   save();
 }
@@ -962,10 +998,10 @@ function exportSheetCSV() {
   downloadCSV(csv, `${ORG[mgr].name}_${mk}.csv`);
 }
 
-// ========== DAILY TRACKER (Akhila's Team) ==========
+// ========== DAILY TRACKER (All Managers) ==========
 function renderDailyTracker() {
-  const mgr = 'aggannam';
-  const ics = ORG[mgr].directs;
+  const mgr = state.mgr;
+  const ics = getICs(mgr);
   const today = new Date().toISOString().slice(0, 10);
 
   if (!db.dailyTracker) db.dailyTracker = {};
@@ -974,7 +1010,7 @@ function renderDailyTracker() {
   // Initialize today's data if not exists
   ics.forEach(a => {
     if (!db.dailyTracker[mgr][a]) db.dailyTracker[mgr][a] = {};
-    if (!db.dailyTracker[mgr][a][today]) db.dailyTracker[mgr][a][today] = { status: 'present', notes: '' };
+    if (!db.dailyTracker[mgr][a][today]) db.dailyTracker[mgr][a][today] = { status: 'present', leaveType: '', notes: '' };
   });
 
   let h = '<div class="card">';
@@ -988,20 +1024,28 @@ function renderDailyTracker() {
   </div>`;
 
   // Summary
-  let present = 0, absent = 0, half = 0;
+  let present = 0, absent = 0, half = 0, mandateOff = 0;
   ics.forEach(a => {
     const rec = db.dailyTracker[mgr][a] && db.dailyTracker[mgr][a][today];
     if (rec) {
       if (rec.status === 'present') present++;
       else if (rec.status === 'absent') absent++;
       else if (rec.status === 'halfday') half++;
+      else if (rec.status === 'mandate_off') mandateOff++;
     }
   });
+
+  const totalWorkforce = ics.length;
+  const totalAbsent = absent + half * 0.5 + mandateOff;
+  const dailyShrinkage = totalWorkforce > 0 ? ((totalAbsent / totalWorkforce) * 100).toFixed(1) : 0;
+
   h += `<div class="stats">
     <div class="stat green"><div class="val">${present}</div><div class="lbl">Present</div></div>
     <div class="stat red"><div class="val">${absent}</div><div class="lbl">Absent</div></div>
     <div class="stat orange"><div class="val">${half}</div><div class="lbl">Half-day</div></div>
-    <div class="stat"><div class="val">${ics.length}</div><div class="lbl">Total Team</div></div>
+    <div class="stat"><div class="val">${mandateOff}</div><div class="lbl">Mandate Off</div></div>
+    <div class="stat"><div class="val">${totalWorkforce}</div><div class="lbl">Total Team</div></div>
+    <div class="stat ${parseFloat(dailyShrinkage) > 20 ? 'red' : 'green'}"><div class="val">${dailyShrinkage}%</div><div class="lbl">Daily Shrinkage</div></div>
   </div>`;
 
   // Visual cards
@@ -1011,31 +1055,44 @@ function renderDailyTracker() {
     const rec = db.dailyTracker[mgr][a] && db.dailyTracker[mgr][a][today];
     const status = rec ? rec.status : 'present';
     const cls = status === 'present' ? 'present' : status === 'absent' ? 'absent' : 'halfday';
-    const badge = status === 'present' ? 'b-green' : status === 'absent' ? 'b-red' : 'b-orange';
+    const badge = status === 'present' ? 'b-green' : status === 'absent' ? 'b-red' : status === 'mandate_off' ? 'b-purple' : 'b-orange';
+    const label = status === 'mandate_off' ? 'Mandate Off' : status.charAt(0).toUpperCase() + status.slice(1);
     h += `<div class="daily-card ${cls}">
       <div class="dc-name">${info.name}</div>
       <div style="font-size:11px;color:var(--muted)">${a}</div>
-      <div class="dc-status"><span class="badge ${badge}">${status.charAt(0).toUpperCase() + status.slice(1)}</span></div>
+      <div class="dc-status"><span class="badge ${badge}">${label}</span></div>
+      ${rec && rec.leaveType ? `<div style="font-size:10px;margin-top:4px;color:var(--muted)">${rec.leaveType}</div>` : ''}
     </div>`;
   });
   h += '</div>';
 
-  // Editable table
-  h += '<table><thead><tr><th>Alias</th><th>Name</th><th>Status</th><th>Notes</th></tr></thead><tbody>';
+  // Editable table with leave type selection
+  h += '<table><thead><tr><th>Alias</th><th>Name</th><th>Status</th><th>Leave Type</th><th>Notes</th></tr></thead><tbody>';
   ics.forEach(a => {
     const info = ORG[a] || { name: a };
     const rec = db.dailyTracker[mgr][a] && db.dailyTracker[mgr][a][today];
     const status = rec ? rec.status : 'present';
-    const notes = rec ? rec.notes : '';
+    const leaveType = rec ? (rec.leaveType || '') : '';
+    const notes = rec ? (rec.notes || '') : '';
     h += `<tr>
       <td><strong>${a}</strong></td>
       <td>${info.name}</td>
-      <td><select id="dt-status-${a}" onchange="updateDailyStatus('${a}', this.value)">
+      <td><select onchange="updateDailyStatus('${a}', this.value)">
         <option value="present" ${status === 'present' ? 'selected' : ''}>Present</option>
         <option value="absent" ${status === 'absent' ? 'selected' : ''}>Absent</option>
         <option value="halfday" ${status === 'halfday' ? 'selected' : ''}>Half-day</option>
+        <option value="mandate_off" ${status === 'mandate_off' ? 'selected' : ''}>Mandate Off</option>
       </select></td>
-      <td><input type="text" id="dt-notes-${a}" value="${notes}" placeholder="Add notes..." style="width:100%;padding:4px;border:1px solid var(--border);border-radius:3px;font-size:12px" onchange="updateDailyNotes('${a}', this.value)"></td>
+      <td><select onchange="updateDailyLeaveType('${a}', this.value)" ${status === 'present' ? 'disabled' : ''}>
+        <option value="" ${leaveType === '' ? 'selected' : ''}>--</option>
+        <option value="planned" ${leaveType === 'planned' ? 'selected' : ''}>Planned Leave</option>
+        <option value="unplanned" ${leaveType === 'unplanned' ? 'selected' : ''}>Unplanned Leave</option>
+        <option value="sick" ${leaveType === 'sick' ? 'selected' : ''}>Sick Leave</option>
+        <option value="mandate_off" ${leaveType === 'mandate_off' ? 'selected' : ''}>Mandate Off</option>
+        <option value="emergency" ${leaveType === 'emergency' ? 'selected' : ''}>Emergency</option>
+        <option value="personal" ${leaveType === 'personal' ? 'selected' : ''}>Personal</option>
+      </select></td>
+      <td><input type="text" value="${notes}" placeholder="Add notes..." style="width:100%;padding:4px;border:1px solid var(--border);border-radius:3px;font-size:12px" onchange="updateDailyNotes('${a}', this.value)"></td>
     </tr>`;
   });
   h += '</tbody></table></div>';
@@ -1043,37 +1100,140 @@ function renderDailyTracker() {
   // Weekly summary
   h += renderWeeklySummary(mgr);
 
+  // Shrinkage trend from daily tracker
+  h += renderDailyShrinkageTrend(mgr);
+
   return h;
 }
 
 function updateDailyStatus(alias, status) {
-  const mgr = 'aggannam';
+  const mgr = state.mgr;
   const date = document.getElementById('tracker-date').value;
   if (!db.dailyTracker[mgr]) db.dailyTracker[mgr] = {};
   if (!db.dailyTracker[mgr][alias]) db.dailyTracker[mgr][alias] = {};
-  if (!db.dailyTracker[mgr][alias][date]) db.dailyTracker[mgr][alias][date] = { status: 'present', notes: '' };
+  if (!db.dailyTracker[mgr][alias][date]) db.dailyTracker[mgr][alias][date] = { status: 'present', leaveType: '', notes: '' };
   db.dailyTracker[mgr][alias][date].status = status;
+
+  // Auto-sync to leave records and monthly sheet
+  syncDailyToAll(mgr, alias, date, status, db.dailyTracker[mgr][alias][date].leaveType);
   save();
-  // Refresh just the summary stats
+  render();
+}
+
+function updateDailyLeaveType(alias, leaveType) {
+  const mgr = state.mgr;
+  const date = document.getElementById('tracker-date').value;
+  if (!db.dailyTracker[mgr]) db.dailyTracker[mgr] = {};
+  if (!db.dailyTracker[mgr][alias]) db.dailyTracker[mgr][alias] = {};
+  if (!db.dailyTracker[mgr][alias][date]) db.dailyTracker[mgr][alias][date] = { status: 'present', leaveType: '', notes: '' };
+  db.dailyTracker[mgr][alias][date].leaveType = leaveType;
+
+  // Auto-sync to leave records and monthly sheet
+  const status = db.dailyTracker[mgr][alias][date].status;
+  syncDailyToAll(mgr, alias, date, status, leaveType);
+  save();
   render();
 }
 
 function updateDailyNotes(alias, notes) {
-  const mgr = 'aggannam';
+  const mgr = state.mgr;
   const date = document.getElementById('tracker-date').value;
   if (!db.dailyTracker[mgr]) db.dailyTracker[mgr] = {};
   if (!db.dailyTracker[mgr][alias]) db.dailyTracker[mgr][alias] = {};
-  if (!db.dailyTracker[mgr][alias][date]) db.dailyTracker[mgr][alias][date] = { status: 'present', notes: '' };
+  if (!db.dailyTracker[mgr][alias][date]) db.dailyTracker[mgr][alias][date] = { status: 'present', leaveType: '', notes: '' };
   db.dailyTracker[mgr][alias][date].notes = notes;
   save();
 }
 
+// ========== SYNC DAILY TRACKER TO LEAVES + MONTHLY SHEET + REPORTS ==========
+function syncDailyToAll(mgr, alias, date, status, leaveType) {
+  // 1. Sync to Leave Records
+  if (!db.leaves[mgr]) db.leaves[mgr] = [];
+  // Remove existing single-day leave for this alias on this date (from daily tracker)
+  db.leaves[mgr] = db.leaves[mgr].filter(l => !(l.alias === alias && l.from === date && l.to === date && l.reason && l.reason.includes('Daily Tracker')));
+
+  if (status === 'absent' || status === 'halfday' || status === 'mandate_off') {
+    let type = 'unplanned';
+    let days = 1;
+    let reason = leaveType || status;
+
+    if (leaveType === 'planned') type = 'planned';
+    else if (leaveType === 'unplanned' || leaveType === 'sick' || leaveType === 'emergency') type = 'unplanned';
+    else if (leaveType === 'mandate_off') type = 'mandatory_off';
+
+    if (status === 'halfday') { type = 'halfday'; days = 0.5; }
+    if (status === 'mandate_off') { type = 'mandatory_off'; reason = 'Mandatory Off'; }
+
+    db.leaves[mgr].push({
+      id: 'DT' + Date.now() + Math.random().toString(36).slice(2, 6),
+      alias, type, from: date, to: date, days, status: 'approved',
+      reason: `[Daily Tracker] ${reason}`,
+      appliedOn: new Date().toISOString().slice(0, 10)
+    });
+  }
+
+  // 2. Sync to Monthly Sheet
+  const y = parseInt(date.slice(0, 4));
+  const m = parseInt(date.slice(5, 7)) - 1;
+  const mk = getMonthKey(y, m);
+  if (!db.monthlySheets) db.monthlySheets = {};
+  if (!db.monthlySheets[mgr]) db.monthlySheets[mgr] = {};
+  if (!db.monthlySheets[mgr][mk]) db.monthlySheets[mgr][mk] = {};
+  if (!db.monthlySheets[mgr][mk][alias]) db.monthlySheets[mgr][mk][alias] = {};
+
+  if (status === 'present') db.monthlySheets[mgr][mk][alias][date] = 'P';
+  else if (status === 'absent') {
+    if (leaveType === 'planned') db.monthlySheets[mgr][mk][alias][date] = 'PL';
+    else db.monthlySheets[mgr][mk][alias][date] = 'UL';
+  }
+  else if (status === 'halfday') db.monthlySheets[mgr][mk][alias][date] = 'HD';
+  else if (status === 'mandate_off') db.monthlySheets[mgr][mk][alias][date] = 'MO';
+}
+
+// ========== DAILY SHRINKAGE TREND ==========
+function renderDailyShrinkageTrend(mgr) {
+  const ics = getICs(mgr);
+  const tracker = db.dailyTracker[mgr] || {};
+  const today = new Date();
+
+  // Last 7 working days
+  let h = '<div class="card"><h2>&#128200; Shrinkage Trend (Last 7 Days)</h2>';
+  h += '<table><thead><tr><th>Date</th><th>Present</th><th>Absent</th><th>Half-day</th><th>Mandate Off</th><th>Shrinkage %</th></tr></thead><tbody>';
+
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    const ds = d.toISOString().slice(0, 10);
+    const dow = d.getDay();
+    if (dow === 0 || dow === 6) continue; // skip weekends
+
+    let pres = 0, abs = 0, hd = 0, mo = 0;
+    ics.forEach(a => {
+      const rec = tracker[a] && tracker[a][ds];
+      if (rec) {
+        if (rec.status === 'present') pres++;
+        else if (rec.status === 'absent') abs++;
+        else if (rec.status === 'halfday') hd++;
+        else if (rec.status === 'mandate_off') mo++;
+      } else { pres++; }
+    });
+    const totalAbsent = abs + hd * 0.5 + mo;
+    const shrinkage = ics.length > 0 ? ((totalAbsent / ics.length) * 100).toFixed(1) : 0;
+    const shrinkClass = parseFloat(shrinkage) > 20 ? 'color:var(--danger);font-weight:700' : 'color:var(--success)';
+
+    h += `<tr><td><strong>${ds}</strong></td><td class="num">${pres}</td><td class="num" style="${abs > 0 ? 'color:var(--danger)' : ''}">${abs}</td><td class="num">${hd}</td><td class="num">${mo}</td><td class="num" style="${shrinkClass}">${shrinkage}%</td></tr>`;
+  }
+  h += '</tbody></table></div>';
+  return h;
+}
+
 function changeTrackerDate(date) {
-  const mgr = 'aggannam';
-  const ics = ORG[mgr].directs;
+  const mgr = state.mgr;
+  const ics = getICs(mgr);
+  if (!db.dailyTracker[mgr]) db.dailyTracker[mgr] = {};
   ics.forEach(a => {
     if (!db.dailyTracker[mgr][a]) db.dailyTracker[mgr][a] = {};
-    if (!db.dailyTracker[mgr][a][date]) db.dailyTracker[mgr][a][date] = { status: 'present', notes: '' };
+    if (!db.dailyTracker[mgr][a][date]) db.dailyTracker[mgr][a][date] = { status: 'present', leaveType: '', notes: '' };
   });
   save();
   render();
@@ -1081,12 +1241,12 @@ function changeTrackerDate(date) {
 
 function saveDailyTracker() {
   save();
-  toast('Daily tracker saved!');
+  toast('Daily tracker saved! Leave records & reports updated.');
   render();
 }
 
 function renderWeeklySummary(mgr) {
-  const ics = ORG[mgr].directs;
+  const ics = getICs(mgr);
   const today = new Date();
   const startOfWeek = new Date(today);
   startOfWeek.setDate(today.getDate() - today.getDay());
@@ -1106,6 +1266,7 @@ function renderWeeklySummary(mgr) {
       if (status === 'present') { badge = 'b-green'; label = 'P'; }
       else if (status === 'absent') { badge = 'b-red'; label = 'A'; }
       else if (status === 'halfday') { badge = 'b-orange'; label = 'HD'; }
+      else if (status === 'mandate_off') { badge = 'b-purple'; label = 'MO'; }
       h += `<td style="text-align:center"><span class="badge ${badge}">${label}</span></td>`;
     }
     h += '</tr>';
@@ -1115,16 +1276,16 @@ function renderWeeklySummary(mgr) {
 }
 
 function exportDailyCSV() {
-  const mgr = 'aggannam';
+  const mgr = state.mgr;
   const date = document.getElementById('tracker-date') ? document.getElementById('tracker-date').value : new Date().toISOString().slice(0, 10);
-  const ics = ORG[mgr].directs;
-  let csv = 'Alias,Name,Status,Notes\n';
+  const ics = getICs(mgr);
+  let csv = 'Alias,Name,Status,Leave Type,Notes\n';
   ics.forEach(a => {
     const info = ORG[a] || { name: a };
     const rec = db.dailyTracker[mgr] && db.dailyTracker[mgr][a] && db.dailyTracker[mgr][a][date];
-    csv += `${a},${info.name},${rec ? rec.status : 'present'},"${rec ? rec.notes : ''}"\n`;
+    csv += `${a},${info.name},${rec ? rec.status : 'present'},${rec ? (rec.leaveType || '') : ''},"${rec ? (rec.notes || '') : ''}"\n`;
   });
-  downloadCSV(csv, `Akhila_Daily_${date}.csv`);
+  downloadCSV(csv, `${ORG[mgr].name}_Daily_${date}.csv`);
 }
 
 // ========== APPLY LEAVE ==========
@@ -1182,38 +1343,76 @@ function renderTeam() {
 function renderReports() {
   const ics = getICs(state.mgr);
   const leaves = getLeaves(state.mgr);
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const mgr = state.mgr;
 
   // Monthly breakdown
   const monthlyData = {};
   leaves.forEach(l => {
     const mk = l.from.slice(0, 7);
-    if (!monthlyData[mk]) monthlyData[mk] = { planned: 0, unplanned: 0, halfday: 0 };
+    if (!monthlyData[mk]) monthlyData[mk] = { planned: 0, unplanned: 0, halfday: 0, mandateOff: 0 };
     if (l.type === 'planned') monthlyData[mk].planned += l.days;
     else if (l.type === 'unplanned') monthlyData[mk].unplanned += l.days;
     else if (l.type === 'halfday') monthlyData[mk].halfday += l.days;
+    else if (l.type === 'mandatory_off') monthlyData[mk].mandateOff += l.days;
   });
 
   let h = '<div class="card"><h2>&#128200; Monthly Breakdown</h2>';
-  h += '<table><thead><tr><th>Month</th><th>Planned</th><th>Unplanned</th><th>Half-day</th><th>Total</th></tr></thead><tbody>';
+  h += '<table><thead><tr><th>Month</th><th>Planned</th><th>Unplanned</th><th>Half-day</th><th>Mandate Off</th><th>Total</th><th>Shrinkage %</th></tr></thead><tbody>';
   Object.keys(monthlyData).sort().forEach(mk => {
     const d = monthlyData[mk];
-    h += `<tr><td><strong>${mk}</strong></td><td class="num">${d.planned}</td><td class="num" style="${d.unplanned > 5 ? 'color:var(--danger)' : ''}">${d.unplanned}</td><td class="num">${d.halfday}</td><td class="num">${d.planned + d.unplanned + d.halfday}</td></tr>`;
+    const total = d.planned + d.unplanned + d.halfday + d.mandateOff;
+    const workDays = ics.length * 22;
+    const shrinkage = workDays > 0 ? ((total / workDays) * 100).toFixed(1) : 0;
+    h += `<tr><td><strong>${mk}</strong></td><td class="num">${d.planned}</td><td class="num" style="${d.unplanned > 5 ? 'color:var(--danger)' : ''}">${d.unplanned}</td><td class="num">${d.halfday}</td><td class="num">${d.mandateOff}</td><td class="num">${total}</td><td class="num" style="${parseFloat(shrinkage) > 15 ? 'color:var(--danger);font-weight:700' : 'color:var(--success)'}">${shrinkage}%</td></tr>`;
   });
   h += '</tbody></table></div>';
 
-  // Shrinkage calculation
-  const totalWorkDays = ics.length * 22; // approx per month
+  // Overall Shrinkage
   const totalLeaves = leaves.reduce((s, l) => s + l.days, 0);
-  const shrinkage = totalWorkDays > 0 ? ((totalLeaves / totalWorkDays) * 100).toFixed(1) : 0;
+  const totalWorkDays = ics.length * 22;
+  const overallShrinkage = totalWorkDays > 0 ? ((totalLeaves / totalWorkDays) * 100).toFixed(1) : 0;
+
+  // Daily tracker based shrinkage (more accurate)
+  const tracker = db.dailyTracker[mgr] || {};
+  let trackedDays = 0, trackedAbsent = 0;
+  ics.forEach(a => {
+    if (tracker[a]) {
+      Object.values(tracker[a]).forEach(rec => {
+        trackedDays++;
+        if (rec.status === 'absent') trackedAbsent++;
+        else if (rec.status === 'halfday') trackedAbsent += 0.5;
+        else if (rec.status === 'mandate_off') trackedAbsent++;
+      });
+    }
+  });
+  const trackerShrinkage = trackedDays > 0 ? ((trackedAbsent / trackedDays) * 100).toFixed(1) : 0;
 
   h += `<div class="card"><h2>Shrinkage Summary</h2>
     <div class="stats">
       <div class="stat"><div class="val">${ics.length}</div><div class="lbl">Team Size</div></div>
       <div class="stat"><div class="val">${totalLeaves}</div><div class="lbl">Total Leave Days</div></div>
-      <div class="stat ${parseFloat(shrinkage) > 15 ? 'red' : 'green'}"><div class="val">${shrinkage}%</div><div class="lbl">Shrinkage Rate</div></div>
+      <div class="stat ${parseFloat(overallShrinkage) > 15 ? 'red' : 'green'}"><div class="val">${overallShrinkage}%</div><div class="lbl">Shrinkage (Leave Records)</div></div>
+      <div class="stat ${parseFloat(trackerShrinkage) > 15 ? 'red' : 'green'}"><div class="val">${trackerShrinkage}%</div><div class="lbl">Shrinkage (Daily Tracker)</div></div>
     </div>
   </div>`;
+
+  // Per-person breakdown
+  h += '<div class="card"><h2>Individual Shrinkage</h2>';
+  h += '<table><thead><tr><th>Associate</th><th>Name</th><th>Planned</th><th>Unplanned</th><th>Half-day</th><th>Mandate Off</th><th>Total Days</th><th>Shrinkage %</th></tr></thead><tbody>';
+  ics.forEach(a => {
+    const info = ORG[a] || { name: a };
+    let pl = 0, ul = 0, hd = 0, mo = 0;
+    leaves.filter(l => l.alias === a).forEach(l => {
+      if (l.type === 'planned') pl += l.days;
+      else if (l.type === 'unplanned') ul += l.days;
+      else if (l.type === 'halfday') hd += l.days;
+      else if (l.type === 'mandatory_off') mo += l.days;
+    });
+    const total = pl + ul + hd + mo;
+    const indShrinkage = (total / 22 * 100).toFixed(1);
+    h += `<tr><td><strong>${a}</strong></td><td>${info.name}</td><td class="num">${pl}</td><td class="num" style="${ul > 3 ? 'color:var(--danger);font-weight:700' : ''}">${ul}</td><td class="num">${hd}</td><td class="num">${mo}</td><td class="num">${total}</td><td class="num" style="${parseFloat(indShrinkage) > 15 ? 'color:var(--danger);font-weight:700' : 'color:var(--success)'}">${indShrinkage}%</td></tr>`;
+  });
+  h += '</tbody></table></div>';
 
   // Top absentees
   const perPerson = {};

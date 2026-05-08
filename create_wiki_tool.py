@@ -1,0 +1,359 @@
+html_content = '''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wiki Page Generator - SPEx</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Segoe UI",sans-serif;background:#f4f4f4;color:#222}
+.header{background:#232f3e;color:#fff;padding:16px 30px;text-align:center}
+.header h1{font-size:20px}
+.header p{font-size:12px;color:#aab7b8;margin-top:4px}
+.main{max-width:1100px;margin:20px auto;display:flex;gap:20px;padding:0 20px}
+.left{flex:1;min-width:0}
+.right{flex:1;min-width:0}
+.card{background:#fff;border-radius:8px;padding:20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+.card h2{font-size:15px;color:#232f3e;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #ff9900}
+label{display:block;font-size:11px;font-weight:700;color:#555;margin:10px 0 4px;text-transform:uppercase}
+input,textarea,select{width:100%;padding:8px 10px;border:1px solid #d5dbdb;border-radius:4px;font-size:13px;font-family:inherit}
+input:focus,textarea:focus,select:focus{outline:none;border-color:#ff9900;box-shadow:0 0 0 2px rgba(255,153,0,0.2)}
+textarea{min-height:80px;resize:vertical}
+.row{display:flex;gap:10px}
+.row>div{flex:1}
+.btn{padding:10px 20px;border:none;border-radius:4px;cursor:pointer;font-size:13px;font-weight:700}
+.btn-primary{background:#ff9900;color:#fff}
+.btn-primary:hover{background:#e68a00}
+.btn-secondary{background:#232f3e;color:#fff}
+.btn-secondary:hover{background:#37475a}
+.btn-outline{background:#fff;color:#232f3e;border:1px solid #d5dbdb}
+.btn-outline:hover{background:#f4f4f4}
+.actions{display:flex;gap:8px;margin:16px 0}
+.preview{background:#fff;border:1px solid #d5dbdb;border-radius:4px;padding:16px;font-size:13px;line-height:1.7;min-height:400px;white-space:pre-wrap;font-family:"Courier New",monospace;overflow-x:auto}
+.template-btns{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.template-btns button{padding:5px 10px;font-size:11px;background:#e3f2fd;color:#0d47a1;border:1px solid #90caf9;border-radius:12px;cursor:pointer}
+.template-btns button:hover{background:#0d47a1;color:#fff}
+.section-row{display:flex;gap:8px;align-items:center;margin:4px 0}
+.section-row input{flex:1}
+.section-row button{padding:4px 8px;font-size:11px;background:#ffebee;color:#c62828;border:1px solid #ef9a9a;border-radius:3px;cursor:pointer}
+.add-btn{padding:5px 12px;font-size:11px;background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;border-radius:3px;cursor:pointer;margin-top:6px}
+.toast{position:fixed;bottom:20px;right:20px;background:#232f3e;color:#fff;padding:12px 20px;border-radius:6px;font-size:13px;display:none;z-index:999}
+.tab-bar{display:flex;gap:0;margin-bottom:16px}
+.tab{padding:10px 16px;cursor:pointer;font-size:12px;font-weight:700;color:#555;border-bottom:2px solid transparent;background:#f4f4f4}
+.tab.active{color:#ff9900;border-bottom-color:#ff9900;background:#fff}
+@media(max-width:768px){.main{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>Wiki Page Generator</h1>
+<p>Fill in the details below and get a perfectly formatted wiki page ready to publish on w.amazon.com</p>
+</div>
+<div class="main">
+<div class="left">
+<div class="card">
+<h2>Choose Template</h2>
+<div class="template-btns">
+<button onclick="loadTemplate('sop')">SOP / Process</button>
+<button onclick="loadTemplate('runbook')">Runbook</button>
+<button onclick="loadTemplate('onboarding')">Onboarding Guide</button>
+<button onclick="loadTemplate('meeting')">Meeting Notes</button>
+<button onclick="loadTemplate('project')">Project Page</button>
+<button onclick="loadTemplate('faq')">FAQ Page</button>
+<button onclick="loadTemplate('team')">Team Page</button>
+<button onclick="loadTemplate('blank')">Blank</button>
+</div>
+</div>
+<div class="card">
+<h2>Page Details</h2>
+<label>Page Title</label>
+<input type="text" id="title" placeholder="e.g., How to Handle Seller Registration Issues">
+<div class="row">
+<div><label>Author / Owner</label><input type="text" id="author" placeholder="e.g., sharkoth"></div>
+<div><label>Team</label><input type="text" id="team" placeholder="e.g., SPEx-VAR Compliance"></div>
+</div>
+<div class="row">
+<div><label>Last Updated</label><input type="date" id="date"></div>
+<div><label>Status</label>
+<select id="status"><option>Active</option><option>Draft</option><option>Under Review</option><option>Deprecated</option></select>
+</div>
+</div>
+<label>Purpose / Summary</label>
+<textarea id="summary" placeholder="Brief description of what this page covers..."></textarea>
+</div>
+<div class="card">
+<h2>Sections</h2>
+<div id="sections-container"></div>
+<button class="add-btn" onclick="addSection()">+ Add Section</button>
+</div>
+<div class="card">
+<h2>Additional Info</h2>
+<label>Related Links (one per line)</label>
+<textarea id="links" placeholder="https://w.amazon.com/...&#10;https://sim.amazon.com/..."></textarea>
+<label>Tags / Keywords</label>
+<input type="text" id="tags" placeholder="e.g., registration, compliance, AU marketplace">
+<label>Contact / Escalation</label>
+<input type="text" id="contact" placeholder="e.g., aggannam@ or SPEx-Compliance resolver group">
+</div>
+<div class="actions">
+<button class="btn btn-primary" onclick="generateWiki()">Generate Wiki Page</button>
+<button class="btn btn-outline" onclick="clearAll()">Clear All</button>
+</div>
+</div>
+<div class="right">
+<div class="card">
+<h2>Generated Wiki Output</h2>
+<div class="actions" style="margin-top:0">
+<button class="btn btn-secondary" onclick="copyWiki()">Copy to Clipboard</button>
+<button class="btn btn-outline" onclick="downloadWiki()">Download as .txt</button>
+</div>
+<div class="preview" id="output">Your generated wiki page will appear here...
+
+1. Choose a template (or start blank)
+2. Fill in the details on the left
+3. Add sections with your content
+4. Click "Generate Wiki Page"
+5. Copy the output and paste into w.amazon.com</div>
+</div>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+var sections = [];
+var sectionId = 0;
+
+function addSection(title, content) {
+  sectionId++;
+  sections.push({id: sectionId, title: title || "", content: content || ""});
+  renderSections();
+}
+
+function removeSection(id) {
+  sections = sections.filter(function(s){return s.id !== id;});
+  renderSections();
+}
+
+function renderSections() {
+  var c = document.getElementById("sections-container");
+  var html = "";
+  for (var i = 0; i < sections.length; i++) {
+    var s = sections[i];
+    html += '<div style="margin:8px 0;padding:10px;background:#f9f9f9;border-radius:4px;border:1px solid #eee">';
+    html += '<div class="section-row"><input type="text" id="sec-title-'+s.id+'" value="'+s.title+'" placeholder="Section heading..." oninput="updateSection('+s.id+')"><button onclick="removeSection('+s.id+')">X</button></div>';
+    html += '<textarea id="sec-content-'+s.id+'" placeholder="Section content... (use bullet points with - or numbered steps with 1. 2. 3.)" style="margin-top:6px;min-height:60px" oninput="updateSection('+s.id+')">'+s.content+'</textarea>';
+    html += '</div>';
+  }
+  c.innerHTML = html;
+}
+
+function updateSection(id) {
+  for (var i = 0; i < sections.length; i++) {
+    if (sections[i].id === id) {
+      sections[i].title = document.getElementById("sec-title-"+id).value;
+      sections[i].content = document.getElementById("sec-content-"+id).value;
+    }
+  }
+}
+
+function loadTemplate(type) {
+  sections = [];
+  sectionId = 0;
+  document.getElementById("title").value = "";
+  document.getElementById("summary").value = "";
+  document.getElementById("links").value = "";
+  document.getElementById("tags").value = "";
+  document.getElementById("contact").value = "";
+
+  if (type === "sop") {
+    document.getElementById("title").value = "SOP: [Process Name]";
+    document.getElementById("summary").value = "This document describes the standard operating procedure for...";
+    addSection("Scope", "This SOP applies to...");
+    addSection("Prerequisites", "- Access to [tool]\\n- Permissions for [system]");
+    addSection("Step-by-Step Process", "1. \\n2. \\n3. \\n4. \\n5. ");
+    addSection("Common Issues & Troubleshooting", "Issue 1: ...\\nSolution: ...\\n\\nIssue 2: ...\\nSolution: ...");
+    addSection("Escalation Path", "Level 1: [team/person]\\nLevel 2: [team/person]\\nLevel 3: [team/person]");
+  } else if (type === "runbook") {
+    document.getElementById("title").value = "Runbook: [System/Process Name]";
+    addSection("Overview", "This runbook covers...");
+    addSection("When to Use", "Use this runbook when...");
+    addSection("Prerequisites", "- Access to...\\n- Permissions...");
+    addSection("Steps", "1. \\n2. \\n3. ");
+    addSection("Verification", "How to verify the action was successful:");
+    addSection("Rollback", "If something goes wrong:\\n1. \\n2. ");
+    addSection("Contacts", "Primary: \\nSecondary: \\nEscalation: ");
+  } else if (type === "onboarding") {
+    document.getElementById("title").value = "Onboarding Guide - [Team Name]";
+    addSection("Welcome", "Welcome to the team! This guide will help you get started.");
+    addSection("Week 1 - Setup", "- Get laptop configured\\n- Request tool access\\n- Complete compliance training");
+    addSection("Week 2 - Learning", "- Read team wiki pages\\n- Shadow a senior member\\n- Attend team standup");
+    addSection("Week 3-4 - Practice", "- Handle first tickets with guidance\\n- Complete first task independently");
+    addSection("Tools & Access", "| Tool | How to Get Access |\\n| --- | --- |\\n| Paragon | IT ticket CTI: Tools/Access |\\n| SIM | Auto-provisioned |");
+    addSection("Key Contacts", "Manager: \\nBuddy: \\nIT Support: ");
+    addSection("Useful Links", "- Team wiki: \\n- SOPs: \\n- Training: ");
+  } else if (type === "meeting") {
+    document.getElementById("title").value = "Meeting Notes - [Date] - [Topic]";
+    addSection("Attendees", "- \\n- \\n- ");
+    addSection("Agenda", "1. \\n2. \\n3. ");
+    addSection("Discussion & Decisions", "");
+    addSection("Action Items", "| Action | Owner | Deadline |\\n| --- | --- | --- |\\n| | | |");
+    addSection("Next Steps", "Next meeting: [date]");
+  } else if (type === "project") {
+    document.getElementById("title").value = "Project: [Project Name]";
+    addSection("Objective", "What this project aims to achieve...");
+    addSection("Background", "Why this project is needed...");
+    addSection("Scope", "In scope:\\n- \\n\\nOut of scope:\\n- ");
+    addSection("Timeline", "| Phase | Start | End | Status |\\n| --- | --- | --- | --- |\\n| Planning | | | |\\n| Development | | | |\\n| Testing | | | |\\n| Launch | | | |");
+    addSection("Team", "| Role | Person |\\n| --- | --- |\\n| Lead | |\\n| Dev | |\\n| QA | |");
+    addSection("Risks & Mitigations", "| Risk | Impact | Mitigation |\\n| --- | --- | --- |");
+    addSection("Success Metrics", "- \\n- ");
+  } else if (type === "faq") {
+    document.getElementById("title").value = "FAQ: [Topic]";
+    addSection("General Questions", "Q: \\nA: \\n\\nQ: \\nA: \\n\\nQ: \\nA: ");
+    addSection("Technical Questions", "Q: \\nA: \\n\\nQ: \\nA: ");
+    addSection("Process Questions", "Q: \\nA: \\n\\nQ: \\nA: ");
+    addSection("Still Have Questions?", "Contact: [team/person]\\nSlack: [channel]");
+  } else if (type === "team") {
+    document.getElementById("title").value = "[Team Name] - Team Page";
+    addSection("About Us", "Our team is responsible for...");
+    addSection("Team Members", "| Name | Role | Alias |\\n| --- | --- | --- |\\n| | | |");
+    addSection("What We Do", "- \\n- \\n- ");
+    addSection("How to Reach Us", "Resolver Group: \\nChime Room: \\nEmail: ");
+    addSection("Our Processes", "- [Link to SOP 1]\\n- [Link to SOP 2]");
+    addSection("OKRs / Goals", "Q1 2026:\\n- \\n- ");
+  } else {
+    addSection("", "");
+  }
+  renderSections();
+  toast("Template loaded!");
+}
+
+function generateWiki() {
+  var title = document.getElementById("title").value || "Untitled Page";
+  var author = document.getElementById("author").value;
+  var team = document.getElementById("team").value;
+  var date = document.getElementById("date").value || new Date().toISOString().slice(0,10);
+  var status = document.getElementById("status").value;
+  var summary = document.getElementById("summary").value;
+  var links = document.getElementById("links").value;
+  var tags = document.getElementById("tags").value;
+  var contact = document.getElementById("contact").value;
+
+  // Update sections from DOM
+  for (var i = 0; i < sections.length; i++) {
+    var el1 = document.getElementById("sec-title-"+sections[i].id);
+    var el2 = document.getElementById("sec-content-"+sections[i].id);
+    if (el1) sections[i].title = el1.value;
+    if (el2) sections[i].content = el2.value;
+  }
+
+  var wiki = "";
+  wiki += "= " + title + " =\\n\\n";
+  wiki += "|| Owner | " + author + " ||\\n";
+  wiki += "|| Team | " + team + " ||\\n";
+  wiki += "|| Last Updated | " + date + " ||\\n";
+  wiki += "|| Status | " + status + " ||\\n";
+  wiki += "\\n";
+
+  if (summary) {
+    wiki += "== Overview ==\\n\\n";
+    wiki += summary + "\\n\\n";
+  }
+
+  // Table of contents
+  if (sections.length > 2) {
+    wiki += "== Contents ==\\n\\n";
+    for (var i = 0; i < sections.length; i++) {
+      if (sections[i].title) {
+        wiki += "* [[#" + sections[i].title + "|" + sections[i].title + "]]\\n";
+      }
+    }
+    wiki += "\\n";
+  }
+
+  // Sections
+  for (var i = 0; i < sections.length; i++) {
+    if (sections[i].title) {
+      wiki += "== " + sections[i].title + " ==\\n\\n";
+    }
+    if (sections[i].content) {
+      wiki += sections[i].content + "\\n\\n";
+    }
+  }
+
+  // Related links
+  if (links) {
+    wiki += "== Related Links ==\\n\\n";
+    var linkArr = links.split("\\n");
+    for (var i = 0; i < linkArr.length; i++) {
+      if (linkArr[i].trim()) wiki += "* " + linkArr[i].trim() + "\\n";
+    }
+    wiki += "\\n";
+  }
+
+  // Contact
+  if (contact) {
+    wiki += "== Contact ==\\n\\n";
+    wiki += contact + "\\n\\n";
+  }
+
+  // Tags
+  if (tags) {
+    wiki += "----\\n";
+    wiki += "Tags: " + tags + "\\n";
+  }
+
+  document.getElementById("output").textContent = wiki;
+  toast("Wiki page generated!");
+}
+
+function copyWiki() {
+  var text = document.getElementById("output").textContent;
+  navigator.clipboard.writeText(text).then(function(){
+    toast("Copied to clipboard!");
+  });
+}
+
+function downloadWiki() {
+  var text = document.getElementById("output").textContent;
+  var title = document.getElementById("title").value || "wiki-page";
+  var blob = new Blob([text], {type:"text/plain"});
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = title.replace(/[^a-zA-Z0-9]/g, "_") + ".txt";
+  a.click();
+  toast("Downloaded!");
+}
+
+function clearAll() {
+  if (!confirm("Clear all fields?")) return;
+  document.getElementById("title").value = "";
+  document.getElementById("author").value = "";
+  document.getElementById("team").value = "";
+  document.getElementById("summary").value = "";
+  document.getElementById("links").value = "";
+  document.getElementById("tags").value = "";
+  document.getElementById("contact").value = "";
+  sections = [];
+  renderSections();
+  document.getElementById("output").textContent = "Cleared. Start fresh!";
+}
+
+function toast(msg) {
+  var t = document.getElementById("toast");
+  t.textContent = msg;
+  t.style.display = "block";
+  setTimeout(function(){t.style.display="none";}, 2000);
+}
+
+// Init
+document.getElementById("date").value = new Date().toISOString().slice(0,10);
+addSection("", "");
+renderSections();
+</script>
+</body>
+</html>'''
+
+with open("wiki-generator.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print("SUCCESS! wiki-generator.html created.")
