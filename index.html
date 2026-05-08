@@ -141,10 +141,9 @@ tr:hover{background:#f7f8f8}
 <div class="header">
 <div><h1>Leave &amp; Shrinkage Management</h1><div class="sub">Org: Sarad Agarwal &mdash; Selling Partner Experience-VAR</div></div>
 <div class="header-actions">
-<button class="btn btn-g" onclick="pushToQuip()">&#9650; Push to Quip</button>
-<button class="btn btn-s" onclick="pullFromQuip()">&#9660; Pull from Quip</button>
-<button class="btn btn-s" onclick="refreshDashboard()">&#8635; Refresh</button>
-<button class="btn btn-p" onclick="exportCSV()">Export CSV</button>
+<button class="btn btn-g" onclick="loadSharedData()">&#8635; Load Latest Data</button>
+<button class="btn btn-p" onclick="saveSharedData()">&#128190; Save &amp; Share</button>
+<button class="btn btn-s" onclick="exportCSV()">Export CSV</button>
 </div>
 </div>
 <div class="app">
@@ -154,6 +153,6 @@ tr:hover{background:#f7f8f8}
 <div class="modal-bg" id="modal" onclick="closeModal(event)"><div class="modal" id="modal-content"></div></div>
 <div class="toast" id="toast"></div>
 <script src="app.js"></script>
-<script src="quip-sync.js"></script>
+<script src="shared-sync.js"></script>
 </body>
 </html>
