@@ -449,6 +449,10 @@ function renderDashboard() {
 
   // Daily tracker summary for all managers
   h += renderDailySnapshot();
+
+  // Charts
+  h += renderCharts();
+
   return h;
 }
 
@@ -582,6 +586,7 @@ function rejectLeave(id) {
   if (l) { l.status = 'rejected'; save(); render(); toast('Leave rejected.'); }
 }
 function deleteLeave(id) {
+  if (!isAdmin) { alert("View-only mode. Click Admin button to enable editing."); return; }
   if (!confirm('Delete this leave record?')) return;
   db.leaves[state.mgr] = (db.leaves[state.mgr] || []).filter(x => x.id !== id);
   save(); render(); toast('Record deleted.');
@@ -605,6 +610,7 @@ function showAddLeaveModal() {
 }
 
 function saveNewLeave() {
+  if (!isAdmin) { alert("View-only mode. Click Admin button to enable editing."); return; }
   const alias = document.getElementById('m-alias').value;
   const type = document.getElementById('m-type').value;
   const from = document.getElementById('m-from').value;
@@ -639,6 +645,7 @@ function editLeaveModal(id) {
 }
 
 function saveEditLeave(id) {
+  if (!isAdmin) { alert("View-only mode. Click Admin button to enable editing."); return; }
   const leaves = db.leaves[state.mgr];
   const l = leaves.find(x => x.id === id);
   if (!l) return;
@@ -952,6 +959,7 @@ function renderDailyTracker() {
 }
 
 function updateDailyStatus(alias, status) {
+  if (!isAdmin) { alert("View-only mode. Click Admin button to enable editing."); render(); return; }
   const mgr = state.mgr;
   const date = document.getElementById('tracker-date').value;
   if (!db.dailyTracker[mgr]) db.dailyTracker[mgr] = {};
@@ -1151,6 +1159,7 @@ function renderApplyLeave() {
 }
 
 function submitLeave(status) {
+  if (!isAdmin) { alert("View-only mode. Click Admin button to enable editing."); return; }
   const alias = document.getElementById('al-alias').value;
   const type = document.getElementById('al-type').value;
   const from = document.getElementById('al-from').value;
@@ -1405,6 +1414,118 @@ function downloadCSV(csv, filename) {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
   toast('CSV exported: ' + filename);
+}
+
+// ========== ADMIN ACCESS CONTROL ==========
+var ADMIN_PASSWORD = "spex2026";  // Change this to your password
+var isAdmin = false;
+
+function toggleAdmin() {
+  if (isAdmin) {
+    isAdmin = false;
+    toast("Admin mode OFF. View-only mode.");
+    render();
+    return;
+  }
+  var pwd = prompt("Enter admin password to enable edit mode:");
+  if (pwd === ADMIN_PASSWORD) {
+    isAdmin = true;
+    toast("Admin mode ON. You can now edit and save.");
+    render();
+  } else if (pwd !== null) {
+    alert("Wrong password. Contact sharkoth for access.");
+  }
+}
+
+function adminSave() {
+  if (!isAdmin) {
+    alert("You need Admin access to save changes.\nClick the Admin button and enter the password.");
+    return;
+  }
+  saveSharedData();
+}
+
+// Override functions to check admin
+var _origSubmitLeave = typeof submitLeave !== 'undefined' ? submitLeave : null;
+var _origSaveNewLeave = typeof saveNewLeave !== 'undefined' ? saveNewLeave : null;
+
+function checkAdmin() {
+  if (!isAdmin) {
+    alert("View-only mode. Click Admin button to enable editing.");
+    return false;
+  }
+  return true;
+}
+
+// ========== CHARTS ON DASHBOARD ==========
+function renderCharts() {
+  var ics = getICs(state.mgr);
+  var leaves = getLeaves(state.mgr);
+  if (leaves.length === 0) return '';
+
+  // Monthly shrinkage data
+  var monthlyData = {};
+  leaves.forEach(function(l) {
+    var mk = l.from.slice(0, 7);
+    if (!monthlyData[mk]) monthlyData[mk] = { total: 0 };
+    monthlyData[mk].total += l.days;
+  });
+
+  var sortedMonths = Object.keys(monthlyData).sort();
+  var monthNames = {'01':'Jan','02':'Feb','03':'Mar','04':'Apr','05':'May','06':'Jun','07':'Jul','08':'Aug','09':'Sep','10':'Oct','11':'Nov','12':'Dec'};
+
+  // Shrinkage trend chart
+  var h = '<div class="card"><h2>&#128200; Monthly Shrinkage Trend</h2>';
+  var maxS = Math.max.apply(null, sortedMonths.map(function(mk) { return (monthlyData[mk].total / (ics.length * 22)) * 100; }));
+  maxS = Math.max(maxS, 25);
+  h += '<div style="display:flex;align-items:flex-end;gap:6px;height:160px;padding:10px 0;border-bottom:2px solid var(--border)">';
+  sortedMonths.forEach(function(mk) {
+    var total = monthlyData[mk].total;
+    var shrinkage = ics.length > 0 ? ((total / (ics.length * 22)) * 100).toFixed(1) : 0;
+    var barH = (parseFloat(shrinkage) / maxS) * 130;
+    var color = parseFloat(shrinkage) > 20 ? '#d13212' : parseFloat(shrinkage) > 15 ? '#ff9900' : '#1d8102';
+    var label = monthNames[mk.slice(5)] || mk;
+    h += '<div style="flex:1;text-align:center"><span style="font-size:10px;font-weight:700;color:' + color + '">' + shrinkage + '%</span>';
+    h += '<div style="height:' + barH + 'px;background:' + color + ';border-radius:4px 4px 0 0;margin:4px auto;width:70%"></div>';
+    h += '<span style="font-size:10px;color:var(--muted)">' + label + '</span></div>';
+  });
+  h += '</div>';
+  h += '<div style="margin-top:8px;font-size:10px;text-align:center;color:var(--muted)">Target: &lt;15% | ';
+  h += '<span style="color:#1d8102">&#9632; Good(&lt;15%)</span> ';
+  h += '<span style="color:#ff9900">&#9632; Warning(15-20%)</span> ';
+  h += '<span style="color:#d13212">&#9632; Critical(&gt;20%)</span></div>';
+  h += '</div>';
+
+  // Leave type pie chart (CSS-based)
+  var totalP = 0, totalU = 0, totalH = 0, totalM = 0;
+  leaves.forEach(function(l) {
+    if (l.type === 'planned') totalP += l.days;
+    else if (l.type === 'unplanned') totalU += l.days;
+    else if (l.type === 'halfday') totalH += l.days;
+    else if (l.type === 'mandatory_off') totalM += l.days;
+  });
+  var grandTotal = totalP + totalU + totalH + totalM;
+  if (grandTotal > 0) {
+    var pP = ((totalP / grandTotal) * 100).toFixed(0);
+    var pU = ((totalU / grandTotal) * 100).toFixed(0);
+    var pH = ((totalH / grandTotal) * 100).toFixed(0);
+    var pM = ((totalM / grandTotal) * 100).toFixed(0);
+    var deg1 = (totalP / grandTotal) * 360;
+    var deg2 = deg1 + (totalU / grandTotal) * 360;
+    var deg3 = deg2 + (totalH / grandTotal) * 360;
+
+    h += '<div class="card"><h2>&#128200; Leave Type Distribution</h2>';
+    h += '<div style="display:flex;align-items:center;gap:30px;flex-wrap:wrap">';
+    h += '<div style="width:140px;height:140px;border-radius:50%;background:conic-gradient(#0073bb 0deg ' + deg1 + 'deg, #d13212 ' + deg1 + 'deg ' + deg2 + 'deg, #ff9900 ' + deg2 + 'deg ' + deg3 + 'deg, #6b21a8 ' + deg3 + 'deg 360deg)"></div>';
+    h += '<div style="font-size:13px;line-height:2">';
+    h += '<div><span style="display:inline-block;width:12px;height:12px;background:#0073bb;border-radius:2px;margin-right:6px"></span>Planned: ' + totalP + ' days (' + pP + '%)</div>';
+    h += '<div><span style="display:inline-block;width:12px;height:12px;background:#d13212;border-radius:2px;margin-right:6px"></span>Unplanned: ' + totalU + ' days (' + pU + '%)</div>';
+    h += '<div><span style="display:inline-block;width:12px;height:12px;background:#ff9900;border-radius:2px;margin-right:6px"></span>Half-day: ' + totalH + ' days (' + pH + '%)</div>';
+    h += '<div><span style="display:inline-block;width:12px;height:12px;background:#6b21a8;border-radius:2px;margin-right:6px"></span>Mandate Off: ' + totalM + ' days (' + pM + '%)</div>';
+    h += '</div></div></div>';
+  }
+
+  return h;
 }
 
 // ========== INIT ==========
