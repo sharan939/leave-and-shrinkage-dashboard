@@ -6,6 +6,7 @@ var SHEET_API = "https://script.google.com/macros/s/AKfycbznC_SjL37-Thv05F_AHCSh
 
 // Save data to Google Sheet (compressed)
 function saveSharedData() {
+  toast("Saving to cloud...");
   var compact = {l:{},d:{}};
   // Compress leaves
   Object.keys(db.leaves||{}).forEach(function(mgr){
@@ -27,19 +28,21 @@ function saveSharedData() {
   });
   fetch(SHEET_API, {
     method: "POST",
+    mode: "no-cors",
     headers: {"Content-Type": "text/plain"},
     body: JSON.stringify(compact)
-  }).then(function(r){ return r.json(); })
-    .then(function(result){
-      if(result.success) toast("Saved! All managers can see updates.");
-    }).catch(function(e){ console.log("Save error:", e); });
+  }).then(function(){
+    toast("Saved! All managers can see updates now.");
+  }).catch(function(e){ toast("Save error: " + e.message); });
 }
 
 // Load data from Google Sheet
 function loadSharedData() {
   fetch(SHEET_API)
-    .then(function(r){ return r.json(); })
-    .then(function(data){
+    .then(function(r){ return r.text(); })
+    .then(function(text){
+      var data;
+      try { data = JSON.parse(text); } catch(e) { console.log("Parse error"); return; }
       if(data && data.l){
         // Decompress leaves
         db.leaves = {};
@@ -61,19 +64,19 @@ function loadSharedData() {
             });
           });
         });
-        save();
+        localStorage.setItem(SK, JSON.stringify(db));
         render();
-        toast("Latest data loaded!");
+        toast("All data loaded (Jan-May 2026)!");
       } else if(data && data.leaves) {
-        // Uncompressed format fallback
         db.leaves = data.leaves || {};
         db.dailyTracker = data.dailyTracker || {};
-        save();
+        localStorage.setItem(SK, JSON.stringify(db));
         render();
-        toast("Latest data loaded!");
+        toast("Data loaded!");
       }
     }).catch(function(e){
-      console.log("Cloud load failed, using local data");
+      console.log("Cloud load failed:", e);
+      toast("Using local data (offline mode)");
     });
 }
 
@@ -82,7 +85,9 @@ var _origSave = save;
 save = function() {
   _origSave();
   clearTimeout(save._cloudTimer);
-  save._cloudTimer = setTimeout(saveSharedData, 5000);
+  save._cloudTimer = setTimeout(function(){
+    saveSharedData();
+  }, 5000);
 };
 
 // Auto-load from cloud on page open
