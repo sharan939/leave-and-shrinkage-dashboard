@@ -1525,6 +1525,54 @@ function renderCharts() {
     h += '</div></div></div>';
   }
 
+  // Per-associate leave chart (who takes most leaves)
+  var perAssociate = {};
+  ics.forEach(function(a) { perAssociate[a] = {planned:0, unplanned:0, halfday:0, mandateOff:0, total:0}; });
+  leaves.forEach(function(l) {
+    if (!perAssociate[l.alias]) return;
+    if (l.type === 'planned') perAssociate[l.alias].planned += l.days;
+    else if (l.type === 'unplanned') perAssociate[l.alias].unplanned += l.days;
+    else if (l.type === 'halfday') perAssociate[l.alias].halfday += l.days;
+    else if (l.type === 'mandatory_off') perAssociate[l.alias].mandateOff += l.days;
+    perAssociate[l.alias].total += l.days;
+  });
+
+  // Sort by total leaves (highest first)
+  var sortedAssociates = Object.entries(perAssociate).sort(function(a,b){ return b[1].total - a[1].total; });
+  var maxLeaves = sortedAssociates.length > 0 ? sortedAssociates[0][1].total : 1;
+  if (maxLeaves === 0) maxLeaves = 1;
+
+  h += '<div class="card"><h2>&#128101; Leave Per Associate (Who Takes Most Leaves)</h2>';
+  h += '<div style="font-size:11px;margin-bottom:10px;display:flex;gap:12px">';
+  h += '<span><span style="display:inline-block;width:10px;height:10px;background:#0073bb;border-radius:2px"></span> Planned</span>';
+  h += '<span><span style="display:inline-block;width:10px;height:10px;background:#d13212;border-radius:2px"></span> Unplanned</span>';
+  h += '<span><span style="display:inline-block;width:10px;height:10px;background:#ff9900;border-radius:2px"></span> Half-day</span>';
+  h += '<span><span style="display:inline-block;width:10px;height:10px;background:#6b21a8;border-radius:2px"></span> Mandate Off</span>';
+  h += '<span style="margin-left:auto;color:var(--danger)">&#9888; Red = High absenteeism (&gt;10 days)</span>';
+  h += '</div>';
+
+  sortedAssociates.forEach(function(entry) {
+    var alias = entry[0];
+    var d = entry[1];
+    if (d.total === 0) return;
+    var name = ORG[alias] ? ORG[alias].name : alias;
+    var barWidth = (d.total / maxLeaves) * 100;
+    var isHigh = d.total > 10;
+    var borderColor = isHigh ? 'border-left:4px solid #d13212' : 'border-left:4px solid #1d8102';
+
+    h += '<div style="display:flex;align-items:center;gap:8px;margin:6px 0;padding:6px 10px;background:#fafafa;border-radius:4px;' + borderColor + '">';
+    h += '<div style="width:80px;font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="' + name + '">' + alias + '</div>';
+    h += '<div style="flex:1;height:22px;background:#eee;border-radius:3px;overflow:hidden;display:flex">';
+    if (d.planned > 0) h += '<div style="width:' + (d.planned/maxLeaves*100) + '%;background:#0073bb;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;font-weight:700">' + (d.planned >= 2 ? d.planned : '') + '</div>';
+    if (d.unplanned > 0) h += '<div style="width:' + (d.unplanned/maxLeaves*100) + '%;background:#d13212;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;font-weight:700">' + (d.unplanned >= 2 ? d.unplanned : '') + '</div>';
+    if (d.halfday > 0) h += '<div style="width:' + (d.halfday/maxLeaves*100) + '%;background:#ff9900;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;font-weight:700">' + (d.halfday >= 1 ? d.halfday : '') + '</div>';
+    if (d.mandateOff > 0) h += '<div style="width:' + (d.mandateOff/maxLeaves*100) + '%;background:#6b21a8;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;font-weight:700">' + (d.mandateOff >= 2 ? d.mandateOff : '') + '</div>';
+    h += '</div>';
+    h += '<div style="width:50px;text-align:right;font-size:12px;font-weight:700;color:' + (isHigh ? 'var(--danger)' : 'var(--text)') + '">' + d.total + ' d</div>';
+    h += '</div>';
+  });
+  h += '</div>';
+
   return h;
 }
 
