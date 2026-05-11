@@ -780,6 +780,52 @@ function renderSpreadsheet() {
     <div class="stat orange"><div class="val">${grandHD}</div><div class="lbl">Half-days</div></div>
   </div>`;
 
+  // Monthly Sheet Charts
+  var totalLeaveDays = grandPL + grandUL + grandHD;
+  var totalWorkDays = grandP + totalLeaveDays;
+  var sheetShrinkage = totalWorkDays > 0 ? ((totalLeaveDays / totalWorkDays) * 100).toFixed(1) : 0;
+
+  // Pie chart for this month
+  if (totalLeaveDays > 0) {
+    var dPL = (grandPL / (grandPL+grandUL+grandHD)) * 360;
+    var dUL = dPL + (grandUL / (grandPL+grandUL+grandHD)) * 360;
+    h += `<div class="card"><h2>&#128200; ${months[m]} ${y} - Leave Breakdown</h2>`;
+    h += `<div style="display:flex;align-items:center;gap:30px;flex-wrap:wrap">`;
+    h += `<div style="width:130px;height:130px;border-radius:50%;background:conic-gradient(#0073bb 0deg ${dPL}deg, #d13212 ${dPL}deg ${dUL}deg, #ff9900 ${dUL}deg 360deg)"></div>`;
+    h += `<div style="font-size:13px;line-height:2.2">`;
+    h += `<div><span style="display:inline-block;width:12px;height:12px;background:#0073bb;border-radius:2px;margin-right:6px"></span>Planned: ${grandPL} days</div>`;
+    h += `<div><span style="display:inline-block;width:12px;height:12px;background:#d13212;border-radius:2px;margin-right:6px"></span>Unplanned: ${grandUL} days</div>`;
+    h += `<div><span style="display:inline-block;width:12px;height:12px;background:#ff9900;border-radius:2px;margin-right:6px"></span>Half-day: ${grandHD} days</div>`;
+    h += `<div style="margin-top:8px;font-weight:700;color:${parseFloat(sheetShrinkage)>15?'var(--danger)':'var(--success)'}">Monthly Shrinkage: ${sheetShrinkage}%</div>`;
+    h += `</div></div></div>`;
+  }
+
+  // Per-associate chart for this month
+  h += `<div class="card"><h2>&#128101; ${months[m]} - Per Associate Attendance</h2>`;
+  h += `<div style="font-size:10px;margin-bottom:8px;display:flex;gap:10px"><span style="color:#1d8102">&#9632; Present</span><span style="color:#0073bb">&#9632; Planned</span><span style="color:#d13212">&#9632; Unplanned</span><span style="color:#ff9900">&#9632; Half-day</span></div>`;
+  ics.forEach(a => {
+    var row = sheetData[a] || {};
+    var aP=0, aPL=0, aUL=0, aHD=0, aWO=0;
+    Object.values(row).forEach(v => {
+      if(v==='P') aP++; else if(v==='PL') aPL++; else if(v==='UL') aUL++; else if(v==='HD') aHD++; else if(v==='WO'||v==='MO'||v==='H') aWO++;
+    });
+    var aTotal = aP+aPL+aUL+aHD;
+    if(aTotal===0) aTotal=1;
+    var isHigh = (aPL+aUL+aHD) > 5;
+    h += `<div style="display:flex;align-items:center;gap:6px;margin:4px 0">`;
+    h += `<div style="width:70px;font-size:10px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${a}</div>`;
+    h += `<div style="flex:1;height:18px;background:#eee;border-radius:3px;overflow:hidden;display:flex">`;
+    if(aP) h += `<div style="width:${aP/daysInMonth*100}%;background:#1d8102"></div>`;
+    if(aPL) h += `<div style="width:${aPL/daysInMonth*100}%;background:#0073bb"></div>`;
+    if(aUL) h += `<div style="width:${aUL/daysInMonth*100}%;background:#d13212"></div>`;
+    if(aHD) h += `<div style="width:${aHD/daysInMonth*100}%;background:#ff9900"></div>`;
+    if(aWO) h += `<div style="width:${aWO/daysInMonth*100}%;background:#ddd"></div>`;
+    h += `</div>`;
+    h += `<div style="width:60px;font-size:10px;text-align:right;color:${isHigh?'var(--danger)':'var(--muted)'}">${aPL+aUL+aHD} leaves</div>`;
+    h += `</div>`;
+  });
+  h += `</div>`;
+
   return h;
 }
 
