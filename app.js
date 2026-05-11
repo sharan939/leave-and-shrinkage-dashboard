@@ -80,9 +80,9 @@ const ORG = {
   'agasarad': { name: 'Sarad Agarwal', title: 'Manager, TPM', level: 6, isMgr: true, mgr: null, directs: ['shoyaba', 'jorrigal', 'kumarshu', 'bhrgar', 'sidhanp', 'duraiv', 'girisada', 'sylimm', 'nidhivya', 'prtbht'] },
   'shoyaba': { name: 'Shoyab Ahamed', title: 'Support Eng Manager', level: 5, isMgr: true, mgr: 'agasarad', directs: ['hmmuttum', 'musavaru', 'bhayush', 'ngowthh', 'snaidus', 'nsskv', 'jyothigr'] },
   'jorrigal': { name: 'Karthik Jorrigal', title: 'Manager II, Program Mgmt', level: 5, isMgr: true, mgr: 'agasarad', directs: ['yohannjo', 'meghamav', 'abhanwad', 'kprasanj', 'chikbal', 'musaddm', 'thotteja', 'vjchilla', 'valavoju'] },
-  'kumarshu': { name: 'Shubham Kumar', title: 'Manager II, Prgm Mgmt', level: 5, isMgr: true, mgr: 'agasarad', directs: ['aggannam', 'mssowmya', 'jonnac', 'ypreksha', 'noosuraj', 'mheshpm', 'kgorapal', 'shreevi', 'gosang', 'cheedel', 'rsameerk', 'rmvineet'] },
+  'kumarshu': { name: 'Shubham Kumar', title: 'Manager II, Prgm Mgmt', level: 5, isMgr: true, mgr: 'agasarad', directs: ['aggannam', 'mssowmya', 'jonnac', 'noosuraj', 'mheshpm', 'kgorapal', 'shreevi', 'gosang', 'rsameerk', 'rmvineet'] },
   'bhrgar': { name: 'Bhargavi Raghavendran', title: 'QA Manager', level: 6, isMgr: true, mgr: 'agasarad', directs: ['prathysr', 'muthindh', 'dvadakat', 'vaischa', 'shreejsj', 'urvenkat', 'ramsais', 'megsb', 'hadhug'] },
-  'aggannam': { name: 'Akhila Gannamraju', title: 'Manager II, Prod Compliance', level: 5, isMgr: true, mgr: 'kumarshu', directs: ['muqeemah', 'syesule', 'ketiredd', 'sharkoth', 'rundevak', 'ahmshaiq', 'vijaupot', 'sudaveda', 'vankithe'] },
+  'aggannam': { name: 'Akhila Gannamraju', title: 'Manager II, Prod Compliance', level: 5, isMgr: true, mgr: 'kumarshu', directs: ['muqeemah', 'syesule', 'ketiredd', 'sharkoth', 'rundevak', 'ahmshaiq', 'vijaupot', 'sudaveda', 'vankithe', 'ypreksha', 'cheedel', 'gvatsala'] },
   'sidhanp': { name: 'Priyanka Sidhani', title: 'Program Manager II', level: 5, isMgr: false, mgr: 'agasarad', directs: [] },
   'duraiv': { name: 'Venkatesh Durai', title: 'Sr. Program Manager', level: 6, isMgr: false, mgr: 'agasarad', directs: [] },
   'girisada': { name: 'Giridhar Saday', title: 'System Dev Engineer', level: 5, isMgr: false, mgr: 'agasarad', directs: [] },
@@ -117,13 +117,13 @@ const ORG = {
   'valavoju': { name: 'Valavoju', title: 'Direct Report', level: 3, mgr: 'jorrigal', directs: [] },
   'mssowmya': { name: 'Mssowmya', title: 'Direct Report', level: 3, mgr: 'kumarshu', directs: [] },
   'jonnac': { name: 'Jonnac', title: 'Direct Report', level: 3, mgr: 'kumarshu', directs: [] },
-  'ypreksha': { name: 'Ypreksha', title: 'Direct Report', level: 3, mgr: 'kumarshu', directs: [] },
+  'ypreksha': { name: 'Ypreksha', title: 'Direct Report', level: 3, mgr: 'aggannam', directs: [] },
   'noosuraj': { name: 'Noosuraj', title: 'Direct Report', level: 3, mgr: 'kumarshu', directs: [] },
   'mheshpm': { name: 'Mheshpm', title: 'Direct Report', level: 3, mgr: 'kumarshu', directs: [] },
   'kgorapal': { name: 'Kgorapal', title: 'Direct Report', level: 3, mgr: 'kumarshu', directs: [] },
   'shreevi': { name: 'Shreevi', title: 'Direct Report', level: 3, mgr: 'kumarshu', directs: [] },
   'gosang': { name: 'Gosang', title: 'Direct Report', level: 3, mgr: 'kumarshu', directs: [] },
-  'cheedel': { name: 'Cheedel', title: 'Direct Report', level: 3, mgr: 'kumarshu', directs: [] },
+  'cheedel': { name: 'Cheedel', title: 'Direct Report', level: 3, mgr: 'aggannam', directs: [] },
   'rsameerk': { name: 'Rsameerk', title: 'Direct Report', level: 3, mgr: 'kumarshu', directs: [] },
   'rmvineet': { name: 'Rmvineet', title: 'Direct Report', level: 3, mgr: 'kumarshu', directs: [] },
   'prathysr': { name: 'Prathysr', title: 'Direct Report', level: 3, mgr: 'bhrgar', directs: [] },
@@ -668,36 +668,49 @@ function renderSpreadsheet() {
   const mk = getMonthKey(y, m);
   const daysInMonth = new Date(y, m + 1, 0).getDate();
 
-  // Initialize monthly sheet data if not exists
+  // Always rebuild monthly sheet from latest data (no caching)
   if (!db.monthlySheets) db.monthlySheets = {};
   if (!db.monthlySheets[mgr]) db.monthlySheets[mgr] = {};
-  if (!db.monthlySheets[mgr][mk]) {
-    db.monthlySheets[mgr][mk] = {};
-    ics.forEach(a => {
-      db.monthlySheets[mgr][mk][a] = {};
-      for (let d = 1; d <= daysInMonth; d++) {
-        const ds = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-        const dow = new Date(y, m, d).getDay();
-        // Default weekends to 'WO' (week off), weekdays to 'P' (present)
-        db.monthlySheets[mgr][mk][a][ds] = (dow === 0 || dow === 6) ? 'WO' : 'P';
-      }
-    });
-    // Overlay existing leave data
-    const leaves = getLeaves(mgr).filter(l => l.status === 'approved');
-    leaves.forEach(l => {
-      let d = new Date(l.from); const end = new Date(l.to);
-      while (d <= end) {
-        const ds = d.toISOString().slice(0, 10);
-        if (ds.startsWith(mk) && db.monthlySheets[mgr][mk][l.alias]) {
-          if (l.type === 'planned') db.monthlySheets[mgr][mk][l.alias][ds] = 'PL';
-          else if (l.type === 'unplanned') db.monthlySheets[mgr][mk][l.alias][ds] = 'UL';
-          else if (l.type === 'halfday') db.monthlySheets[mgr][mk][l.alias][ds] = 'HD';
+  // Always regenerate
+  db.monthlySheets[mgr][mk] = {};
+  ics.forEach(a => {
+    db.monthlySheets[mgr][mk][a] = {};
+    for (let d = 1; d <= daysInMonth; d++) {
+      const ds = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+      const dow = new Date(y, m, d).getDay();
+      db.monthlySheets[mgr][mk][a][ds] = (dow === 0 || dow === 6) ? 'WO' : 'P';
+    }
+  });
+  // Overlay from daily tracker (most accurate)
+  const tracker = db.dailyTracker[mgr] || {};
+  ics.forEach(a => {
+    if (tracker[a]) {
+      Object.keys(tracker[a]).forEach(date => {
+        if (date.startsWith(mk) && db.monthlySheets[mgr][mk][a]) {
+          const rec = tracker[a][date];
+          if (rec.status === 'absent') db.monthlySheets[mgr][mk][a][date] = rec.leaveType === 'planned' ? 'PL' : 'UL';
+          else if (rec.status === 'halfday') db.monthlySheets[mgr][mk][a][date] = 'HD';
+          else if (rec.status === 'mandate_off') db.monthlySheets[mgr][mk][a][date] = 'MO';
+          else if (rec.status === 'present') db.monthlySheets[mgr][mk][a][date] = 'P';
         }
-        d.setDate(d.getDate() + 1);
+      });
+    }
+  });
+  // Overlay from leave records
+  const leaves = getLeaves(mgr).filter(l => l.status === 'approved');
+  leaves.forEach(l => {
+    let d = new Date(l.from); const end = new Date(l.to);
+    while (d <= end) {
+      const ds = d.toISOString().slice(0, 10);
+      if (ds.startsWith(mk) && db.monthlySheets[mgr][mk][l.alias]) {
+        if (l.type === 'planned') db.monthlySheets[mgr][mk][l.alias][ds] = 'PL';
+        else if (l.type === 'unplanned') db.monthlySheets[mgr][mk][l.alias][ds] = 'UL';
+        else if (l.type === 'halfday') db.monthlySheets[mgr][mk][l.alias][ds] = 'HD';
+        else if (l.type === 'mandatory_off') db.monthlySheets[mgr][mk][l.alias][ds] = 'MO';
       }
-    });
-    save();
-  }
+      d.setDate(d.getDate() + 1);
+    }
+  });
 
   const sheetData = db.monthlySheets[mgr][mk];
 
