@@ -1185,13 +1185,27 @@ function renderTeam() {
 }
 
 // ========== REPORTS ==========
+function getWeekNumber(dateStr) {
+  const d = new Date(dateStr);
+  const start = new Date(d.getFullYear(), 0, 1);
+  const diff = (d - start + ((start.getDay() + 6) % 7) * 86400000) / 86400000;
+  return Math.ceil((diff + 1) / 7);
+}
+
 function renderReports() {
   const ics = getICs(state.mgr);
   const leaves = getLeaves(state.mgr);
   const mgr = state.mgr;
 
-  // Monthly breakdown
+  // Download button
+  let h = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">';
+  h += '<h2 style="margin:0">&#128200; Reports & Shrinkage Analysis</h2>';
+  h += '<div style="display:flex;gap:8px"><button class="btn btn-p" onclick="downloadMonthlyReport()">&#128229; Download Report</button><button class="btn btn-s" onclick="exportCSV()">Export CSV</button></div>';
+  h += '</div>';
+
+  // Monthly breakdown with week numbers
   const monthlyData = {};
+  const weeklyData = {};
   leaves.forEach(l => {
     const mk = l.from.slice(0, 7);
     if (!monthlyData[mk]) monthlyData[mk] = { planned: 0, unplanned: 0, halfday: 0, mandateOff: 0 };
@@ -1199,51 +1213,113 @@ function renderReports() {
     else if (l.type === 'unplanned') monthlyData[mk].unplanned += l.days;
     else if (l.type === 'halfday') monthlyData[mk].halfday += l.days;
     else if (l.type === 'mandatory_off') monthlyData[mk].mandateOff += l.days;
+    // Weekly
+    const wk = 'W' + getWeekNumber(l.from);
+    if (!weeklyData[wk]) weeklyData[wk] = { planned: 0, unplanned: 0, halfday: 0, mandateOff: 0 };
+    if (l.type === 'planned') weeklyData[wk].planned += l.days;
+    else if (l.type === 'unplanned') weeklyData[wk].unplanned += l.days;
+    else if (l.type === 'halfday') weeklyData[wk].halfday += l.days;
+    else if (l.type === 'mandatory_off') weeklyData[wk].mandateOff += l.days;
   });
 
-  let h = '<div class="card"><h2>&#128200; Monthly Breakdown</h2>';
-  h += '<table><thead><tr><th>Month</th><th>Planned</th><th>Unplanned</th><th>Half-day</th><th>Mandate Off</th><th>Total</th><th>Shrinkage %</th></tr></thead><tbody>';
-  Object.keys(monthlyData).sort().forEach(mk => {
+  // SHRINKAGE BAR CHART (visual)
+  const sortedMonths = Object.keys(monthlyData).sort();
+  const monthNames = {'-01':'Jan','-02':'Feb','-03':'Mar','-04':'Apr','-05':'May','-06':'Jun','-07':'Jul','-08':'Aug','-09':'Sep','-10':'Oct','-11':'Nov','-12':'Dec'};
+  h += '<div class="card"><h2>&#128202; Monthly Shrinkage Chart</h2>';
+  h += '<div style="display:flex;align-items:flex-end;gap:8px;height:200px;padding:20px 0;border-bottom:2px solid var(--border)">';
+  const maxShrinkage = Math.max(...sortedMonths.map(mk => {
+    const d = monthlyData[mk]; const total = d.planned + d.unplanned + d.halfday + d.mandateOff;
+    return (total / (ics.length * 22)) * 100;
+  }), 20);
+  sortedMonths.forEach(mk => {
+    const d = monthlyData[mk];
+    const total = d.planned + d.unplanned + d.halfday + d.mandateOff;
+    const shrinkage = ics.length > 0 ? ((total / (ics.length * 22)) * 100).toFixed(1) : 0;
+    const barHeight = (parseFloat(shrinkage) / maxShrinkage) * 160;
+    const color = parseFloat(shrinkage) > 20 ? 'var(--danger)' : parseFloat(shrinkage) > 15 ? 'var(--warn)' : 'var(--success)';
+    const label = monthNames[mk.slice(4)] || mk.slice(5);
+    h += `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">`;
+    h += `<span style="font-size:11px;font-weight:700;color:${color}">${shrinkage}%</span>`;
+    h += `<div style="width:100%;max-width:50px;height:${barHeight}px;background:${color};border-radius:4px 4px 0 0;min-height:4px"></div>`;
+    h += `<span style="font-size:10px;color:var(--muted)">${label}</span>`;
+    h += `</div>`;
+  });
+  h += '</div>';
+  h += '<div style="display:flex;justify-content:center;gap:16px;margin-top:10px;font-size:11px">';
+  h += '<span style="color:var(--success)">&#9632; &lt;15% Good</span>';
+  h += '<span style="color:var(--warn)">&#9632; 15-20% Warning</span>';
+  h += '<span style="color:var(--danger)">&#9632; &gt;20% Critical</span>';
+  h += '</div></div>';
+
+  // LEAVE TYPE BREAKDOWN CHART
+  h += '<div class="card"><h2>&#128203; Leave Type Distribution by Month</h2>';
+  h += '<div style="overflow-x:auto"><div style="display:flex;align-items:flex-end;gap:12px;height:180px;padding:20px 0;min-width:' + (sortedMonths.length * 80) + 'px">';
+  const maxTotal = Math.max(...sortedMonths.map(mk => { const d = monthlyData[mk]; return d.planned + d.unplanned + d.halfday + d.mandateOff; }), 1);
+  sortedMonths.forEach(mk => {
+    const d = monthlyData[mk];
+    const total = d.planned + d.unplanned + d.halfday + d.mandateOff;
+    const label = monthNames[mk.slice(4)] || mk.slice(5);
+    const scale = 140 / maxTotal;
+    h += `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:60px">`;
+    h += `<span style="font-size:10px;font-weight:600">${total}</span>`;
+    h += `<div style="width:40px;display:flex;flex-direction:column-reverse;border-radius:3px;overflow:hidden">`;
+    if (d.planned) h += `<div style="height:${d.planned*scale}px;background:#0073bb" title="Planned: ${d.planned}"></div>`;
+    if (d.unplanned) h += `<div style="height:${d.unplanned*scale}px;background:#d13212" title="Unplanned: ${d.unplanned}"></div>`;
+    if (d.halfday) h += `<div style="height:${d.halfday*scale}px;background:#ff9900" title="Half-day: ${d.halfday}"></div>`;
+    if (d.mandateOff) h += `<div style="height:${d.mandateOff*scale}px;background:#6b21a8" title="Mandate Off: ${d.mandateOff}"></div>`;
+    h += `</div><span style="font-size:10px;color:var(--muted)">${label}</span></div>`;
+  });
+  h += '</div></div>';
+  h += '<div class="legend"><div class="legend-i"><div class="legend-d" style="background:#0073bb"></div>Planned</div><div class="legend-i"><div class="legend-d" style="background:#d13212"></div>Unplanned</div><div class="legend-i"><div class="legend-d" style="background:#ff9900"></div>Half-day</div><div class="legend-i"><div class="legend-d" style="background:#6b21a8"></div>Mandate Off</div></div>';
+  h += '</div>';
+
+  // Monthly table with week numbers
+  h += '<div class="card"><h2>Monthly Breakdown (with Week Numbers)</h2>';
+  h += '<table><thead><tr><th>Month</th><th>Weeks</th><th>Planned</th><th>Unplanned</th><th>Half-day</th><th>Mandate Off</th><th>Total</th><th>Work Days</th><th>Shrinkage %</th></tr></thead><tbody>';
+  sortedMonths.forEach(mk => {
     const d = monthlyData[mk];
     const total = d.planned + d.unplanned + d.halfday + d.mandateOff;
     const workDays = ics.length * 22;
     const shrinkage = workDays > 0 ? ((total / workDays) * 100).toFixed(1) : 0;
-    h += `<tr><td><strong>${mk}</strong></td><td class="num">${d.planned}</td><td class="num" style="${d.unplanned > 5 ? 'color:var(--danger)' : ''}">${d.unplanned}</td><td class="num">${d.halfday}</td><td class="num">${d.mandateOff}</td><td class="num">${total}</td><td class="num" style="${parseFloat(shrinkage) > 15 ? 'color:var(--danger);font-weight:700' : 'color:var(--success)'}">${shrinkage}%</td></tr>`;
+    const y = parseInt(mk.slice(0,4)); const m = parseInt(mk.slice(5,7));
+    const firstWeek = getWeekNumber(mk + '-01');
+    const lastDay = new Date(y, m, 0).getDate();
+    const lastWeek = getWeekNumber(mk + '-' + lastDay);
+    h += `<tr><td><strong>${mk}</strong></td><td>W${firstWeek}-W${lastWeek}</td><td class="num">${d.planned}</td><td class="num" style="${d.unplanned > 5 ? 'color:var(--danger)' : ''}">${d.unplanned}</td><td class="num">${d.halfday}</td><td class="num">${d.mandateOff}</td><td class="num">${total}</td><td class="num">${workDays}</td><td class="num" style="${parseFloat(shrinkage) > 15 ? 'color:var(--danger);font-weight:700' : 'color:var(--success)'}">${shrinkage}%</td></tr>`;
   });
   h += '</tbody></table></div>';
 
-  // Overall Shrinkage
+  // Weekly breakdown
+  h += '<div class="card"><h2>Weekly Breakdown</h2>';
+  h += '<table><thead><tr><th>Week</th><th>Planned</th><th>Unplanned</th><th>Half-day</th><th>Mandate Off</th><th>Total</th></tr></thead><tbody>';
+  Object.keys(weeklyData).sort((a,b) => parseInt(a.slice(1)) - parseInt(b.slice(1))).forEach(wk => {
+    const d = weeklyData[wk];
+    const total = d.planned + d.unplanned + d.halfday + d.mandateOff;
+    h += `<tr><td><strong>${wk}</strong></td><td class="num">${d.planned}</td><td class="num">${d.unplanned}</td><td class="num">${d.halfday}</td><td class="num">${d.mandateOff}</td><td class="num">${total}</td></tr>`;
+  });
+  h += '</tbody></table></div>';
+
+  // Overall Shrinkage stats
   const totalLeaves = leaves.reduce((s, l) => s + l.days, 0);
   const totalWorkDays = ics.length * 22;
   const overallShrinkage = totalWorkDays > 0 ? ((totalLeaves / totalWorkDays) * 100).toFixed(1) : 0;
-
-  // Daily tracker based shrinkage (more accurate)
   const tracker = db.dailyTracker[mgr] || {};
   let trackedDays = 0, trackedAbsent = 0;
-  ics.forEach(a => {
-    if (tracker[a]) {
-      Object.values(tracker[a]).forEach(rec => {
-        trackedDays++;
-        if (rec.status === 'absent') trackedAbsent++;
-        else if (rec.status === 'halfday') trackedAbsent += 0.5;
-        else if (rec.status === 'mandate_off') trackedAbsent++;
-      });
-    }
-  });
+  ics.forEach(a => { if (tracker[a]) { Object.values(tracker[a]).forEach(rec => { trackedDays++; if (rec.status === 'absent') trackedAbsent++; else if (rec.status === 'halfday') trackedAbsent += 0.5; else if (rec.status === 'mandate_off') trackedAbsent++; }); } });
   const trackerShrinkage = trackedDays > 0 ? ((trackedAbsent / trackedDays) * 100).toFixed(1) : 0;
 
-  h += `<div class="card"><h2>Shrinkage Summary</h2>
+  h += `<div class="card"><h2>Overall Shrinkage Summary</h2>
     <div class="stats">
       <div class="stat"><div class="val">${ics.length}</div><div class="lbl">Team Size</div></div>
       <div class="stat"><div class="val">${totalLeaves}</div><div class="lbl">Total Leave Days</div></div>
-      <div class="stat ${parseFloat(overallShrinkage) > 15 ? 'red' : 'green'}"><div class="val">${overallShrinkage}%</div><div class="lbl">Shrinkage (Leave Records)</div></div>
-      <div class="stat ${parseFloat(trackerShrinkage) > 15 ? 'red' : 'green'}"><div class="val">${trackerShrinkage}%</div><div class="lbl">Shrinkage (Daily Tracker)</div></div>
+      <div class="stat ${parseFloat(overallShrinkage) > 15 ? 'red' : 'green'}"><div class="val">${overallShrinkage}%</div><div class="lbl">Shrinkage (Monthly)</div></div>
+      <div class="stat ${parseFloat(trackerShrinkage) > 15 ? 'red' : 'green'}"><div class="val">${trackerShrinkage}%</div><div class="lbl">Shrinkage (Daily)</div></div>
     </div>
   </div>`;
 
-  // Per-person breakdown
+  // Individual shrinkage
   h += '<div class="card"><h2>Individual Shrinkage</h2>';
-  h += '<table><thead><tr><th>Associate</th><th>Name</th><th>Planned</th><th>Unplanned</th><th>Half-day</th><th>Mandate Off</th><th>Total Days</th><th>Shrinkage %</th></tr></thead><tbody>';
+  h += '<table><thead><tr><th>Associate</th><th>Name</th><th>Planned</th><th>Unplanned</th><th>Half-day</th><th>Mandate Off</th><th>Total</th><th>Shrinkage %</th></tr></thead><tbody>';
   ics.forEach(a => {
     const info = ORG[a] || { name: a };
     let pl = 0, ul = 0, hd = 0, mo = 0;
@@ -1264,14 +1340,45 @@ function renderReports() {
   ics.forEach(a => { perPerson[a] = 0; });
   leaves.forEach(l => { if (perPerson[l.alias] !== undefined) perPerson[l.alias] += l.days; });
   const topAbsentees = Object.entries(perPerson).sort((a, b) => b[1] - a[1]).slice(0, 5);
-
   h += '<div class="card"><h2>Top Absentees</h2><table><thead><tr><th>Associate</th><th>Name</th><th>Total Days</th></tr></thead><tbody>';
   topAbsentees.forEach(([a, days]) => {
     h += `<tr><td><strong>${a}</strong></td><td>${ORG[a] ? ORG[a].name : a}</td><td class="num" style="${days > 5 ? 'color:var(--danger)' : ''}">${days}</td></tr>`;
   });
   h += '</tbody></table></div>';
-
   return h;
+}
+
+// Download monthly report
+function downloadMonthlyReport() {
+  const ics = getICs(state.mgr);
+  const leaves = getLeaves(state.mgr);
+  const mgrName = ORG[state.mgr] ? ORG[state.mgr].name : state.mgr;
+  const monthlyData = {};
+  leaves.forEach(l => {
+    const mk = l.from.slice(0, 7);
+    if (!monthlyData[mk]) monthlyData[mk] = { planned: 0, unplanned: 0, halfday: 0, mandateOff: 0 };
+    if (l.type === 'planned') monthlyData[mk].planned += l.days;
+    else if (l.type === 'unplanned') monthlyData[mk].unplanned += l.days;
+    else if (l.type === 'halfday') monthlyData[mk].halfday += l.days;
+    else if (l.type === 'mandatory_off') monthlyData[mk].mandateOff += l.days;
+  });
+  let csv = 'SHRINKAGE REPORT - ' + mgrName + '\nGenerated: ' + new Date().toISOString().slice(0,10) + '\n\n';
+  csv += 'MONTHLY SUMMARY\nMonth,Week Range,Planned,Unplanned,Half-day,Mandate Off,Total,Work Days,Shrinkage %\n';
+  Object.keys(monthlyData).sort().forEach(mk => {
+    const d = monthlyData[mk]; const total = d.planned + d.unplanned + d.halfday + d.mandateOff;
+    const workDays = ics.length * 22; const shrinkage = workDays > 0 ? ((total / workDays) * 100).toFixed(1) : 0;
+    const firstWeek = getWeekNumber(mk + '-01');
+    csv += `${mk},W${firstWeek},${d.planned},${d.unplanned},${d.halfday},${d.mandateOff},${total},${workDays},${shrinkage}%\n`;
+  });
+  csv += '\nINDIVIDUAL BREAKDOWN\nAlias,Name,Planned,Unplanned,Half-day,Mandate Off,Total,Shrinkage %\n';
+  ics.forEach(a => {
+    const info = ORG[a] || { name: a }; let pl=0,ul=0,hd=0,mo=0;
+    leaves.filter(l => l.alias === a).forEach(l => { if(l.type==='planned')pl+=l.days;else if(l.type==='unplanned')ul+=l.days;else if(l.type==='halfday')hd+=l.days;else if(l.type==='mandatory_off')mo+=l.days; });
+    const total = pl+ul+hd+mo; const s = (total/22*100).toFixed(1);
+    csv += `${a},${info.name},${pl},${ul},${hd},${mo},${total},${s}%\n`;
+  });
+  downloadCSV(csv, `Shrinkage_Report_${mgrName}_${new Date().toISOString().slice(0,10)}.csv`);
+  toast('Report downloaded!');
 }
 
 // ========== EXPORT ==========
