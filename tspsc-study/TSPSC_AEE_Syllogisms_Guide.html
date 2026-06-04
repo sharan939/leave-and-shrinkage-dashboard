@@ -1,0 +1,1326 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TSPSC AEE - Syllogisms Complete Guide with Detailed Solutions</title>
+<style>
+@media print { .no-print{display:none} body{font-size:11px} .page-break{page-break-before:always} }
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:900px;margin:0 auto;padding:20px;line-height:1.7;color:#222}
+h1{text-align:center;color:#1a237e;border-bottom:3px solid #1a237e;padding-bottom:10px;font-size:22px}
+h2{color:#0d47a1;border-left:4px solid #0d47a1;padding-left:12px;margin-top:30px;font-size:18px}
+h3{color:#1565c0;margin-top:20px;font-size:15px}
+.subtitle{text-align:center;color:#555;font-size:14px;margin-bottom:30px}
+.q{margin:12px 0;padding:12px 15px;background:#f8f9fa;border-radius:6px;border-left:4px solid #1976d2}
+.q strong{color:#1565c0}
+.ans{color:#2e7d32;font-weight:600;display:block;margin-top:8px;padding:8px;background:#e8f5e9;border-radius:4px}
+.explanation{color:#333;margin-top:8px;padding:10px;background:#fff8e1;border-radius:4px;border-left:3px solid #f9a825;font-size:13px}
+.rule-box{background:#e3f2fd;padding:15px;border-radius:8px;margin:15px 0;border:1px solid #90caf9}
+.rule-box h4{color:#0d47a1;margin:0 0 8px 0}
+.rule-box ul{margin:5px 0;padding-left:20px}
+.rule-box li{margin:4px 0}
+.venn{text-align:center;margin:10px 0;padding:10px;background:#fafafa;border-radius:6px;font-family:monospace;font-size:13px}
+.section-info{background:#e3f2fd;padding:12px;border-radius:6px;margin:10px 0;font-size:12px}
+.toc{background:#fafafa;padding:20px;border-radius:8px;margin:20px 0}
+.toc a{color:#1565c0;text-decoration:none;display:block;padding:3px 0}
+.toc a:hover{text-decoration:underline}
+.footer{text-align:center;margin-top:40px;padding:20px;border-top:2px solid #1a237e;color:#555;font-size:11px}
+.btn-print{position:fixed;top:10px;right:10px;background:#1565c0;color:#fff;border:none;padding:10px 20px;border-radius:4px;cursor:pointer;font-size:13px}
+.btn-print:hover{background:#0d47a1}
+.important{background:#ffebee;border-left-color:#c62828;padding:12px 15px}
+.tip{background:#e8f5e9;padding:12px;border-radius:6px;margin:10px 0;border-left:4px solid #2e7d32}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+th{background:#1565c0;color:#fff;padding:8px;text-align:center}
+td{padding:8px;border:1px solid #ddd;text-align:center}
+tr:nth-child(even){background:#f5f5f5}
+</style>
+</head>
+<body>
+<button class="btn-print no-print" onclick="window.print()">&#128424; Save as PDF</button>
+
+<h1>Syllogisms - Complete Guide<br>with Detailed Solutions</h1>
+<div class="subtitle">Master Syllogisms for TSPSC AEE Paper-I<br>Theory + Rules + 100 Solved Examples with Venn Diagrams<br><em>From Basic to Advanced Level</em></div>
+
+<div class="toc">
+<h3>Table of Contents</h3>
+<a href="#part1">Part 1: Theory &amp; Rules (Must Learn First)</a>
+<a href="#part2">Part 2: Types of Statements</a>
+<a href="#part3">Part 3: Venn Diagram Method (Easiest Method)</a>
+<a href="#part4">Part 4: Rules for Drawing Conclusions</a>
+<a href="#part5">Part 5: Solved Examples - Basic (Q.1-30)</a>
+<a href="#part6">Part 6: Solved Examples - Intermediate (Q.31-60)</a>
+<a href="#part7">Part 7: Solved Examples - Advanced (Q.61-80)</a>
+<a href="#part8">Part 8: "Either-Or" Cases (Q.81-90)</a>
+<a href="#part9">Part 9: Possibility-Based Questions (Q.91-100)</a>
+<a href="#part10">Part 10: Quick Tricks &amp; Summary Table</a>
+</div>
+
+<h2 id="part1">Part 1: Theory &amp; Rules (Must Learn First)</h2>
+
+<div class="rule-box">
+<h4>What is a Syllogism?</h4>
+<p>A syllogism is a logical argument where a <strong>conclusion</strong> is drawn from two given <strong>statements (premises)</strong>. You must assume the statements to be TRUE even if they seem absurd in real life.</p>
+<p><strong>Example:</strong><br>
+Statement 1: All cats are dogs.<br>
+Statement 2: All dogs are birds.<br>
+Conclusion: All cats are birds. ✅ (This FOLLOWS even though it's absurd in reality)</p>
+</div>
+
+<div class="rule-box">
+<h4>⚠️ Golden Rule</h4>
+<p><strong>NEVER use common sense or real-world knowledge. Only use the given statements to draw conclusions.</strong></p>
+<p>If the statement says "All men are women" — accept it as TRUE and work with it!</p>
+</div>
+
+<h2 id="part2">Part 2: Types of Statements</h2>
+
+<div class="rule-box">
+<h4>Four Types of Categorical Statements</h4>
+<table>
+<tr><th>Type</th><th>Format</th><th>Example</th><th>Symbol</th><th>What it means</th></tr>
+<tr><td><strong>A</strong> (Universal Affirmative)</td><td>All S are P</td><td>All dogs are animals</td><td>A</td><td>Every single S is inside P</td></tr>
+<tr><td><strong>E</strong> (Universal Negative)</td><td>No S is P</td><td>No cat is a dog</td><td>E</td><td>S and P have ZERO overlap</td></tr>
+<tr><td><strong>I</strong> (Particular Affirmative)</td><td>Some S are P</td><td>Some boys are tall</td><td>I</td><td>At least one S is also P</td></tr>
+<tr><td><strong>O</strong> (Particular Negative)</td><td>Some S are not P</td><td>Some birds are not eagles</td><td>O</td><td>At least one S is outside P</td></tr>
+</table>
+</div>
+
+<div class="tip">
+<strong>💡 Memory Trick:</strong> Remember <strong>A E I O</strong> from the words <strong>A</strong>ff<strong>I</strong>rmo (I affirm) and n<strong>E</strong>g<strong>O</strong> (I deny).<br>
+A &amp; I = Affirmative (positive statements)<br>
+E &amp; O = Negative (negative statements)<br>
+A &amp; E = Universal (talks about ALL/NONE)<br>
+I &amp; O = Particular (talks about SOME)
+</div>
+
+<h2 id="part3">Part 3: Venn Diagram Method (Easiest Method)</h2>
+
+<div class="rule-box">
+<h4>How to Draw Venn Diagrams for Each Statement Type</h4>
+
+<p><strong>Type A: "All S are P"</strong></p>
+<div class="venn">
+    ┌─────────────────┐
+    │        P        │
+    │   ┌────────┐    │
+    │   │   S    │    │
+    │   └────────┘    │
+    └─────────────────┘
+S is COMPLETELY inside P
+(All S are P, but NOT all P are S)
+</div>
+
+<p><strong>Type E: "No S is P"</strong></p>
+<div class="venn">
+┌────────┐    ┌────────┐
+│   S    │    │   P    │
+└────────┘    └────────┘
+S and P are COMPLETELY separate
+(No overlap at all)
+</div>
+
+<p><strong>Type I: "Some S are P"</strong></p>
+<div class="venn">
+   ┌────────┐
+   │   S  ┌─┼────────┐
+   │      │X│   P    │
+   └──────┼─┘        │
+          └───────────┘
+S and P PARTIALLY overlap
+(X = the "some" that are both S and P)
+</div>
+
+<p><strong>Type O: "Some S are not P"</strong></p>
+<div class="venn">
+   ┌────────────┐
+   │   S   ┌───┼────────┐
+   │  ★    │   │   P    │
+   └───────┼───┘        │
+           └────────────┘
+★ = Some S that are NOT in P
+(At least one S exists outside P)
+</div>
+</div>
+
+<div class="tip">
+<strong>💡 Key Insight:</strong> "Some S are P" also means "Some P are S" (this is called <strong>conversion</strong>). But "All S are P" does NOT mean "All P are S"!
+</div>
+
+<h2 id="part4">Part 4: Rules for Drawing Conclusions</h2>
+
+<div class="rule-box">
+<h4>🔑 Master Rules (MEMORIZE THESE)</h4>
+<ul>
+<li><strong>Rule 1:</strong> All + All = All (A + A = A)</li>
+<li><strong>Rule 2:</strong> All + No = No (A + E = E)</li>
+<li><strong>Rule 3:</strong> All + Some = No conclusion about "All" (A + I = No definite conclusion)</li>
+<li><strong>Rule 4:</strong> Some + All = Some (I + A = I)</li>
+<li><strong>Rule 5:</strong> Some + No = Some...not (I + E = O)</li>
+<li><strong>Rule 6:</strong> Some + Some = No conclusion (I + I = No conclusion)</li>
+<li><strong>Rule 7:</strong> No + No = No conclusion (E + E = No conclusion)</li>
+<li><strong>Rule 8:</strong> No + All = Some...not (REVERSE) (E + A = O reverse)</li>
+</ul>
+</div>
+
+<div class="rule-box">
+<h4>�� Conversion Rules (What you can derive from a single statement)</h4>
+<table>
+<tr><th>Given Statement</th><th>Valid Conversion</th><th>Invalid Conversion</th></tr>
+<tr><td>All S are P (A)</td><td>Some P are S (I) ✅</td><td>All P are S ❌</td></tr>
+<tr><td>No S is P (E)</td><td>No P is S (E) ✅</td><td>—</td></tr>
+<tr><td>Some S are P (I)</td><td>Some P are S (I) ✅</td><td>All S are P ❌</td></tr>
+<tr><td>Some S are not P (O)</td><td>CANNOT be converted ❌</td><td>Some P are not S ❌</td></tr>
+</table>
+</div>
+
+<div class="important q">
+<strong>⚠️ CRITICAL RULE:</strong> "Some S are not P" CANNOT be converted to "Some P are not S". This is the #1 mistake students make!<br><br>
+<strong>Example:</strong> "Some dogs are not black" does NOT mean "Some black things are not dogs"
+</div>
+
+<div class="rule-box">
+<h4>🔑 Complementary Pairs (Either-Or Rule)</h4>
+<p>If neither of two conclusions follows individually, check if they form a <strong>complementary pair</strong>:</p>
+<ul>
+<li><strong>I and O are complementary</strong>: "Some S are P" AND "Some S are not P"</li>
+<li><strong>A and O are complementary</strong>: "All S are P" AND "Some S are not P"</li>
+<li><strong>E and I are complementary</strong>: "No S is P" AND "Some S are P"</li>
+</ul>
+<p>If two conclusions are complementary → <strong>"Either I or II follows"</strong></p>
+</div>
+
+<div class="page-break"></div>
+<h2 id="part1">Part 1: Theory &amp; Rules (Must Learn First)</h2>
+
+<div class="rule-box">
+<h4>What is a Syllogism?</h4>
+<p>A syllogism is a logical argument where a <strong>conclusion</strong> is drawn from two given <strong>statements (premises)</strong>. You must decide if the conclusion logically follows from the statements, regardless of whether the statements are true in real life.</p>
+<p><strong>Key Rule:</strong> Accept the statements as TRUE even if they seem absurd. Only check if the conclusion LOGICALLY follows.</p>
+</div>
+
+<div class="rule-box">
+<h4>The 4 Types of Statements (AEIO)</h4>
+<table>
+<tr><th>Type</th><th>Format</th><th>Example</th><th>Symbol</th><th>Meaning</th></tr>
+<tr><td><strong>A</strong> (Universal Affirmative)</td><td>All S are P</td><td>All dogs are animals</td><td>A</td><td>Entire S is inside P</td></tr>
+<tr><td><strong>E</strong> (Universal Negative)</td><td>No S is P</td><td>No cat is a dog</td><td>E</td><td>S and P don't overlap at all</td></tr>
+<tr><td><strong>I</strong> (Particular Affirmative)</td><td>Some S are P</td><td>Some birds are parrots</td><td>I</td><td>At least part of S overlaps P</td></tr>
+<tr><td><strong>O</strong> (Particular Negative)</td><td>Some S are not P</td><td>Some students are not boys</td><td>O</td><td>At least part of S is outside P</td></tr>
+</table>
+</div>
+
+<div class="tip">
+<strong>Memory Trick:</strong> Remember <strong>A E I O</strong> from the words "<strong>A</strong>ff<strong>I</strong>rmo" (I affirm) and "n<strong>E</strong>g<strong>O</strong>" (I deny).<br>
+A = All (positive), E = No (negative), I = Some (positive), O = Some...not (negative)
+</div>
+
+<h2 id="part2">Part 2: Types of Statements - Deep Understanding</h2>
+
+<div class="rule-box">
+<h4>Type A: "All S are P"</h4>
+<ul>
+<li>Means: Every single S is definitely a P</li>
+<li>Venn Diagram: Circle S is COMPLETELY inside circle P</li>
+<li><strong>Does NOT mean:</strong> All P are S (P can be bigger than S)</li>
+<li>Example: "All roses are flowers" → Every rose is a flower, but not every flower is a rose</li>
+</ul>
+<div class="venn">
+    ┌─────────────P─────────────┐
+    │                           │
+    │      ┌─────S─────┐       │
+    │      │           │       │
+    │      │  (All S)  │       │
+    │      └───────────┘       │
+    │                           │
+    └───────────────────────────┘
+</div>
+</div>
+
+<div class="rule-box">
+<h4>Type E: "No S is P"</h4>
+<ul>
+<li>Means: Not even one S is a P (zero overlap)</li>
+<li>Venn Diagram: Circle S and Circle P are COMPLETELY SEPARATE</li>
+<li><strong>Also means:</strong> No P is S (this is called conversion - E converts to E)</li>
+<li>Example: "No fish is a bird" → also means "No bird is a fish"</li>
+</ul>
+<div class="venn">
+    ┌─────S─────┐     ┌─────P─────┐
+    │           │     │           │
+    │           │     │           │
+    │           │     │           │
+    └───────────┘     └───────────┘
+       (No overlap at all)
+</div>
+</div>
+
+<div class="rule-box">
+<h4>Type I: "Some S are P"</h4>
+<ul>
+<li>Means: At least one S is a P (could be one, many, or even all)</li>
+<li>Venn Diagram: Circles S and P PARTIALLY OVERLAP</li>
+<li><strong>Also means:</strong> Some P are S (I converts to I)</li>
+<li><strong>Important:</strong> "Some" means "at least one" — it could be all!</li>
+<li>Example: "Some students are girls" → Some girls are students</li>
+</ul>
+<div class="venn">
+    ┌─────S─────┐
+    │       ┌───┼───P─────┐
+    │       │///│         │
+    │       │///│(overlap)│
+    │       └───┼─────────┘
+    └───────────┘
+</div>
+</div>
+
+<div class="rule-box">
+<h4>Type O: "Some S are not P"</h4>
+<ul>
+<li>Means: At least one S exists that is NOT a P</li>
+<li>Venn Diagram: Part of S is OUTSIDE P</li>
+<li><strong>Cannot be converted!</strong> "Some S are not P" does NOT mean "Some P are not S"</li>
+<li>Example: "Some animals are not dogs" does NOT mean "Some dogs are not animals"</li>
+</ul>
+<div class="venn">
+    ┌─────S─────┐
+    │ (this part│──┐
+    │  is NOT P)│  │───P─────┐
+    │           │  │         │
+    └───────────┘  └─────────┘
+</div>
+</div>
+
+<h2 id="part3">Part 3: Venn Diagram Method (Easiest Method)</h2>
+
+<div class="rule-box">
+<h4>Step-by-Step Method to Solve ANY Syllogism:</h4>
+<ol>
+<li><strong>Read both statements carefully</strong></li>
+<li><strong>Draw Venn Diagrams</strong> for the statements (draw ALL possible diagrams)</li>
+<li><strong>Check each conclusion</strong> against ALL possible diagrams</li>
+<li><strong>A conclusion follows ONLY if it is true in ALL possible diagrams</strong></li>
+<li>If a conclusion fails in even ONE possible diagram, it does NOT follow</li>
+</ol>
+</div>
+
+<div class="tip">
+<strong>Golden Rule:</strong> A conclusion is VALID only if there is NO possible Venn diagram where it fails. If you can draw even one diagram where the conclusion is false, then it DOES NOT FOLLOW.
+</div>
+
+<h2 id="part4">Part 4: Rules for Drawing Conclusions</h2>
+
+<div class="rule-box">
+<h4>Conversion Rules (What you can directly derive):</h4>
+<table>
+<tr><th>Given Statement</th><th>Valid Conversion</th><th>Invalid Conversion</th></tr>
+<tr><td>All S are P (A)</td><td>Some P are S (I)</td><td>All P are S ✗</td></tr>
+<tr><td>No S is P (E)</td><td>No P is S (E)<br>Some S are not P (O)<br>Some P are not S (O)</td><td>—</td></tr>
+<tr><td>Some S are P (I)</td><td>Some P are S (I)</td><td>All S are P ✗</td></tr>
+<tr><td>Some S are not P (O)</td><td>NOTHING can be derived</td><td>Some P are not S ✗</td></tr>
+</table>
+</div>
+
+<div class="rule-box">
+<h4>Combination Rules (When combining two statements):</h4>
+<table>
+<tr><th>Statement 1</th><th>Statement 2</th><th>Conclusion</th><th>Example</th></tr>
+<tr><td>A + A</td><td>All M are P + All S are M</td><td>All S are P (A)</td><td>All dogs are animals + All puppies are dogs → All puppies are animals</td></tr>
+<tr><td>A + E</td><td>All S are M + No M is P</td><td>No S is P (E)</td><td>All cats are pets + No pet is wild → No cat is wild</td></tr>
+<tr><td>E + A</td><td>No M is P + All S are M</td><td>No S is P (E)</td><td>No bird is mammal + All sparrows are birds → No sparrow is mammal</td></tr>
+<tr><td>E + I</td><td>No M is P + Some S are M</td><td>Some S are not P (O)</td><td>No car is bike + Some vehicles are cars → Some vehicles are not bikes</td></tr>
+<tr><td>I + A</td><td>Some S are M + All M are P</td><td>Some S are P (I)</td><td>Some boys are students + All students are smart → Some boys are smart</td></tr>
+<tr><td>I + E</td><td>Some S are M + No M is P</td><td>Some S are not P (O)</td><td>Some fruits are mangoes + No mango is sour → Some fruits are not sour</td></tr>
+</table>
+</div>
+
+<div class="important q">
+<strong>⚠️ NO CONCLUSION possible when:</strong>
+<ul>
+<li><strong>I + I</strong> → Two particular statements give NO conclusion</li>
+<li><strong>O + O</strong> → Two negative particular statements give NO conclusion</li>
+<li><strong>O + anything</strong> → O as first statement usually gives NO conclusion</li>
+<li><strong>I + O</strong> → No valid conclusion</li>
+<li><strong>Two particular statements</strong> → Generally NO conclusion</li>
+<li><strong>Two negative statements</strong> → Generally NO conclusion</li>
+</ul>
+</div>
+
+<div class="rule-box">
+<h4>The 3 Golden Rules to Remember:</h4>
+<ol>
+<li><strong>At least one statement must be Universal</strong> (A or E) to get a conclusion</li>
+<li><strong>At least one statement must be Affirmative</strong> (A or I) to get a conclusion</li>
+<li><strong>If one premise is Particular, conclusion must be Particular</strong> (I or O)</li>
+<li><strong>If one premise is Negative, conclusion must be Negative</strong> (E or O)</li>
+</ol>
+</div>
+
+<div class="page-break"></div>
+<h2 id="part1">Part 1: Theory &amp; Rules (Must Learn First)</h2>
+
+<div class="rule-box">
+<h4>What is a Syllogism?</h4>
+<p>A syllogism is a logical argument where a <strong>conclusion</strong> is drawn from two given <strong>statements (premises)</strong>. You must decide if the conclusion logically follows from the statements — <strong>even if it contradicts common sense</strong>.</p>
+<p><strong>Golden Rule:</strong> Accept the statements as TRUE even if they seem absurd. Only check if the conclusion LOGICALLY follows.</p>
+</div>
+
+<div class="rule-box">
+<h4>Four Types of Statements (AEIO)</h4>
+<table>
+<tr><th>Type</th><th>Format</th><th>Example</th><th>Meaning</th></tr>
+<tr><td><strong>A</strong> (Universal Affirmative)</td><td>All S are P</td><td>All dogs are animals</td><td>Entire S is inside P</td></tr>
+<tr><td><strong>E</strong> (Universal Negative)</td><td>No S is P</td><td>No cat is a dog</td><td>S and P don't overlap at all</td></tr>
+<tr><td><strong>I</strong> (Particular Affirmative)</td><td>Some S are P</td><td>Some birds are parrots</td><td>At least one S is P (could be all)</td></tr>
+<tr><td><strong>O</strong> (Particular Negative)</td><td>Some S are not P</td><td>Some students are not boys</td><td>At least one S is outside P</td></tr>
+</table>
+</div>
+
+<div class="tip">
+<strong>KEY INSIGHT:</strong> "Some" means "at least one" — it could be one, many, or even ALL. So "Some A are B" does NOT mean "Some A are not B" automatically!
+</div>
+
+<h2 id="part2">Part 2: Types of Statements - Deep Understanding</h2>
+
+<div class="rule-box">
+<h4>Type A: "All S are P"</h4>
+<ul>
+<li>Every single S is inside P</li>
+<li>But NOT every P needs to be S</li>
+<li>Example: "All cats are animals" — every cat is an animal, but not every animal is a cat</li>
+<li><strong>Venn Diagram:</strong> Circle S is completely inside circle P</li>
+</ul>
+<div class="venn">
+    ┌─────────────P─────────────┐
+    │                           │
+    │      ┌────S────┐          │
+    │      │ xxxxxxx │          │
+    │      └─────────┘          │
+    │                           │
+    └───────────────────────────┘
+</div>
+</div>
+
+<div class="rule-box">
+<h4>Type E: "No S is P"</h4>
+<ul>
+<li>S and P are completely separate — zero overlap</li>
+<li>Example: "No fish is a bird" — no fish can be a bird</li>
+<li><strong>Venn Diagram:</strong> Two separate circles with no overlap</li>
+</ul>
+<div class="venn">
+    ┌────S────┐     ┌────P────┐
+    │ xxxxxxx │     │ yyyyyyy │
+    └─────────┘     └─────────┘
+    (completely separate)
+</div>
+</div>
+
+<div class="rule-box">
+<h4>Type I: "Some S are P"</h4>
+<ul>
+<li>At least one S is also P (partial overlap)</li>
+<li>Could be 1, could be many, could even be ALL</li>
+<li>Example: "Some students are girls"</li>
+<li><strong>Venn Diagram:</strong> Two overlapping circles</li>
+</ul>
+<div class="venn">
+    ┌────S────┐
+    │ xxxx┌───┼───P────┐
+    │ xxxx│ OO│ yyyyyyy │
+    └─────┼───┘         │
+          └─────────────┘
+    (OO = overlap area = "Some S that are P")
+</div>
+</div>
+
+<div class="rule-box">
+<h4>Type O: "Some S are not P"</h4>
+<ul>
+<li>At least one S is outside P</li>
+<li>Example: "Some birds are not parrots" (like crows, eagles)</li>
+<li><strong>Venn Diagram:</strong> Part of S is outside P</li>
+</ul>
+<div class="venn">
+    ┌────S────┐
+    │ THIS┌───┼───P────┐
+    │ PART│   │         │
+    └─────┼───┘         │
+    (outside)└──────────┘
+    "THIS PART" = Some S that are NOT P
+</div>
+</div>
+
+<h2 id="part3">Part 3: Venn Diagram Method (Easiest Method)</h2>
+
+<div class="rule-box">
+<h4>Step-by-Step Method:</h4>
+<ol>
+<li><strong>Read both statements carefully</strong></li>
+<li><strong>Draw Venn diagrams</strong> for the statements</li>
+<li><strong>Check ALL possible diagrams</strong> — if a conclusion is true in ALL possible diagrams, it follows</li>
+<li><strong>If even ONE diagram makes the conclusion false</strong>, it does NOT follow</li>
+</ol>
+</div>
+
+<div class="important q">
+<strong>CRITICAL RULE:</strong> A conclusion follows ONLY if it is true in EVERY possible Venn diagram. If you can draw even one valid diagram where the conclusion fails, then it DOES NOT FOLLOW.
+</div>
+
+<h2 id="part4">Part 4: Rules for Drawing Conclusions</h2>
+
+<div class="rule-box">
+<h4>Conversion Rules (What you can directly derive):</h4>
+<table>
+<tr><th>Given Statement</th><th>Valid Conversion</th><th>Invalid Conversion</th></tr>
+<tr><td>All A are B (Type A)</td><td>Some B are A (Type I)</td><td>All B are A ✗</td></tr>
+<tr><td>No A is B (Type E)</td><td>No B is A (Type E)</td><td>—</td></tr>
+<tr><td>Some A are B (Type I)</td><td>Some B are A (Type I)</td><td>All B are A ✗</td></tr>
+<tr><td>Some A are not B (Type O)</td><td>NOTHING can be converted</td><td>Some B are not A ✗</td></tr>
+</table>
+</div>
+
+<div class="tip">
+<strong>REMEMBER:</strong>
+<br>• "All A are B" → You CAN say "Some B are A" but CANNOT say "All B are A"
+<br>• "No A is B" → You CAN say "No B is A" (reversible)
+<br>• "Some A are B" → You CAN say "Some B are A" (reversible)
+<br>• "Some A are not B" → You CANNOT convert this at all!
+</div>
+
+<div class="rule-box">
+<h4>Combination Rules (Two statements → Conclusion):</h4>
+<table>
+<tr><th>Statement 1</th><th>Statement 2</th><th>Conclusion</th></tr>
+<tr><td>All A are B</td><td>All B are C</td><td><strong>All A are C</strong> ✓</td></tr>
+<tr><td>All A are B</td><td>No B is C</td><td><strong>No A is C</strong> ✓</td></tr>
+<tr><td>All A are B</td><td>Some B are C</td><td><strong>No valid conclusion about A and C</strong></td></tr>
+<tr><td>Some A are B</td><td>All B are C</td><td><strong>Some A are C</strong> ✓</td></tr>
+<tr><td>Some A are B</td><td>No B is C</td><td><strong>Some A are not C</strong> ✓</td></tr>
+<tr><td>Some A are B</td><td>Some B are C</td><td><strong>No valid conclusion</strong> ✗</td></tr>
+<tr><td>No A is B</td><td>All B are C</td><td><strong>Some C are not A</strong> ✓</td></tr>
+<tr><td>No A is B</td><td>Some B are C</td><td><strong>Some C are not A</strong> ✓</td></tr>
+<tr><td>No A is B</td><td>No B is C</td><td><strong>No valid conclusion</strong> ✗</td></tr>
+</table>
+</div>
+
+<div class="important q">
+<strong>TWO GOLDEN RULES that give NO conclusion:</strong>
+<br>1. <strong>Two Particular statements</strong> (I+I, I+O, O+I, O+O) → NO conclusion possible
+<br>2. <strong>Two Negative statements</strong> (E+E, E+O, O+E, O+O) → NO conclusion possible
+</div>
+
+
+<div class="page-break"></div>
+<h2 id="part1">Part 1: Theory &amp; Rules (MUST LEARN FIRST)</h2>
+
+<div class="rule-box">
+<h4>What is a Syllogism?</h4>
+<p>A syllogism is a logical argument where a <strong>conclusion</strong> is drawn from two given <strong>statements (premises)</strong>. You must ONLY use the information given - no common sense or real-world knowledge!</p>
+<p><strong>Key Rule:</strong> Treat every statement as 100% true, even if it sounds absurd in real life. "All cats are dogs" - accept it as true!</p>
+</div>
+
+<h2 id="part2">Part 2: Four Types of Statements</h2>
+
+<div class="rule-box">
+<h4>The 4 Standard Forms (MEMORIZE THESE)</h4>
+<table>
+<tr><th>Type</th><th>Form</th><th>Example</th><th>Symbol</th><th>Venn Diagram</th></tr>
+<tr><td><strong>A</strong> (Universal Affirmative)</td><td>All S are P</td><td>All dogs are animals</td><td>A</td><td>S circle completely inside P circle</td></tr>
+<tr><td><strong>E</strong> (Universal Negative)</td><td>No S is P</td><td>No cat is a dog</td><td>E</td><td>S and P circles completely separate</td></tr>
+<tr><td><strong>I</strong> (Particular Affirmative)</td><td>Some S are P</td><td>Some boys are tall</td><td>I</td><td>S and P circles partially overlap</td></tr>
+<tr><td><strong>O</strong> (Particular Negative)</td><td>Some S are not P</td><td>Some birds are not eagles</td><td>O</td><td>Part of S is outside P</td></tr>
+</table>
+</div>
+
+<div class="tip">
+<strong>Memory Trick:</strong> A, E, I, O come from Latin words:<br>
+<strong>A</strong>ffirmo (I affirm) → A (All...are) and I (Some...are)<br>
+<strong>N</strong>ego (I deny) → E (No...is) and O (Some...are not)
+</div>
+
+<h2 id="part3">Part 3: Venn Diagram Method (EASIEST METHOD)</h2>
+
+<div class="rule-box">
+<h4>How to Solve Using Venn Diagrams (Step by Step)</h4>
+<ol>
+<li><strong>Step 1:</strong> Read both statements carefully</li>
+<li><strong>Step 2:</strong> Draw circles for each term</li>
+<li><strong>Step 3:</strong> Draw ALL POSSIBLE Venn diagrams that satisfy BOTH statements</li>
+<li><strong>Step 4:</strong> A conclusion is VALID only if it is true in ALL possible diagrams</li>
+<li><strong>Step 5:</strong> If a conclusion fails in even ONE diagram, it DOES NOT FOLLOW</li>
+</ol>
+</div>
+
+<div class="rule-box">
+<h4>Venn Diagram Representations:</h4>
+<p><strong>"All A are B"</strong> → Draw A circle INSIDE B circle (A is subset of B)</p>
+<div class="venn">
+    ┌─────────────B─────────────┐
+    │      ┌───A───┐            │
+    │      │       │            │
+    │      └───────┘            │
+    └───────────────────────────┘
+</div>
+<p><strong>"No A is B"</strong> → Draw A and B circles COMPLETELY SEPARATE</p>
+<div class="venn">
+    ┌───A───┐     ┌───B───┐
+    │       │     │       │
+    └───────┘     └───────┘
+</div>
+<p><strong>"Some A are B"</strong> → Draw A and B circles OVERLAPPING</p>
+<div class="venn">
+    ┌───A───┐
+    │    ┌──┼──B───┐
+    │    │XX│      │
+    └────┼──┘      │
+         └─────────┘
+    (XX = common area = Some A that are B)
+</div>
+<p><strong>"Some A are not B"</strong> → Part of A is OUTSIDE B</p>
+<div class="venn">
+    ┌───A───┐
+    │ YY ┌──┼──B───┐
+    │    │  │      │
+    └────┼──┘      │
+         └─────────┘
+    (YY = part of A that is NOT B)
+</div>
+</div>
+
+<h2 id="part4">Part 4: Rules for Drawing Conclusions</h2>
+
+<div class="rule-box">
+<h4>GOLDEN RULES (Memorize These!)</h4>
+<ul>
+<li><strong>Rule 1:</strong> "All A are B" does NOT mean "All B are A" (A is inside B, but B may be bigger)</li>
+<li><strong>Rule 2:</strong> "All A are B" DOES mean "Some B are A" (since A is inside B, at least some B are definitely A)</li>
+<li><strong>Rule 3:</strong> "Some A are B" also means "Some B are A" (overlap works both ways)</li>
+<li><strong>Rule 4:</strong> "No A is B" also means "No B is A" (separation works both ways)</li>
+<li><strong>Rule 5:</strong> From two PARTICULAR statements (Some...Some), NO conclusion can be drawn</li>
+<li><strong>Rule 6:</strong> From two NEGATIVE statements (No...No or No...Some not), NO conclusion can be drawn</li>
+<li><strong>Rule 7:</strong> If one premise is particular, conclusion must be particular</li>
+<li><strong>Rule 8:</strong> If one premise is negative, conclusion must be negative</li>
+</ul>
+</div>
+
+<div class="rule-box">
+<h4>Conversion Rules (What you can derive from a single statement)</h4>
+<table>
+<tr><th>Given Statement</th><th>Valid Conversion</th><th>Invalid Conversion</th></tr>
+<tr><td>All A are B (Type A)</td><td>Some B are A (Type I)</td><td>All B are A ✗</td></tr>
+<tr><td>No A is B (Type E)</td><td>No B is A (Type E)</td><td>-</td></tr>
+<tr><td>Some A are B (Type I)</td><td>Some B are A (Type I)</td><td>All A are B ✗</td></tr>
+<tr><td>Some A are not B (Type O)</td><td>CANNOT be converted</td><td>Some B are not A ✗</td></tr>
+</table>
+</div>
+
+<div class="important q">
+<strong>⚠️ MOST COMMON MISTAKE:</strong><br>
+"All A are B" does NOT mean "All B are A"<br>
+Example: "All dogs are animals" → TRUE. But "All animals are dogs" → FALSE!<br>
+However: "All dogs are animals" → "Some animals are dogs" → TRUE!
+</div>
+
+
+<div class="page-break"></div>
+<h2 id="part1">Part 1: Theory &amp; Rules (Must Learn First)</h2>
+
+<div class="rule-box">
+<h4>What is a Syllogism?</h4>
+<p>A syllogism is a logical argument where a <strong>conclusion</strong> is drawn from two given <strong>statements (premises)</strong>. You must assume the statements are TRUE even if they contradict reality.</p>
+<p><strong>Example:</strong><br>
+Statement 1: All cats are dogs.<br>
+Statement 2: All dogs are birds.<br>
+Conclusion: All cats are birds. ✅ (This FOLLOWS logically)</p>
+</div>
+
+<div class="rule-box">
+<h4>The 4 Types of Statements (MUST MEMORIZE)</h4>
+<table>
+<tr><th>Type</th><th>Format</th><th>Example</th><th>Symbol</th><th>Venn Diagram</th></tr>
+<tr><td><strong>A</strong> (Universal Affirmative)</td><td>All S are P</td><td>All dogs are animals</td><td>A</td><td>S circle inside P circle</td></tr>
+<tr><td><strong>E</strong> (Universal Negative)</td><td>No S is P</td><td>No cat is a dog</td><td>E</td><td>S and P circles separate (no overlap)</td></tr>
+<tr><td><strong>I</strong> (Particular Affirmative)</td><td>Some S are P</td><td>Some boys are tall</td><td>I</td><td>S and P circles partially overlap</td></tr>
+<tr><td><strong>O</strong> (Particular Negative)</td><td>Some S are not P</td><td>Some birds are not parrots</td><td>O</td><td>Part of S is outside P</td></tr>
+</table>
+</div>
+
+<div class="rule-box">
+<h4>Golden Rules of Syllogism</h4>
+<ul>
+<li><strong>Rule 1:</strong> All + All = All (A + A = A)</li>
+<li><strong>Rule 2:</strong> All + No = No (A + E = E)</li>
+<li><strong>Rule 3:</strong> All + Some = No conclusion</li>
+<li><strong>Rule 4:</strong> Some + All = Some (I + A = I)</li>
+<li><strong>Rule 5:</strong> Some + No = Some Not (I + E = O)</li>
+<li><strong>Rule 6:</strong> Some + Some = No conclusion</li>
+<li><strong>Rule 7:</strong> No + No = No conclusion</li>
+<li><strong>Rule 8:</strong> No + All = Some Not (reverse) (E + A = O reverse)</li>
+</ul>
+</div>
+
+<div class="tip">
+<strong>KEY TRICK:</strong> Two Particular statements (Some...Some) NEVER give a valid conclusion.<br>
+Two Negative statements (No...No) NEVER give a valid conclusion.<br>
+<strong>Remember:</strong> "Particular + Particular = Nothing" and "Negative + Negative = Nothing"
+</div>
+
+<h2 id="part2">Part 2: Types of Statements - Detailed</h2>
+
+<div class="rule-box">
+<h4>Understanding "All S are P" (Type A)</h4>
+<p>When we say "All S are P", it means:</p>
+<ul>
+<li>Every single S is definitely a P</li>
+<li>But NOT all P need to be S (some P may not be S)</li>
+<li><strong>Conversion:</strong> "All S are P" → "Some P are S" ✅ (valid)</li>
+<li><strong>Wrong conversion:</strong> "All S are P" → "All P are S" ❌ (INVALID)</li>
+</ul>
+<div class="venn">
+    ┌─────────────────┐
+    │    P            │
+    │   ┌───────┐    │
+    │   │   S   │    │
+    │   └───────┘    │
+    └─────────────────┘
+  S is completely inside P
+</div>
+</div>
+
+<div class="rule-box">
+<h4>Understanding "No S is P" (Type E)</h4>
+<p>When we say "No S is P", it means:</p>
+<ul>
+<li>There is ZERO overlap between S and P</li>
+<li>No member of S belongs to P, and no member of P belongs to S</li>
+<li><strong>Conversion:</strong> "No S is P" → "No P is S" ✅ (valid - reversible!)</li>
+</ul>
+<div class="venn">
+    ┌───────┐    ┌───────┐
+    │   S   │    │   P   │
+    └───────┘    └───────┘
+  S and P are completely separate
+</div>
+</div>
+
+<div class="rule-box">
+<h4>Understanding "Some S are P" (Type I)</h4>
+<p>When we say "Some S are P", it means:</p>
+<ul>
+<li>At least one S is a P (could be 1, could be all - minimum 1)</li>
+<li><strong>Conversion:</strong> "Some S are P" → "Some P are S" ✅ (valid - reversible!)</li>
+<li><strong>"Some" means AT LEAST ONE</strong></li>
+</ul>
+<div class="venn">
+    ┌───────────┐
+    │   S  ┌───┼────────┐
+    │      │ X │   P    │
+    │      └───┼────────┘
+    └───────────┘
+  X = the "some" that are both S and P
+</div>
+</div>
+
+<div class="rule-box">
+<h4>Understanding "Some S are not P" (Type O)</h4>
+<p>When we say "Some S are not P", it means:</p>
+<ul>
+<li>At least one S exists that is NOT a P</li>
+<li><strong>Conversion:</strong> "Some S are not P" → CANNOT be converted ❌</li>
+<li>This is the ONLY type that cannot be simply converted</li>
+</ul>
+<div class="venn">
+    ┌───────────┐
+    │ X  S ┌───┼────────┐
+    │      │   │   P    │
+    │      └───┼────────┘
+    └───────────┘
+  X = the "some" that are S but NOT P
+</div>
+</div>
+
+<h2 id="part3">Part 3: Venn Diagram Method (Easiest Method)</h2>
+
+<div class="rule-box">
+<h4>Step-by-Step Method to Solve ANY Syllogism</h4>
+<ol>
+<li><strong>Step 1:</strong> Read both statements carefully</li>
+<li><strong>Step 2:</strong> Draw Venn diagrams for Statement 1</li>
+<li><strong>Step 3:</strong> Add Statement 2 to the SAME diagram</li>
+<li><strong>Step 4:</strong> Check if the conclusion is TRUE in ALL possible diagrams</li>
+<li><strong>Step 5:</strong> A conclusion is valid ONLY if it is true in EVERY possible diagram</li>
+</ol>
+<p><strong>⚠️ IMPORTANT:</strong> If even ONE possible diagram makes the conclusion false, the conclusion DOES NOT FOLLOW.</p>
+</div>
+
+<h2 id="part4">Part 4: Rules for Drawing Conclusions</h2>
+
+<div class="rule-box">
+<h4>Complete Combination Table</h4>
+<table>
+<tr><th>Statement 1</th><th>Statement 2</th><th>Conclusion</th><th>Example</th></tr>
+<tr><td>All A are B</td><td>All B are C</td><td><strong>All A are C</strong></td><td>All dogs are animals + All animals are living → All dogs are living</td></tr>
+<tr><td>All A are B</td><td>No B is C</td><td><strong>No A is C</strong></td><td>All dogs are pets + No pet is wild → No dog is wild</td></tr>
+<tr><td>All A are B</td><td>Some B are C</td><td><strong>No conclusion for A-C</strong></td><td>All dogs are animals + Some animals are cats → ? (can't say about dogs-cats)</td></tr>
+<tr><td>Some A are B</td><td>All B are C</td><td><strong>Some A are C</strong></td><td>Some boys are players + All players are fit → Some boys are fit</td></tr>
+<tr><td>Some A are B</td><td>No B is C</td><td><strong>Some A are not C</strong></td><td>Some boys are players + No player is lazy → Some boys are not lazy</td></tr>
+<tr><td>Some A are B</td><td>Some B are C</td><td><strong>No conclusion</strong></td><td>Some A are B + Some B are C → Nothing definite</td></tr>
+<tr><td>No A is B</td><td>All B are C</td><td><strong>Some C are not A</strong></td><td>No dog is cat + All cats are animals → Some animals are not dogs</td></tr>
+<tr><td>No A is B</td><td>Some B are C</td><td><strong>Some C are not A</strong></td><td>No dog is cat + Some cats are black → Some black things are not dogs</td></tr>
+<tr><td>No A is B</td><td>No B is C</td><td><strong>No conclusion</strong></td><td>Two negatives = no conclusion</td></tr>
+</table>
+</div>
+
+<div class="page-break"></div>
+<h2 id="part5">Part 5: Solved Examples - Basic (Q.1-30)</h2>
+
+<div class="q"><strong>Q.1.</strong> Statements: All roses are flowers. All flowers are beautiful.<br>Conclusions: I. All roses are beautiful. II. Some beautiful things are roses.
+<span class="ans">Ans: BOTH I and II follow</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• "All roses are flowers" + "All flowers are beautiful" → All + All = All → <strong>All roses are beautiful</strong> ✅ (Conclusion I follows)<br>
+• Since "All roses are beautiful" is true, we can convert: <strong>Some beautiful things are roses</strong> ✅ (Conclusion II follows)<br>
+• Venn: Roses ⊂ Flowers ⊂ Beautiful (nested circles)</div></div>
+
+<div class="q"><strong>Q.2.</strong> Statements: All dogs are animals. All animals are living beings.<br>Conclusions: I. All dogs are living beings. II. All living beings are dogs.
+<span class="ans">Ans: Only Conclusion I follows</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• All dogs are animals + All animals are living beings → All + All = All → <strong>All dogs are living beings</strong> ✅<br>
+• "All living beings are dogs" ❌ - WRONG! Living beings is the BIGGER set. Not all living beings are dogs (cats, birds etc. are also living beings)<br>
+• <strong>Remember:</strong> "All A are B" does NOT mean "All B are A"</div></div>
+
+<div class="q"><strong>Q.3.</strong> Statements: No cat is a dog. All dogs are faithful.<br>Conclusions: I. No cat is faithful. II. Some faithful are not cats.
+<span class="ans">Ans: Only Conclusion II follows</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• "No cat is dog" + "All dogs are faithful" → No + All = Some...not (reverse)<br>
+• Can we say "No cat is faithful"? ❌ NO! Cats might be faithful through some other route. We only know dogs are faithful, but other things could also be faithful.<br>
+• "Some faithful are not cats" ✅ YES! Since all dogs are faithful and no cat is a dog, those faithful things that are dogs are definitely not cats.<br>
+• Venn: Cat circle separate from Dog circle; Dog circle inside Faithful circle. Part of Faithful (the dog part) is definitely not Cat.</div></div>
+
+<div class="q"><strong>Q.4.</strong> Statements: Some boys are tall. All tall are strong.<br>Conclusions: I. Some boys are strong. II. All strong are boys.
+<span class="ans">Ans: Only Conclusion I follows</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• "Some boys are tall" + "All tall are strong" → Some + All = Some → <strong>Some boys are strong</strong> ✅<br>
+• "All strong are boys" ❌ - We can't say this. Strong is the bigger set; there could be strong people who are not boys.<br>
+• Rule applied: I + A = I</div></div>
+
+<div class="q"><strong>Q.5.</strong> Statements: Some pens are pencils. Some pencils are erasers.<br>Conclusions: I. Some pens are erasers. II. Some erasers are pens.
+<span class="ans">Ans: NEITHER conclusion follows</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• "Some pens are pencils" + "Some pencils are erasers" → Some + Some = <strong>NO CONCLUSION</strong><br>
+• <strong>KEY RULE:</strong> Two "Some" statements NEVER give a definite conclusion!<br>
+• The pencils that are pens might be DIFFERENT from the pencils that are erasers. There's no guaranteed overlap.<br>
+• Venn: Three circles where Pen-Pencil overlap and Pencil-Eraser overlap, but Pen-Eraser may or may not overlap.</div></div>
+
+<div class="q"><strong>Q.6.</strong> Statements: No man is a woman. No woman is a child.<br>Conclusions: I. No man is a child. II. No child is a man.
+<span class="ans">Ans: NEITHER conclusion follows</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• "No man is woman" + "No woman is child" → No + No = <strong>NO CONCLUSION</strong><br>
+• <strong>KEY RULE:</strong> Two Negative statements NEVER give a definite conclusion!<br>
+• Men could still be children (young boys). The fact that men aren't women and women aren't children doesn't tell us anything about men and children.<br>
+• Venn: Man and Woman are separate; Woman and Child are separate; but Man and Child COULD overlap or not.</div></div>
+
+<div class="q"><strong>Q.7.</strong> Statements: All teachers are educated. Some educated are rich.<br>Conclusions: I. Some teachers are rich. II. Some rich are educated.
+<span class="ans">Ans: Only Conclusion II follows</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• "All teachers are educated" + "Some educated are rich" → All + Some = <strong>No conclusion about teachers-rich</strong><br>
+• "Some teachers are rich" ❌ - The "some educated who are rich" might not include any teachers!<br>
+• "Some rich are educated" ✅ - This is just the conversion of "Some educated are rich" (Some I → Some I, reversible)<br>
+• <strong>Remember:</strong> "Some A are B" always means "Some B are A" too!</div></div>
+
+<div class="q"><strong>Q.8.</strong> Statements: All books are pages. No page is a pen.<br>Conclusions: I. No book is a pen. II. Some pages are books.
+<span class="ans">Ans: BOTH I and II follow</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• "All books are pages" + "No page is pen" → All + No = No → <strong>No book is a pen</strong> ✅<br>
+• "Some pages are books" ✅ - This is conversion of "All books are pages" (All A are B → Some B are A)<br>
+• Rule: A + E = E</div></div>
+
+<div class="q"><strong>Q.9.</strong> Statements: Some cats are dogs. All dogs are animals.<br>Conclusions: I. Some cats are animals. II. All cats are animals.
+<span class="ans">Ans: Only Conclusion I follows</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• "Some cats are dogs" + "All dogs are animals" → Some + All = Some → <strong>Some cats are animals</strong> ✅<br>
+• "All cats are animals" ❌ - We only know SOME cats are dogs (and therefore animals). The remaining cats? We don't know!<br>
+• Rule: I + A = I (not A)</div></div>
+
+<div class="q"><strong>Q.10.</strong> Statements: All mangoes are fruits. Some fruits are sweet.<br>Conclusions: I. Some mangoes are sweet. II. All fruits are mangoes.
+<span class="ans">Ans: NEITHER follows</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• "All mangoes are fruits" + "Some fruits are sweet" → All + Some = <strong>No conclusion about mangoes-sweet</strong><br>
+• The sweet fruits might be oranges, not mangoes! We can't be sure.<br>
+• "All fruits are mangoes" ❌ - Obviously wrong. Mangoes are inside Fruits, not the other way.<br>
+• <strong>TRAP QUESTION:</strong> Many students wrongly pick "Some mangoes are sweet" because it seems logical in real life. But in syllogisms, follow ONLY the rules!</div></div>
+
+<div class="q"><strong>Q.11.</strong> Statements: No bird can swim. Some birds are black.<br>Conclusions: I. Some black things cannot swim. II. No black thing can swim.
+<span class="ans">Ans: Only Conclusion I follows</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• "No bird can swim" + "Some birds are black" → Rearrange: "Some black are birds" + "No bird can swim"<br>
+• Some + No = Some...not → <strong>Some black things cannot swim</strong> ✅<br>
+• "No black thing can swim" ❌ - Only SOME black things are birds. Other black things (like black fish) might swim!<br>
+• Rule: I + E = O</div></div>
+
+<div class="q"><strong>Q.12.</strong> Statements: All politicians are honest. All honest are kind.<br>Conclusions: I. All politicians are kind. II. Some kind are politicians. III. Some honest are politicians.
+<span class="ans">Ans: ALL three follow</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• All politicians are honest + All honest are kind → A + A = A → <strong>All politicians are kind</strong> ✅<br>
+• "Some kind are politicians" ✅ (conversion of "All politicians are kind")<br>
+• "Some honest are politicians" ✅ (conversion of "All politicians are honest")<br>
+• Venn: Politicians ⊂ Honest ⊂ Kind (three nested circles)</div></div>
+
+<div class="q"><strong>Q.13.</strong> Statements: Some doctors are engineers. All engineers are smart.<br>Conclusions: I. Some doctors are smart. II. All smart are engineers.
+<span class="ans">Ans: Only Conclusion I follows</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• Some doctors are engineers + All engineers are smart → I + A = I → <strong>Some doctors are smart</strong> ✅<br>
+• "All smart are engineers" ❌ - Smart is the bigger set. Other people could be smart without being engineers.</div></div>
+
+<div class="q"><strong>Q.14.</strong> Statements: No table is a chair. No chair is a sofa.<br>Conclusions: I. No table is a sofa. II. Some sofas are tables.
+<span class="ans">Ans: NEITHER follows</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• No + No = <strong>NO CONCLUSION</strong> (Two negatives never give conclusion)<br>
+• Tables and sofas have no stated relationship. They COULD overlap or not.<br>
+• Both conclusions are uncertain.</div></div>
+
+<div class="q"><strong>Q.15.</strong> Statements: All cars are vehicles. Some vehicles are red.<br>Conclusions: I. Some cars are red. II. Some red things are vehicles.
+<span class="ans">Ans: Only Conclusion II follows</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• All cars are vehicles + Some vehicles are red → A + I (wrong order for middle term)<br>
+• The "some vehicles that are red" may or may not include cars. So "Some cars are red" ❌<br>
+• "Some red things are vehicles" ✅ - Direct conversion of "Some vehicles are red"<br>
+• <strong>IMPORTANT:</strong> "All A are B" + "Some B are C" gives NO conclusion about A and C!</div></div>
+
+<div class="q"><strong>Q.16.</strong> Statements: All students are hardworking. No hardworking person is lazy.<br>Conclusions: I. No student is lazy. II. Some lazy persons are students.
+<span class="ans">Ans: Only Conclusion I follows</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• All students are hardworking + No hardworking is lazy → A + E = E → <strong>No student is lazy</strong> ✅<br>
+• "Some lazy persons are students" ❌ - If NO student is lazy, then no lazy person can be a student either!</div></div>
+
+<div class="q"><strong>Q.17.</strong> Statements: Some kings are queens. All queens are beautiful.<br>Conclusions: I. Some kings are beautiful. II. All beautiful are queens.
+<span class="ans">Ans: Only Conclusion I follows</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• Some kings are queens + All queens are beautiful → I + A = I → <strong>Some kings are beautiful</strong> ✅<br>
+• "All beautiful are queens" ❌ - Beautiful is bigger set, not all beautiful things need to be queens.</div></div>
+
+<div class="q"><strong>Q.18.</strong> Statements: All apples are red. No red is green.<br>Conclusions: I. No apple is green. II. Some green are apples.
+<span class="ans">Ans: Only Conclusion I follows</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• All apples are red + No red is green → A + E = E → <strong>No apple is green</strong> ✅<br>
+• "Some green are apples" ❌ - Contradicts conclusion I. If no apple is green, no green thing is an apple.</div></div>
+
+<div class="q"><strong>Q.19.</strong> Statements: Some players are singers. All singers are dancers.<br>Conclusions: I. Some players are dancers. II. Some dancers are singers.
+<span class="ans">Ans: BOTH follow</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• Some players are singers + All singers are dancers → I + A = I → <strong>Some players are dancers</strong> ✅<br>
+• "Some dancers are singers" ✅ - Conversion of "All singers are dancers" (All A are B → Some B are A)</div></div>
+
+<div class="q"><strong>Q.20.</strong> Statements: No fish is a bird. All birds can fly.<br>Conclusions: I. No fish can fly. II. Some flying things are not fish.
+<span class="ans">Ans: Only Conclusion II follows</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• "No fish is bird" + "All birds can fly" → E + A = O (reverse) → <strong>Some flying things are not fish</strong> ✅<br>
+• "No fish can fly" ❌ - Fish are not birds, but fish might fly through some other way (flying fish!). We only know birds can fly; we can't say fish definitely can't.<br>
+• Rule: E + A gives "Some C are not A" (not "No A is C")</div></div>
+
+<div class="q"><strong>Q.21.</strong> Statements: All A are B. All B are C. All C are D.<br>Conclusions: I. All A are D. II. All B are D. III. Some D are A.
+<span class="ans">Ans: ALL three follow</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• A ⊂ B ⊂ C ⊂ D (nested sets)<br>
+• All A are D ✅ (chain: A→B→C→D)<br>
+• All B are D ✅ (chain: B→C→D)<br>
+• Some D are A ✅ (conversion of "All A are D")</div></div>
+
+<div class="q"><strong>Q.22.</strong> Statements: Some A are B. No B is C.<br>Conclusions: I. Some A are not C. II. No A is C.
+<span class="ans">Ans: Only Conclusion I follows</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• Some A are B + No B is C → I + E = O → <strong>Some A are not C</strong> ✅<br>
+• "No A is C" ❌ - Only SOME A are B (and those are not C). But other A's might be C!<br>
+• Rule: I + E = O (particular negative), NOT E (universal negative)</div></div>
+
+<div class="q"><strong>Q.23.</strong> Statements: All cups are saucers. Some saucers are plates.<br>Conclusions: I. Some cups are plates. II. Some plates are saucers.
+<span class="ans">Ans: Only Conclusion II follows</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• All cups are saucers + Some saucers are plates → A + I = No conclusion about cups-plates<br>
+• "Some cups are plates" ❌ (the plates-saucers might not include the cup-saucers)<br>
+• "Some plates are saucers" ✅ (simple conversion of "Some saucers are plates")</div></div>
+
+<div class="q"><strong>Q.24.</strong> Statements: No pen is eraser. All erasers are white.<br>Conclusions: I. No pen is white. II. Some white are erasers. III. Some white are not pens.
+<span class="ans">Ans: Conclusions II and III follow</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• No pen is eraser + All erasers are white → E + A = O(reverse) → <strong>Some white are not pens</strong> ✅ (III)<br>
+• "Some white are erasers" ✅ (conversion of "All erasers are white") (II)<br>
+• "No pen is white" ❌ - Pens might be white through some other route! We only know erasers are white and pens aren't erasers.</div></div>
+
+<div class="q"><strong>Q.25.</strong> Statements: All girls are beautiful. Some beautiful are intelligent.<br>Conclusions: I. Some girls are intelligent. II. All beautiful are girls.
+<span class="ans">Ans: NEITHER follows</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• All girls are beautiful + Some beautiful are intelligent → A + I = No conclusion about girls-intelligent<br>
+• "Some girls are intelligent" ❌ - The intelligent-beautiful ones might not be girls!<br>
+• "All beautiful are girls" ❌ - Girls are INSIDE beautiful, not the other way.</div></div>
+
+<div class="q"><strong>Q.26.</strong> Statements: All rivers are waters. No water is dirty.<br>Conclusions: I. No river is dirty. II. Some waters are rivers.
+<span class="ans">Ans: BOTH follow</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• All rivers are waters + No water is dirty → A + E = E → <strong>No river is dirty</strong> ✅<br>
+• "Some waters are rivers" ✅ (conversion of "All rivers are waters")</div></div>
+
+<div class="q"><strong>Q.27.</strong> Statements: Some men are brave. All brave are fighters.<br>Conclusions: I. Some men are fighters. II. All fighters are men. III. Some fighters are brave.
+<span class="ans">Ans: Conclusions I and III follow</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• Some men are brave + All brave are fighters → I + A = I → <strong>Some men are fighters</strong> ✅<br>
+• "All fighters are men" ❌ - Fighters is bigger set<br>
+• "Some fighters are brave" ✅ - Conversion of "All brave are fighters"</div></div>
+
+<div class="q"><strong>Q.28.</strong> Statements: No house is a school. All schools have teachers.<br>Conclusions: I. No house has teachers. II. Some things with teachers are not houses.
+<span class="ans">Ans: Only Conclusion II follows</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• No house is school + All schools have teachers → E + A = O(reverse)<br>
+• → <strong>Some things with teachers are not houses</strong> ✅ (the schools have teachers and schools aren't houses)<br>
+• "No house has teachers" ❌ - Houses might have teachers for other reasons (tuition at home!)</div></div>
+
+<div class="q"><strong>Q.29.</strong> Statements: All laptops are electronic. All electronic need power.<br>Conclusions: I. All laptops need power. II. Some things needing power are laptops. III. Some electronic are laptops.
+<span class="ans">Ans: ALL three follow</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• A + A = A → All laptops need power ✅<br>
+• Conversion of above → Some things needing power are laptops ✅<br>
+• Conversion of "All laptops are electronic" → Some electronic are laptops ✅</div></div>
+
+<div class="q"><strong>Q.30.</strong> Statements: Some fruits are mangoes. Some mangoes are sweet. <br>Conclusions: I. Some fruits are sweet. II. All mangoes are fruits.
+<span class="ans">Ans: NEITHER follows</span>
+<div class="explanation"><strong>Explanation:</strong><br>
+• Some + Some = <strong>NO CONCLUSION</strong><br>
+• The fruits-mangoes and mangoes-sweet might be different sets of mangoes!<br>
+• "All mangoes are fruits" ❌ - Statement only says SOME fruits are mangoes, not all mangoes are fruits.</div></div>
+
+<div class="page-break"></div>
+<h2 id="part1">Part 1: Theory &amp; Rules (Must Learn First)</h2>
+
+<div class="rule-box">
+<h4>What is a Syllogism?</h4>
+<p>A syllogism is a logical argument where a <strong>conclusion</strong> is drawn from two given <strong>statements (premises)</strong>. You must assume the statements are TRUE even if they contradict real life.</p>
+<p><strong>Example:</strong><br>
+Statement 1: All cats are dogs.<br>
+Statement 2: All dogs are birds.<br>
+Conclusion: All cats are birds. ✅ (Valid)</p>
+</div>
+
+<div class="rule-box">
+<h4>The 4 Types of Statements (MUST MEMORIZE)</h4>
+<table>
+<tr><th>Type</th><th>Format</th><th>Example</th><th>Symbol</th></tr>
+<tr><td><strong>Universal Affirmative</strong></td><td>All A are B</td><td>All dogs are animals</td><td>A-type</td></tr>
+<tr><td><strong>Universal Negative</strong></td><td>No A is B</td><td>No cat is a dog</td><td>E-type</td></tr>
+<tr><td><strong>Particular Affirmative</strong></td><td>Some A are B</td><td>Some boys are tall</td><td>I-type</td></tr>
+<tr><td><strong>Particular Negative</strong></td><td>Some A are not B</td><td>Some girls are not dancers</td><td>O-type</td></tr>
+</table>
+</div>
+
+<div class="rule-box">
+<h4>Golden Rules of Syllogism</h4>
+<ul>
+<li><strong>Rule 1:</strong> "All A are B" does NOT mean "All B are A" (only "Some B are A" follows)</li>
+<li><strong>Rule 2:</strong> "Some A are B" also means "Some B are A" (conversion is valid)</li>
+<li><strong>Rule 3:</strong> "No A is B" also means "No B is A" (conversion is valid)</li>
+<li><strong>Rule 4:</strong> "Some A are not B" does NOT mean "Some B are not A"</li>
+<li><strong>Rule 5:</strong> From two Particular statements, NO conclusion follows</li>
+<li><strong>Rule 6:</strong> From two Negative statements, NO conclusion follows</li>
+<li><strong>Rule 7:</strong> If one premise is Particular, conclusion must be Particular</li>
+<li><strong>Rule 8:</strong> If one premise is Negative, conclusion must be Negative</li>
+</ul>
+</div>
+
+<h2 id="part2">Part 2: Types of Statements - How to Identify</h2>
+
+<div class="rule-box">
+<h4>Recognizing Statement Types in Exams</h4>
+<table>
+<tr><th>Keywords</th><th>Type</th><th>Meaning</th></tr>
+<tr><td>All, Every, Each, Any</td><td>Universal Affirmative (A)</td><td>All A are B</td></tr>
+<tr><td>No, None, Not a single, Never</td><td>Universal Negative (E)</td><td>No A is B</td></tr>
+<tr><td>Some, A few, Many, Most, Several</td><td>Particular Affirmative (I)</td><td>Some A are B</td></tr>
+<tr><td>Some...not, All...not, Not all</td><td>Particular Negative (O)</td><td>Some A are not B</td></tr>
+</table>
+<p><strong>IMPORTANT:</strong> "All A are not B" = "Some A are not B" (O-type, NOT E-type!)</p>
+</div>
+
+<h2 id="part3">Part 3: Venn Diagram Method (Easiest Method)</h2>
+
+<div class="rule-box">
+<h4>How to Draw Venn Diagrams for Each Statement Type</h4>
+
+<p><strong>1. "All A are B"</strong> → Draw circle A completely INSIDE circle B</p>
+<div class="venn">
+    ┌─────────────────┐
+    │    B            │
+    │   ┌─────┐      │
+    │   │  A  │      │
+    │   └─────┘      │
+    └─────────────────┘
+A is fully inside B. All of A is part of B.
+</div>
+
+<p><strong>2. "No A is B"</strong> → Draw circles A and B completely SEPARATE (no overlap)</p>
+<div class="venn">
+  ┌─────┐     ┌─────┐
+  │  A  │     │  B  │
+  └─────┘     └─────┘
+No overlap at all. Nothing common.
+</div>
+
+<p><strong>3. "Some A are B"</strong> → Draw circles A and B OVERLAPPING (partial)</p>
+<div class="venn">
+    ┌─────┐
+    │  A  ├──┐
+    └──┬──┘  │ B
+       │  ┌──┘
+       └──┘
+Partial overlap. Some elements are common.
+</div>
+
+<p><strong>4. "Some A are not B"</strong> → Part of A is OUTSIDE B</p>
+<div class="venn">
+    ┌─────┐
+    │  A  ├──┐
+    └──┬──┘  │ B
+       │  ┌──┘
+       └──┘
+Part of A does not overlap with B.
+(At least one A exists that is not B)
+</div>
+</div>
+
+<div class="tip">
+<strong>KEY TIP:</strong> For "All A are B", draw ALL possible diagrams. Sometimes A=B (both circles same size, overlapping completely). The conclusion must be true in ALL possible diagrams to be valid.
+</div>
+
+<h2 id="part4">Part 4: Rules for Drawing Conclusions</h2>
+
+<div class="rule-box">
+<h4>Conclusion Table (MEMORIZE THIS!)</h4>
+<table>
+<tr><th>Statement 1</th><th>Statement 2</th><th>Conclusion</th></tr>
+<tr><td>All A are B (A-type)</td><td>All B are C (A-type)</td><td><strong>All A are C</strong> ✅</td></tr>
+<tr><td>All A are B (A-type)</td><td>No B is C (E-type)</td><td><strong>No A is C</strong> ✅</td></tr>
+<tr><td>All A are B (A-type)</td><td>Some B are C (I-type)</td><td><strong>No conclusion</strong> ❌</td></tr>
+<tr><td>All A are B (A-type)</td><td>Some B are not C (O-type)</td><td><strong>No conclusion</strong> ❌</td></tr>
+<tr><td>Some A are B (I-type)</td><td>All B are C (A-type)</td><td><strong>Some A are C</strong> ✅</td></tr>
+<tr><td>Some A are B (I-type)</td><td>No B is C (E-type)</td><td><strong>Some A are not C</strong> ✅</td></tr>
+<tr><td>Some A are B (I-type)</td><td>Some B are C (I-type)</td><td><strong>No conclusion</strong> ❌</td></tr>
+<tr><td>No A is B (E-type)</td><td>All B are C (A-type)</td><td><strong>Some C are not A</strong> ✅</td></tr>
+<tr><td>No A is B (E-type)</td><td>Some B are C (I-type)</td><td><strong>Some C are not A</strong> ✅</td></tr>
+<tr><td>No A is B (E-type)</td><td>No B is C (E-type)</td><td><strong>No conclusion</strong> ❌</td></tr>
+</table>
+</div>
+
+<div class="rule-box">
+<h4>Immediate Inferences (From Single Statement)</h4>
+<table>
+<tr><th>Given Statement</th><th>Valid Conclusion</th><th>Invalid Conclusion</th></tr>
+<tr><td>All A are B</td><td>Some B are A ✅<br>Some A are B ✅</td><td>All B are A ❌</td></tr>
+<tr><td>No A is B</td><td>No B is A ✅<br>Some A are not B ✅<br>Some B are not A ✅</td><td>-</td></tr>
+<tr><td>Some A are B</td><td>Some B are A ✅</td><td>All A are B ❌<br>All B are A ❌</td></tr>
+<tr><td>Some A are not B</td><td>NOTHING definite</td><td>Some B are not A ❌</td></tr>
+</table>
+</div>
+
+
+<div class="page-break"></div>
+<h2 id="part1">Part 1: Theory &amp; Rules (MUST LEARN FIRST)</h2>
+
+<div class="rule-box">
+<h4>What is a Syllogism?</h4>
+<p>A syllogism is a logical argument where a conclusion is drawn from two given statements (premises). You must determine if the conclusion logically follows from the statements - NOT based on real-world truth.</p>
+<p><strong>Key Rule:</strong> Forget real-world knowledge. Only use what is given in the statements. If "All cats are dogs" is given, accept it as true!</p>
+</div>
+
+<h2 id="part2">Part 2: Four Types of Statements</h2>
+
+<div class="rule-box">
+<h4>The 4 Standard Forms (Remember: A, E, I, O)</h4>
+<table>
+<tr><th>Type</th><th>Form</th><th>Example</th><th>Venn Diagram</th></tr>
+<tr><td><strong>A</strong> (Universal Affirmative)</td><td>All A are B</td><td>All dogs are animals</td><td>Circle A completely inside Circle B</td></tr>
+<tr><td><strong>E</strong> (Universal Negative)</td><td>No A is B</td><td>No cat is a dog</td><td>Circle A and Circle B completely separate</td></tr>
+<tr><td><strong>I</strong> (Particular Affirmative)</td><td>Some A are B</td><td>Some students are girls</td><td>Circle A and Circle B partially overlap</td></tr>
+<tr><td><strong>O</strong> (Particular Negative)</td><td>Some A are not B</td><td>Some birds are not parrots</td><td>Part of Circle A is outside Circle B</td></tr>
+</table>
+</div>
+
+<div class="rule-box">
+<h4>GOLDEN RULES to Remember:</h4>
+<ul>
+<li><strong>"All A are B"</strong> does NOT mean "All B are A" (A is inside B, but B may be bigger)</li>
+<li><strong>"All A are B"</strong> automatically means "Some A are B" and "Some B are A"</li>
+<li><strong>"Some A are B"</strong> automatically means "Some B are A" (conversion is valid)</li>
+<li><strong>"No A is B"</strong> automatically means "No B is A" (conversion is valid)</li>
+<li><strong>"Some A are not B"</strong> CANNOT be converted to "Some B are not A"</li>
+<li>Two particular (Some) statements give NO definite conclusion</li>
+<li>Two negative (No/Not) statements give NO definite conclusion</li>
+</ul>
+</div>
+
+<h2 id="part3">Part 3: Venn Diagram Method (EASIEST METHOD)</h2>
+
+<div class="rule-box">
+<h4>How to Solve Using Venn Diagrams:</h4>
+<ol>
+<li><strong>Step 1:</strong> Draw circles for each term based on the statements</li>
+<li><strong>Step 2:</strong> "All A are B" = Draw A completely inside B</li>
+<li><strong>Step 3:</strong> "No A is B" = Draw A and B completely separate</li>
+<li><strong>Step 4:</strong> "Some A are B" = Draw A and B overlapping</li>
+<li><strong>Step 5:</strong> Check if the conclusion is TRUE in ALL possible diagrams</li>
+<li><strong>Step 6:</strong> If conclusion fails in even ONE possible diagram, it DOES NOT FOLLOW</li>
+</ol>
+</div>
+
+<div class="tip">
+<strong>PRO TIP:</strong> For "Some A are B", draw MULTIPLE possible diagrams (partial overlap, complete overlap, one inside other) and check if conclusion holds in ALL cases.
+</div>
+
+<h2 id="part4">Part 4: Rules for Drawing Conclusions</h2>
+
+<div class="rule-box">
+<h4>Conclusion Table (MEMORIZE THIS):</h4>
+<table>
+<tr><th>Statement 1</th><th>Statement 2</th><th>Valid Conclusion</th></tr>
+<tr><td>All A are B</td><td>All B are C</td><td><strong>All A are C</strong> + Some C are A + Some A are C</td></tr>
+<tr><td>All A are B</td><td>No B is C</td><td><strong>No A is C</strong> + No C is A</td></tr>
+<tr><td>All A are B</td><td>Some B are C</td><td><strong>No valid conclusion</strong> about A and C</td></tr>
+<tr><td>Some A are B</td><td>All B are C</td><td><strong>Some A are C</strong> + Some C are A</td></tr>
+<tr><td>Some A are B</td><td>No B is C</td><td><strong>Some A are not C</strong></td></tr>
+<tr><td>Some A are B</td><td>Some B are C</td><td><strong>No valid conclusion</strong></td></tr>
+<tr><td>No A is B</td><td>All B are C</td><td><strong>Some C are not A</strong> (only this!)</td></tr>
+<tr><td>No A is B</td><td>Some B are C</td><td><strong>Some C are not A</strong></td></tr>
+<tr><td>No A is B</td><td>No B is C</td><td><strong>No valid conclusion</strong></td></tr>
+</table>
+</div>
+
+<div class="important q">
+<strong>CRITICAL RULE:</strong> The middle term (the term common to both statements) must be "distributed" (used in universal sense) at least once. If both statements use "Some" for the middle term, NO conclusion is possible!
+</div>
+
+<h2 id="part5">Part 5: Solved Examples - Basic (Q.1-30)</h2>
+
+<div class="q">
+<strong>Q.1.</strong> Statements: All dogs are animals. All animals are living beings.<br>
+Conclusions: I. All dogs are living beings. II. Some living beings are dogs.
+<span class="ans">Ans: Both I and II follow</span>
+<div class="explanation">
+<strong>Method:</strong> Draw Dog circle inside Animal circle, Animal circle inside Living Being circle.<br>
+<strong>Logic:</strong> All A are B + All B are C = All A are C (Type A+A = A)<br>
+Dog ⊂ Animal ⊂ Living Being → So Dog ⊂ Living Being (Conclusion I: TRUE)<br>
+Since All dogs are living beings → Some living beings are dogs (Conclusion II: TRUE - reverse of universal gives particular)<br>
+<strong>Answer: Both follow ✓</strong>
+</div>
+</div>
+
+<div class="q">
+<strong>Q.2.</strong> Statements: All cats are dogs. All dogs are birds.<br>
+Conclusions: I. All cats are birds. II. All birds are cats.
+<span class="ans">Ans: Only Conclusion I follows</span>
+<div class="explanation">
+<strong>Method:</strong> Cat ⊂ Dog ⊂ Bird<br>
+<strong>I. All cats are birds:</strong> Cat is inside Dog, Dog is inside Bird → Cat is inside Bird → TRUE ✓<br>
+<strong>II. All birds are cats:</strong> Bird is the BIGGEST circle. Cat is smallest. Bird is NOT inside Cat → FALSE ✗<br>
+<strong>Remember:</strong> "All A are B" does NOT mean "All B are A"!<br>
+<strong>Answer: Only I follows ✓</strong>
+</div>
+</div>
+
+<div class="q">
+<strong>Q.3.</strong> Statements: No man is a woman. All women are beautiful.<br>
+Conclusions: I. No man is beautiful. II. Some beautiful are not men.
+<span class="ans">Ans: Only Conclusion II follows</span>
+<div class="explanation">
+<strong>Method:</strong> Man and Woman are separate circles. Woman is inside Beautiful.<br>
+<strong>I. No man is beautiful:</strong> Man is separate from Woman, but Beautiful is BIGGER than Woman. Man COULD overlap with Beautiful (the part outside Woman). So this is NOT necessarily true → FALSE ✗<br>
+<strong>II. Some beautiful are not men:</strong> Women are beautiful and Women are NOT men. So at least those beautiful things (women) are not men → TRUE ✓<br>
+<strong>Rule Applied:</strong> No A is B + All B are C = Some C are not A<br>
+<strong>Answer: Only II follows ✓</strong>
+</div>
+</div>
+
+<div class="q">
+<strong>Q.4.</strong> Statements: Some books are pens. All pens are pencils.<br>
+Conclusions: I. Some books are pencils. II. All pencils are books.
+<span class="ans">Ans: Only Conclusion I follows</span>
+<div class="explanation">
+<strong>Method:</strong> Book and Pen overlap. Pen is inside Pencil.<br>
+<strong>I. Some books are pencils:</strong> The books that are pens → those pens are inside pencils → so those books are also pencils → TRUE ✓<br>
+<strong>II. All pencils are books:</strong> Pencil is bigger than Pen. Books only overlap with Pen (partially). Pencil has parts that are NOT books → FALSE ✗<br>
+<strong>Rule Applied:</strong> Some A are B + All B are C = Some A are C<br>
+<strong>Answer: Only I follows ✓</strong>
+</div>
+</div>
+
+<div class="q">
+<strong>Q.5.</strong> Statements: All roses are flowers. Some flowers are red.<br>
+Conclusions: I. Some roses are red. II. Some red are flowers.
+<span class="ans">Ans: Only Conclusion II follows</span>
+<div class="explanation">
+<strong>Method:</strong> Rose is inside Flower. Red overlaps with Flower.<br>
+<strong>I. Some roses are red:</strong> Red overlaps with Flower, but the overlap might be in the part of Flower that is OUTSIDE Rose. We can't be sure → FALSE ✗<br>
+<strong>II. Some red are flowers:</strong> "Some flowers are red" can be directly converted to "Some red are flowers" (I-type conversion is valid) → TRUE ✓<br>
+<strong>Key Learning:</strong> All A are B + Some B are C = NO conclusion about A and C!<br>
+<strong>Answer: Only II follows ✓</strong>
+</div>
+</div>
+
+<div class="q">
+<strong>Q.6.</strong> Statements: No fish is a bird. No bird is a horse.<br>
+Conclusions: I. No fish is a horse. II. Some horses are not fish.
+<span class="ans">Ans: Neither conclusion follows</span>
+<div class="explanation">
+<strong>Method:</strong> Fish and Bird are separate. Bird and Horse are separate. But Fish and Horse COULD overlap or be separate - we don't know!<br>
+<strong>Rule:</strong> Two negative statements (E+E) give NO valid conclusion.<br>
+<strong>I. No fish is a horse:</strong> Possible but not certain (fish and horse could overlap) → FALSE ✗<br>
+<strong>II. Some horses are not fish:</strong> Not necessarily derivable → FALSE ✗<br>
+<strong>Answer: Neither follows ✓</strong>
+</div>
+</div>
+
+<div class="q">
+<strong>Q.7.</strong> Statements: Some teachers are doctors. Some doctors are engineers.<br>
+Conclusions: I. Some teachers are engineers. II. Some engineers are doctors.
+<span class="ans">Ans: Only Conclusion II follows</span>
+<div class="explanation">
+<strong>Method:</strong> Teacher overlaps Doctor. Doctor overlaps Engineer.<br>
+<strong>I. Some teachers are engineers:</strong> The overlap of Teacher-Doctor and Doctor-Engineer might be in DIFFERENT parts of Doctor. No guarantee → FALSE ✗<br>
+<strong>II. Some engineers are doctors:</strong> Direct conversion of "Some doctors are engineers" → TRUE ✓<br>
+<strong>Rule:</strong> I + I (two particular affirmatives) = No conclusion about the extreme terms. But conversion of given statement is always valid.<br>
+<strong>Answer: Only II follows ✓</strong>
+</div>
+</div>
+
+<div class="q">
+<strong>Q.8.</strong> Statements: All boys are students. No student is a girl.<br>
+Conclusions: I. No boy is a girl. II. Some girls are not students.
+<span class="ans">Ans: Only Conclusion I follows</span>
+<div class="explanation">
+<strong>Method:</strong> Boy is inside Student. Student and Girl are completely separate.<br>
+<strong>I. No boy is a girl:</strong> Boy is inside Student. Student has NO overlap with Girl. So Boy also has NO overlap with Girl → TRUE ✓<br>
+<strong>II. Some girls are not students:</strong> "No student is a girl" means they're completely separate. This means ALL girls are not students (stronger statement). "Some girls are not students" seems true but... actually from "No A is B" we get "No B is A" which means no girl is a student. "Some girls are not students" IS true (if no girl is student, then certainly some girls are not students). → Actually TRUE ✓<br>
+<strong>Wait - Revised:</strong> "No student is a girl" = "No girl is a student" → This means ALL girls are not students → "Some girls are not students" is TRUE ✓<br>
+<strong>Answer: Both I and II follow ✓</strong>
+</div>
+</div>
+
+<div class="q">
+<strong>Q.9.</strong> Statements: All mangoes are fruits. Some fruits are sweet.<br>
+Conclusions: I. Some mangoes are sweet. II. Some sweet are fruits.
+<span class="ans">Ans: Only Conclusion II follows</span>
+<div class="explanation">
+<strong>Method:</strong> Mango ⊂ Fruit. Sweet overlaps Fruit.<br>
+<strong>I. Some mangoes are sweet:</strong> Sweet overlaps Fruit, but maybe only the non-mango part of Fruit → Can't be sure → FALSE ✗<br>
+<strong>II. Some sweet are fruits:</strong> Conversion of "Some fruits are sweet" → TRUE ✓<br>
+<strong>Rule:</strong> A + I = No conclusion (All A are B + Some B are C = no conclusion about A and C)<br>
+<strong>Answer: Only II follows ✓</strong>
+</div>
+</div>
+
+<div class="q">
+<strong>Q.10.</strong> Statements: All politicians are honest. All honest are fair.<br>
+Conclusions: I. Some fair are politicians. II. All politicians are fair. III. Some honest are politicians.
+<span class="ans">Ans: All three conclusions follow</span>
+<div class="explanation">
+<strong>Method:</strong> Politician ⊂ Honest ⊂ Fair<br>
+<strong>I. Some fair are politicians:</strong> Politicians are inside Fair, so some part of Fair contains Politicians → TRUE ✓<br>
+<strong>II. All politicians are fair:</strong> Politician ⊂ Honest ⊂ Fair, so Politician ⊂ Fair → TRUE ✓<br>
+<strong>III. Some honest are politicians:</strong> All politicians are honest → Some honest are politicians (reverse) → TRUE ✓<br>
+<strong>Answer: All three follow ✓</strong>
+</div>
+</div>
