@@ -1,4 +1,4 @@
-// ========== GOOGLE SHEETS BACKEND CONFIG ==========
+﻿// ========== GOOGLE SHEETS BACKEND CONFIG ==========
 // Set this URL after deploying the Google Apps Script as a Web App
 // Leave empty to use localStorage only (offline mode)
 let SHEET_API_URL = ''; // e.g., 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec'
@@ -77,27 +77,27 @@ async function syncFromCloud() {
 
 // ========== ORG DATA ==========
 const ORG = {
-  'agasarad': { name: 'Sarad Agarwal', title: 'Manager, TPM', level: 6, isMgr: true, mgr: null, directs: ['shoyaba', 'jorrigal', 'kumarshu', 'bhrgar', 'sidhanp', 'duraiv', 'girisada', 'sylimm', 'nidhivya', 'prtbht'] },
-  'shoyaba': { name: 'Shoyab Ahamed', title: 'Support Eng Manager', level: 5, isMgr: true, mgr: 'agasarad', directs: ['hmmuttum', 'musavaru', 'bhayush', 'ngowthh', 'snaidus', 'nsskv', 'jyothigr'] },
-  'jorrigal': { name: 'Karthik Jorrigal', title: 'Manager II, Program Mgmt', level: 5, isMgr: true, mgr: 'agasarad', directs: ['yohannjo', 'meghamav', 'abhanwad', 'kprasanj', 'chikbal', 'musaddm', 'thotteja', 'vjchilla', 'valavoju'] },
-  'kumarshu': { name: 'Shubham Kumar', title: 'Manager II, Prgm Mgmt', level: 5, isMgr: true, mgr: 'agasarad', directs: ['aggannam', 'mssowmya', 'jonnac', 'ypreksha', 'noosuraj', 'mheshpm', 'kgorapal', 'shreevi', 'gosang', 'cheedel', 'rsameerk', 'rmvineet'] },
-  'bhrgar': { name: 'Bhargavi Raghavendran', title: 'QA Manager', level: 6, isMgr: true, mgr: 'agasarad', directs: ['prathysr', 'muthindh', 'dvadakat', 'vaischa', 'shreejsj', 'urvenkat', 'ramsais', 'megsb', 'hadhug'] },
-  'aggannam': { name: 'Akhila Gannamraju', title: 'Manager II, Prod Compliance', level: 5, isMgr: true, mgr: 'kumarshu', directs: ['muqeemah', 'syesule', 'ketiredd', 'sharkoth', 'rundevak', 'ahmshaiq', 'vijaupot', 'sudaveda', 'vankithe'] },
-  'sidhanp': { name: 'Priyanka Sidhani', title: 'Program Manager II', level: 5, isMgr: false, mgr: 'agasarad', directs: [] },
+  'agasarad': { name: 'Sarad Agarwal', title: 'Manager, TPM', level: 6, isMgr: true, mgr: 'jaysell', directs: ['shoyaba', 'jorrigal', 'sidhanp', 'duraiv', 'kumarshu', 'girisada', 'sylimm', 'nidhivya', 'bhrgar', 'prtbht'] },
+  'shoyaba': { name: 'Shoyab Ahamed', title: 'Support Engineering Manager', level: 5, isMgr: true, mgr: 'agasarad', directs: ['hmmuttum', 'musavaru', 'bhayush', 'ngowthh', 'snaidus', 'nsskv', 'jyothigr', 'ruthrag'] },
+  'jorrigal': { name: 'Karthik Jorrigal', title: 'Manager II, Program Mgmt, MCE', level: 5, isMgr: true, mgr: 'agasarad', directs: ['yohannjo', 'meghamav', 'abhanwad', 'kprasanj', 'chikbal', 'musaddm', 'thotteja', 'vjchilla', 'valavoju'] },
+  'kumarshu': { name: 'Shubham Kumar', title: 'Manager II, Prgm Mgmt', level: 5, isMgr: true, mgr: 'agasarad', directs: ['mssowmya', 'jonnac', 'aggannam', 'ypreksha', 'noosuraj', 'mheshpm', 'kgorapal', 'shreevi', 'gosang', 'cheedel', 'rsameerk', 'rmvineet'] },
+  'bhrgar': { name: 'Bhargavi Raghavendran', title: 'Quality Assurance Manager', level: 6, isMgr: true, mgr: 'agasarad', directs: ['prathysr', 'muthindh', 'dvadakat', 'ketiredd', 'vaischa', 'shreejsj', 'urvenkat', 'ramsais', 'megsb', 'hadhug'] },
+  'aggannam': { name: 'Akhila Gannamraju', title: 'Manager II, Prod Compliance', level: 5, isMgr: true, mgr: 'kumarshu', directs: ['muqeemah', 'syesule', 'sharkoth', 'rundevak', 'ahmshaiq', 'vijaupot', 'sudaveda', 'vankithe'] },
+  'sidhanp': { name: 'Priyanka Sidhani', title: 'Program Manager II, SALSA', level: 5, isMgr: false, mgr: 'agasarad', directs: [] },
   'duraiv': { name: 'Venkatesh Durai', title: 'Sr. Program Manager', level: 6, isMgr: false, mgr: 'agasarad', directs: [] },
-  'girisada': { name: 'Giridhar Saday', title: 'System Dev Engineer', level: 5, isMgr: false, mgr: 'agasarad', directs: [] },
-  'sylimm': { name: 'Syed Rashid Ali', title: 'Program Manager', level: 5, isMgr: false, mgr: 'agasarad', directs: [] },
+  'girisada': { name: 'GIRIDHAR SADAY', title: 'System Development Engineer', level: 5, isMgr: false, mgr: 'agasarad', directs: [] },
+  'sylimm': { name: 'Syed Rashid Ali', title: 'Program Manager, Listings', level: 5, isMgr: false, mgr: 'agasarad', directs: [] },
   'nidhivya': { name: 'Nidhi Vyas', title: 'Program Manager II', level: 5, isMgr: false, mgr: 'agasarad', directs: [] },
-  'prtbht': { name: 'Pratham Bhat', title: 'Manager, Program Mgmt', level: 6, isMgr: false, mgr: 'agasarad', directs: [] },
-  'muqeemah': { name: 'Ahmed Abdul Muqeem', title: 'Catalog Specialist', level: 3, mgr: 'aggannam', directs: [] },
-  'syesule': { name: 'Syed Suleman', title: 'Prod Compliance Spec', level: 4, mgr: 'aggannam', directs: [] },
-  'ketiredd': { name: 'Kowshik Reddy', title: 'Catalog Specialist', level: 3, mgr: 'aggannam', directs: [] },
-  'sharkoth': { name: 'Sharan Kotha', title: 'Catalog Specialist', level: 3, mgr: 'aggannam', directs: [] },
-  'rundevak': { name: 'Deva Krishna Babu', title: 'Sr. Prod Compliance', level: 3, mgr: 'aggannam', directs: [] },
-  'ahmshaiq': { name: 'Shaik Abdul Ahmed', title: 'Prod Compliance Spec', level: 4, mgr: 'aggannam', directs: [] },
-  'vijaupot': { name: 'Vijay Rajan P', title: 'Product Compliance Spec', level: 4, mgr: 'aggannam', directs: [] },
-  'sudaveda': { name: 'Veda Vyas S', title: 'Sr. Prod Compliance', level: 3, mgr: 'aggannam', directs: [] },
-  'vankithe': { name: 'Ankitha Vyas', title: 'Catalog Specialist', level: 3, mgr: 'aggannam', directs: [] },
+  'prtbht': { name: 'Pratham Bhat', title: 'Manager, Program Management', level: 6, isMgr: false, mgr: 'agasarad', directs: [] },
+  'muqeemah': { name: 'Ahmed Abdul Muqeem', title: 'Catalog Spc', level: 3, isMgr: false, mgr: 'aggannam', directs: [] },
+  'syesule': { name: 'Syed Suleman', title: 'Prod Compliance Specialist', level: 4, isMgr: false, mgr: 'aggannam', directs: [] },
+  'ketiredd': { name: 'Kowshik Reddy Ketireddy', title: 'Catalog Spc', level: 3, isMgr: false, mgr: 'bhrgar', directs: [] },
+  'sharkoth': { name: 'SHARAN KOTHA', title: 'Catalog Spc', level: 3, isMgr: false, mgr: 'aggannam', directs: [] },
+  'rundevak': { name: 'Deva Krishna Babu Rudra', title: 'Sr. Prod. Compliance Associate', level: 3, isMgr: false, mgr: 'aggannam', directs: [] },
+  'ahmshaiq': { name: 'SHAIK ABDUL AHMED', title: 'Prod Compliance Specialist', level: 4, isMgr: false, mgr: 'aggannam', directs: [] },
+  'vijaupot': { name: 'Vijay Rajan P', title: 'Product Compliance Specialist', level: 4, isMgr: false, mgr: 'aggannam', directs: [] },
+  'sudaveda': { name: 'Veda Vyas Sudarsanam', title: 'Sr. Prod. Compliance Associate', level: 3, isMgr: false, mgr: 'aggannam', directs: [] },
+  'vankithe': { name: 'Ankitha Vyas', title: 'Catalog Spc', level: 3, isMgr: false, mgr: 'aggannam', directs: [] },
   'meghamav': { name: 'Megha Bhusani', title: 'Manager II, Risk', level: 5, isMgr: true, mgr: 'jorrigal', directs: ['sjjamwal', 'jhprakas', 'apakalap', 'afnas', 'ishratbq'] },
   'kprasanj': { name: 'Prasanjeet Kar', title: 'Manager II, Risk Mngmt', level: 5, isMgr: true, mgr: 'jorrigal', directs: ['prabhanu', 'rishap', 'anjanvya', 'abhindas', 'shreeru', 'rosunews', 'dutshirs'] },
   'yohannjo': { name: 'Yohann Joseph', title: 'Team Lead, SxVx - SQ', level: 4, isMgr: true, mgr: 'jorrigal', directs: ['kalavags', 'mithea', 'thonongi', 'dachetha', 'anuragys', 'karnatij'] },
@@ -155,7 +155,7 @@ const ORG = {
   'shravkal': { name: 'Shravkal', title: 'Direct Report', level: 3, mgr: 'kgorapal', directs: [] },
   'wgummare': { name: 'Wgummare', title: 'Direct Report', level: 3, mgr: 'kgorapal', directs: [] },
   'egodispr': { name: 'Egodispr', title: 'Direct Report', level: 3, mgr: 'kgorapal', directs: [] },
-  'gvatsala': { name: 'Vatsal Gupta', title: 'Catalog Specialist', level: 3, mgr: 'aggannam', directs: [] },
+  'gvatsala': { name: 'VATSAL GUPTA', title: 'Catalog Specialist, GCOI', level: 3, isMgr: false, mgr: 'jtteja', directs: [] },
   'musavaru': { name: 'Musavaru', title: 'Direct Report', level: 3, mgr: 'shoyaba', directs: [] },
   'hmmuttum': { name: 'Hmmuttum', title: 'Direct Report', level: 3, mgr: 'shoyaba', directs: [] },
   'bhayush': { name: 'Bhayush', title: 'Direct Report', level: 3, mgr: 'shoyaba', directs: [] },
@@ -163,20 +163,20 @@ const ORG = {
   'snaidus': { name: 'Snaidus', title: 'Direct Report', level: 3, mgr: 'shoyaba', directs: [] },
   'nsskv': { name: 'Nsskv', title: 'Direct Report', level: 3, mgr: 'shoyaba', directs: [] },
   'jyothigr': { name: 'Jyothigr', title: 'Direct Report', level: 3, mgr: 'shoyaba', directs: [] },
-  'abhanwad': { name: 'Abhanwad', title: 'Direct Report', level: 3, mgr: 'jorrigal', directs: [] },
-  'chikbal': { name: 'Chikbal', title: 'Direct Report', level: 3, mgr: 'jorrigal', directs: [] },
-  'musaddm': { name: 'Musaddm', title: 'Direct Report', level: 3, mgr: 'jorrigal', directs: [] },
-  'thotteja': { name: 'Thotteja', title: 'Direct Report', level: 3, mgr: 'jorrigal', directs: [] },
-  'valavoju': { name: 'Valavoju', title: 'Direct Report', level: 3, mgr: 'jorrigal', directs: [] },
+  'abhanwad': { name: 'Alisha Bhanwadiya', title: 'Prod Compliance Specialist', level: 4, isMgr: false, mgr: 'jorrigal', directs: [] },
+  'chikbal': { name: 'Krishna Chaitanya Chikballa', title: 'Prod Compliance Specialist', level: 4, isMgr: false, mgr: 'jorrigal', directs: [] },
+  'musaddm': { name: 'Musaddiq Ahmed Muneeb', title: 'Catalog Spc', level: 3, isMgr: false, mgr: 'jorrigal', directs: [] },
+  'thotteja': { name: 'Sai Teja T', title: 'Prod Compliance Specialist,MCE', level: 4, isMgr: false, mgr: 'jorrigal', directs: [] },
+  'valavoju': { name: 'Abhishek Valavoju', title: 'Sr. Prod. Compliance Associate', level: 3, isMgr: false, mgr: 'jorrigal', directs: [] },
   'jonnac': { name: 'Jonnac', title: 'Direct Report', level: 3, mgr: 'kumarshu', directs: [] },
-  'ypreksha': { name: 'Ypreksha', title: 'Direct Report', level: 3, mgr: 'kumarshu', directs: [] },
+  'ypreksha': { name: 'Preksha Y', title: 'Program Manager I', level: 4, isMgr: false, mgr: 'kumarshu', directs: [] },
   'noosuraj': { name: 'Noosuraj', title: 'Direct Report', level: 3, mgr: 'kumarshu', directs: [] },
-  'mheshpm': { name: 'Mheshpm', title: 'Direct Report', level: 3, mgr: 'kumarshu', directs: [] },
-  'shreevi': { name: 'Shreevi', title: 'Direct Report', level: 3, mgr: 'kumarshu', directs: [] },
-  'gosang': { name: 'Gosang', title: 'Direct Report', level: 3, mgr: 'kumarshu', directs: [] },
-  'cheedel': { name: 'Cheedel', title: 'Direct Report', level: 3, mgr: 'kumarshu', directs: [] },
-  'rsameerk': { name: 'Rsameerk', title: 'Direct Report', level: 3, mgr: 'kumarshu', directs: [] },
-  'rmvineet': { name: 'Rmvineet', title: 'Direct Report', level: 3, mgr: 'kumarshu', directs: [] },
+  'mheshpm': { name: 'Mahesh .P', title: 'Program Manager I, SALSA', level: 4, isMgr: false, mgr: 'kumarshu', directs: [] },
+  'shreevi': { name: 'Shreevidya Annayarambatla', title: 'Program Manager I, MCE', level: 4, isMgr: false, mgr: 'kumarshu', directs: [] },
+  'gosang': { name: 'Srisai Gosangi', title: 'Program Manager I', level: 4, isMgr: false, mgr: 'kumarshu', directs: [] },
+  'cheedel': { name: 'Mahesh Ch', title: 'Prod Compliance Specialist', level: 4, isMgr: false, mgr: 'kumarshu', directs: [] },
+  'rsameerk': { name: 'Sameer Raj', title: 'Program Manager I', level: 4, isMgr: false, mgr: 'kumarshu', directs: [] },
+  'rmvineet': { name: 'Vineeth Reddy', title: 'IC, SALSA QA', level: 4, isMgr: false, mgr: 'kumarshu', directs: [] },
   'prathysr': { name: 'Prathysr', title: 'Direct Report', level: 3, mgr: 'bhrgar', directs: [] },
   'muthindh': { name: 'Muthindh', title: 'Direct Report', level: 3, mgr: 'bhrgar', directs: [] },
   'dvadakat': { name: 'Dvadakat', title: 'Direct Report', level: 3, mgr: 'bhrgar', directs: [] },
@@ -302,22 +302,35 @@ function renderSidebar() {
   h += '</div>';
   if (state.mgr) {
     const info = ORG[state.mgr];
+    const subMgrs = getMgrs(state.mgr);
     h += `<div class="nav-section"><div class="nav-title">${info.name}'s Team</div>`;
     h += `<div class="nav-item ${n === 'dashboard' ? 'active' : ''}" onclick="setNav('dashboard')"><span class="icon">&#128202;</span>Dashboard</div>`;
+    if (subMgrs.length > 0) {
+      h += `<div class="nav-item ${n === 'consolidated' ? 'active' : ''}" onclick="setNav('consolidated')"><span class="icon">&#128203;</span>Consolidated View</div>`;
+    }
     h += `<div class="nav-item ${n === 'calendar' ? 'active' : ''}" onclick="setNav('calendar')"><span class="icon">&#128197;</span>Calendar</div>`;
     h += `<div class="nav-item ${n === 'leaves' ? 'active' : ''}" onclick="setNav('leaves')"><span class="icon">&#128221;</span>Leave Records${pendingCount ? '<span class="badge-count">' + pendingCount + '</span>' : ''}</div>`;
     h += `<div class="nav-item ${n === 'spreadsheet' ? 'active' : ''}" onclick="setNav('spreadsheet')"><span class="icon">&#128203;</span>Monthly Sheet</div>`;
-    h += `<div class="nav-item ${n === 'apply' ? 'active' : ''}" onclick="setNav('apply')"><span class="icon">&#10133;</span>Apply Leave</div>`;
+    h += `<div class="nav-item ${n === 'apply' ? 'active' : ''}" onclick="window.open('https://atoz.amazon.work/time','_blank')"><span class="icon">&#10133;</span>Apply Leave</div>`;
     h += `<div class="nav-item ${n === 'team' ? 'active' : ''}" onclick="setNav('team')"><span class="icon">&#128101;</span>Team</div>`;
     h += `<div class="nav-item ${n === 'reports' ? 'active' : ''}" onclick="setNav('reports')"><span class="icon">&#128200;</span>Reports</div>`;
     h += `<div class="nav-item ${n === 'daily' ? 'active' : ''}" onclick="setNav('daily')"><span class="icon">&#128197;</span>Daily Tracker</div>`;
+    h += `<div class="nav-item ${n === 'flash' ? 'active' : ''}" onclick="setNav('flash')"><span class="icon">&#9993;</span>Flash Email</div>`;
+    h += `<div class="nav-item ${n === 'wbr' ? 'active' : ''}" onclick="setNav('wbr')"><span class="icon">&#128221;</span>WBR</div>`;
     h += '</div>';
   }
   sb.innerHTML = h;
 }
 
 function goOrg() { state.view = 'org'; state.mgr = null; state.nav = 'dashboard'; render(); }
-function goMgr(alias) { state.view = 'mgr'; state.mgr = alias; state.nav = 'dashboard'; render(); }
+function goMgr(alias) {
+  // Access control check
+  if (LOGGED_IN_USER && !canViewTeam(alias)) {
+    toast('?? Access denied. You don\'t have permission to view ' + (ORG[alias] ? ORG[alias].name : alias) + '\'s team. Ask their manager to grant access.');
+    return;
+  }
+  state.view = 'mgr'; state.mgr = alias; state.nav = 'dashboard'; render();
+}
 function setNav(n) { state.nav = n; render(); }
 
 // ========== MAIN RENDER ==========
@@ -395,6 +408,9 @@ function renderMgrView(c) {
   else if (n === 'team') content = renderTeam();
   else if (n === 'reports') content = renderReports();
   else if (n === 'daily') content = renderDailyTracker();
+  else if (n === 'flash') content = renderFlashEmail();
+  else if (n === 'wbr') content = renderWBR();
+  else if (n === 'consolidated') content = renderConsolidatedView();
   c.innerHTML = bc + subH + content;
 }
 
@@ -559,17 +575,53 @@ function renderCalendar() {
       d.setDate(d.getDate() + 1);
     }
   });
+  // Get holidays for this month
+  const monthHolidays = INDIAN_HOLIDAYS[m + 1] || [];
+  const holidayMap = {};
+  monthHolidays.forEach(h => { holidayMap[h.day] = h.name; });
+
   let h = `<div class="card"><div class="cal"><div class="cal-header">
     <div class="cal-nav"><button onclick="calNav(-1)">&laquo; Prev</button></div>
     <h3>${months[m]} ${y}</h3>
     <div class="cal-nav"><button onclick="calNav(1)">Next &raquo;</button></div>
-  </div><div class="cal-grid">`;
-  days.forEach(d => { h += `<div class="cal-day-header">${d}</div>`; });
+  </div>
+  <div style="display:flex;gap:14px;padding:8px 16px;font-size:11px;border-bottom:1px solid var(--border)">
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:12px;background:#fee2e2;border:1px solid #fca5a5;border-radius:2px"></span> Weekend (Sat/Sun)</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:12px;background:#dcfce7;border:1px solid #86efac;border-radius:2px"></span> Holiday</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:12px;background:#e6f2ff;border:1px solid #0073bb;border-radius:2px"></span> Today</span>
+  </div>
+  <div class="cal-grid">`;
+  days.forEach(d => {
+    const isWkend = (d === 'Sun' || d === 'Sat');
+    h += `<div class="cal-day-header" style="${isWkend ? 'color:#d13212;background:#fff5f5' : ''}">${d}</div>`;
+  });
   for (let i = 0; i < firstDay; i++) { h += '<div class="cal-day other"></div>'; }
   for (let d = 1; d <= daysInMonth; d++) {
     const ds = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    const dateObj = new Date(y, m, d);
+    const dow = dateObj.getDay();
+    const isWeekend = (dow === 0 || dow === 6);
+    const isHoliday = holidayMap[d];
     const isToday = ds === todayStr;
-    h += `<div class="cal-day${isToday ? ' today' : ''}"><div class="day-num">${d}</div>`;
+
+    let cellStyle = '';
+    let cellClass = 'cal-day';
+    if (isToday) cellClass += ' today';
+    else if (isHoliday) cellStyle = 'background:#dcfce7;';
+    else if (isWeekend) cellStyle = 'background:#fee2e2;';
+
+    h += `<div class="${cellClass}" style="${cellStyle}">`;
+    h += `<div class="day-num" style="${isWeekend ? 'color:#d13212' : ''}${isHoliday ? 'color:#1d8102;font-weight:700' : ''}">${d}</div>`;
+
+    // Show holiday name
+    if (isHoliday) {
+      h += `<div class="leave-dot" style="background:#bbf7d0;color:#166534;font-size:8px;padding:1px 3px;border-radius:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%" title="${isHoliday}">${isHoliday}</div>`;
+    }
+    // Show weekend label
+    if (isWeekend && !isHoliday) {
+      h += `<div style="font-size:8px;color:#991b1b;opacity:0.7">${dow === 0 ? 'SUN' : 'SAT'}</div>`;
+    }
+    // Show leave entries
     if (dateMap[ds]) {
       const shown = new Set();
       dateMap[ds].forEach(l => {
@@ -888,6 +940,18 @@ function renderSpreadsheet() {
     h += `<div style="width:60px;font-size:10px;text-align:right;color:${isHigh?'var(--danger)':'var(--muted)'}">${aPL+aUL+aHD} leaves</div>`;
     h += `</div>`;
   });
+  h += `</div>`;
+
+  // Leave Forecast Table (next 3 months, auto-calculated)
+  h += `<div class="card" style="margin-top:16px"><h2>&#128197; Leave Forecast (Next 3 Months)</h2>`;
+  const forecastData = getLeaveForcastData(state.sheetMonth, state.sheetYear, ics.length);
+  h += `<table><thead><tr><th>Month</th><th>Forecasted Working %</th><th>Forecasted Leave %</th><th>Formula</th><th>Employees on Leave</th><th>Key Holidays</th><th>Likely Leave Pattern</th></tr></thead><tbody>`;
+  forecastData.forEach(f => {
+    const leavePctStyle = f.leavePct > 20 ? 'color:#d13212;font-weight:700' : '';
+    h += `<tr><td>${f.month}</td><td class="num">${f.workPct}%</td><td class="num" style="${leavePctStyle}">${f.leavePct}%</td><td>${f.formula}</td><td class="num">~${f.empOnLeave}</td><td style="font-size:11px">${f.holidays}</td><td style="font-size:11px">${f.patterns}</td></tr>`;
+  });
+  h += `</tbody></table>`;
+  h += `<p style="font-size:11px;color:var(--muted);margin-top:6px">Note: Forecast based on Indian festivals and historical trends. Leave % > 20% highlighted in red.</p>`;
   h += `</div>`;
 
   return h;
@@ -1300,6 +1364,57 @@ function renderTeam() {
       <td class="num">${pl}</td><td class="num" style="${ul > 3 ? 'color:var(--danger);font-weight:700' : ''}">${ul}</td><td class="num">${hd}</td><td class="num">${pl + ul + hd}</td></tr>`;
   });
   h += '</tbody></table></div>';
+  
+    // ========== DAILY WORK UPDATE (compact grid) ==========
+  var today = new Date();
+  var startOfYear = new Date(today.getFullYear(), 0, 1);
+  var weekNum = Math.ceil(((today - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);
+  var weekKey = today.getFullYear() + '-W' + weekNum;
+  if (!db.wbr) db.wbr = {};
+  if (!db.wbr[state.mgr]) db.wbr[state.mgr] = {};
+  if (!db.wbr[state.mgr][weekKey]) db.wbr[state.mgr][weekKey] = {};
+  var updatedCount = 0, notUpdated = [];
+  ics.forEach(function(a) { if (db.wbr[state.mgr][weekKey][a] && db.wbr[state.mgr][weekKey][a].tasks && db.wbr[state.mgr][weekKey][a].tasks.length > 0) updatedCount++; else notUpdated.push(a); });
+
+  h += '<div class="card" style="border-left:4px solid var(--primary)">';
+  h += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">';
+  h += '<h3 style="margin:0">&#9998; Log Daily Update</h3>';
+  h += '<span class="badge ' + (updatedCount === ics.length ? 'b-green' : 'b-orange') + '" style="font-size:10px">' + updatedCount + '/' + ics.length + ' done (Wk' + weekNum + ')</span>';
+  h += '</div>';
+  h += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px">';
+  h += '<div class="fg" style="margin:0"><label>Associate</label><select id="wbr-user" style="width:100%" onchange="document.getElementById(\'wbr-name\').value=this.options[this.selectedIndex].getAttribute(\'data-name\')">';
+  ics.forEach(function(a) { var n = ORG[a] ? ORG[a].name.split(' ')[0] : a; h += '<option value="' + a + '" data-name="' + (ORG[a] ? ORG[a].name : a) + '">' + a + ' (' + n + ')</option>'; });
+  h += '</select></div>';
+  h += '<div class="fg" style="margin:0"><label>Program</label><select id="wbr-program" style="width:100%"><option value="">Select</option><option>CMDE Audit</option><option>LDX</option><option>Expo</option><option>NGS</option><option>MCE QA</option><option>MCE Dev</option><option>MCE Tickets</option><option>Listing deep dives</option><option>CMDE QC</option></select></div>';
+  h += '<div class="fg" style="margin:0"><label>Date</label><input type="date" id="wbr-date" value="' + new Date().toISOString().slice(0,10) + '" style="width:100%"></div>';
+  h += '</div>';
+  h += '<div style="display:grid;grid-template-columns:2fr 1fr auto;gap:10px;margin-bottom:10px">';
+  h += '<div class="fg" style="margin:0"><label>Sub-Program</label><input type="text" id="wbr-subprogram" placeholder="Display properties, Tickets..." style="width:100%"></div>';
+  h += '<div class="fg" style="margin:0"><label>Status</label><select id="wbr-availability" style="width:100%"><option value="present">Present</option><option value="halfday">Half Day</option><option value="wfh">WFH</option><option value="planned_leave">On Leave</option></select></div>';
+  h += '<div class="fg" style="margin:0"><label>Hrs</label><input type="number" id="wbr-timespent" value="8" min="0" max="12" step="0.5" style="width:60px"></div>';
+  h += '</div>';
+  h += '<div class="fg" style="margin:0 0 10px"><label>Activities (one per line)</label><textarea id="wbr-tasks" rows="2" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:4px;font-size:12px" placeholder="Completed 400 audits on CAT tool&#10;Resolved SIM-12345"></textarea></div>';
+  h += '<input type="hidden" id="wbr-name" value="' + (ORG[ics[0]] ? ORG[ics[0]].name : ics[0]) + '">';
+  h += '<div style="display:flex;align-items:center;gap:12px">';
+  h += '<button class="btn btn-p" onclick="saveWBREntry()">&#10004; Submit</button>';
+  if (notUpdated.length > 0) h += '<span style="font-size:11px;color:var(--danger)">Pending: ' + notUpdated.slice(0,4).join(', ') + (notUpdated.length > 4 ? ' +' + (notUpdated.length-4) : '') + '</span>';
+  h += '</div></div>';
+
+  // Submitted entries - compact grid
+  if (updatedCount > 0) {
+    h += '<div class="card"><h3 style="margin-bottom:10px">&#128203; Submissions (Wk ' + weekNum + ')</h3>';
+    h += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px">';
+    ics.forEach(function(a) { var entry = db.wbr[state.mgr][weekKey][a]; if (entry && entry.tasks && entry.tasks.length > 0) {
+      h += '<div style="border:1px solid var(--border);border-radius:6px;padding:10px;border-left:3px solid var(--success);font-size:11px">';
+      h += '<strong>' + a + '</strong> <span class="badge b-green" style="font-size:9px;margin-left:4px">Done</span>';
+      h += '<ul style="margin:4px 0 0 12px;color:var(--muted)">';
+      entry.tasks.slice(0,2).forEach(function(t) { h += '<li>' + t + '</li>'; });
+      if (entry.tasks.length > 2) h += '<li><i>+' + (entry.tasks.length-2) + ' more</i></li>';
+      h += '</ul></div>';
+    }});
+    h += '</div></div>';
+  }
+
   return h;
 }
 
@@ -1567,6 +1682,204 @@ function checkAdmin() {
   return true;
 }
 
+// ========== USER LOGIN & ACCESS CONTROL ==========
+// Each manager sees only their team. Cross-team access requires permission.
+
+var LOGGED_IN_USER = localStorage.getItem('dashboard_user') || null;
+var ACCESS_PERMISSIONS_KEY = 'dashboard_access_permissions';
+
+// Get stored permissions: { "aggannam": ["mssowmya", "kgorapal"] } means aggannam can also view mssowmya and kgorapal's teams
+function getAccessPermissions() {
+  try {
+    return JSON.parse(localStorage.getItem(ACCESS_PERMISSIONS_KEY) || '{}');
+  } catch (e) { return {}; }
+}
+
+function saveAccessPermissions(perms) {
+  localStorage.setItem(ACCESS_PERMISSIONS_KEY, JSON.stringify(perms));
+}
+
+// Check if logged-in user can view a specific manager's team
+function canViewTeam(targetMgr) {
+  if (!LOGGED_IN_USER) return true; // No login = open access (backward compatible)
+  
+  // Rule 1: You can always view your own team
+  if (LOGGED_IN_USER === targetMgr) return true;
+  
+  // Rule 2: You can view teams below you in hierarchy (you're their skip-level or above)
+  const allBelow = allReports(LOGGED_IN_USER);
+  if (allBelow.includes(targetMgr)) return true;
+  
+  // Rule 3: Check explicit cross-team permissions
+  const perms = getAccessPermissions();
+  const userPerms = perms[LOGGED_IN_USER] || [];
+  if (userPerms.includes(targetMgr)) return true;
+  
+  // Rule 4: If you're an IC (not a manager), you can view your own manager's dashboard
+  const userInfo = ORG[LOGGED_IN_USER];
+  if (userInfo && userInfo.mgr === targetMgr) return true;
+  
+  return false;
+}
+
+// Login prompt
+function showLoginPrompt() {
+  let h = '<h2>&#128100; Who are you?</h2>';
+  h += '<p style="font-size:12px;color:var(--muted);margin-bottom:16px">Select your name to see your team\'s dashboard. You\'ll only see teams you have access to.</p>';
+  
+  // Show all managers as login options
+  const managers = Object.entries(ORG).filter(([k, v]) => v.isMgr).sort((a, b) => b[1].level - a[1].level);
+  
+  h += '<div class="fg"><label>Select your login:</label><select id="login-select" style="font-size:14px;padding:10px">';
+  h += '<option value="">-- Choose your name --</option>';
+  h += '<option value="__open__">Open Access (no restrictions)</option>';
+  managers.forEach(([alias, info]) => {
+    h += `<option value="${alias}">${info.name} (${info.title}) - L${info.level}</option>`;
+  });
+  h += '</select></div>';
+  
+  h += '<div style="margin-top:16px"><button class="btn btn-p" onclick="doLogin()">Login</button></div>';
+  showModal(h);
+}
+
+function doLogin() {
+  const sel = document.getElementById('login-select').value;
+  if (!sel) { toast('Please select your name'); return; }
+  
+  if (sel === '__open__') {
+    LOGGED_IN_USER = null;
+    localStorage.removeItem('dashboard_user');
+    toast('Open access mode. All teams visible.');
+  } else {
+    LOGGED_IN_USER = sel;
+    localStorage.setItem('dashboard_user', sel);
+    toast('Logged in as ' + (ORG[sel] ? ORG[sel].name : sel));
+    
+    // Auto-navigate to their team
+    if (ORG[sel] && ORG[sel].isMgr) {
+      state.view = 'mgr';
+      state.mgr = sel;
+      state.nav = 'dashboard';
+    }
+  }
+  
+  hideModal();
+  render();
+  updateLoginDisplay();
+}
+
+function doLogout() {
+  LOGGED_IN_USER = null;
+  localStorage.removeItem('dashboard_user');
+  state.view = 'org';
+  state.mgr = null;
+  render();
+  updateLoginDisplay();
+  toast('Logged out. Open access mode.');
+}
+
+function updateLoginDisplay() {
+  const el = document.getElementById('login-display');
+  if (!el) return;
+  if (LOGGED_IN_USER && ORG[LOGGED_IN_USER]) {
+    el.innerHTML = `<span style="font-size:11px;color:#aab7b8">?? ${ORG[LOGGED_IN_USER].name}</span> <button class="btn btn-s btn-sm" onclick="doLogout()" style="margin-left:6px">Logout</button> <button class="btn btn-s btn-sm" onclick="showLoginPrompt()">Switch</button>`;
+  } else {
+    el.innerHTML = `<button class="btn btn-s btn-sm" onclick="showLoginPrompt()">?? Login</button>`;
+  }
+}
+
+// Grant cross-team access permission
+function showGrantAccessModal() {
+  if (!isAdmin) { alert("Admin mode required to manage permissions."); return; }
+  
+  const perms = getAccessPermissions();
+  const managers = Object.entries(ORG).filter(([k, v]) => v.isMgr).sort((a, b) => a[1].name.localeCompare(b[1].name));
+  
+  let h = '<h2>&#128274; Manage Cross-Team Access</h2>';
+  h += '<p style="font-size:12px;color:var(--muted);margin-bottom:12px">Grant a manager permission to view another manager\'s team data.</p>';
+  
+  h += '<div class="fr" style="margin-bottom:16px">';
+  h += '<div class="fg"><label>Grant access TO:</label><select id="perm-user">';
+  managers.forEach(([alias, info]) => { h += `<option value="${alias}">${info.name}</option>`; });
+  h += '</select></div>';
+  h += '<div class="fg"><label>Can view team OF:</label><select id="perm-target">';
+  managers.forEach(([alias, info]) => { h += `<option value="${alias}">${info.name}</option>`; });
+  h += '</select></div>';
+  h += '<button class="btn btn-p" onclick="grantAccess()" style="margin-bottom:4px">Grant</button>';
+  h += '</div>';
+  
+  // Show current permissions
+  h += '<h3 style="margin-top:16px">Current Permissions:</h3>';
+  const permEntries = Object.entries(perms).filter(([k, v]) => v.length > 0);
+  if (permEntries.length === 0) {
+    h += '<p style="color:var(--muted);font-size:12px">No cross-team permissions granted yet. Managers can only see their own teams and teams below them.</p>';
+  } else {
+    h += '<table style="font-size:12px"><thead><tr><th>User</th><th>Can Also View</th><th>Action</th></tr></thead><tbody>';
+    permEntries.forEach(([user, targets]) => {
+      const userName = ORG[user] ? ORG[user].name : user;
+      targets.forEach(target => {
+        const targetName = ORG[target] ? ORG[target].name : target;
+        h += `<tr><td>${userName}</td><td>${targetName}'s team</td><td><button class="btn btn-d btn-sm" onclick="revokeAccess('${user}','${target}')">Revoke</button></td></tr>`;
+      });
+    });
+    h += '</tbody></table>';
+  }
+  
+  h += '<div style="margin-top:16px"><button class="btn btn-s" onclick="hideModal()">Close</button></div>';
+  showModal(h);
+}
+
+function grantAccess() {
+  const user = document.getElementById('perm-user').value;
+  const target = document.getElementById('perm-target').value;
+  
+  if (user === target) { toast('Cannot grant access to own team (already has it)'); return; }
+  
+  const perms = getAccessPermissions();
+  if (!perms[user]) perms[user] = [];
+  if (!perms[user].includes(target)) {
+    perms[user].push(target);
+    saveAccessPermissions(perms);
+    toast(`? ${ORG[user] ? ORG[user].name : user} can now view ${ORG[target] ? ORG[target].name : target}'s team`);
+    showGrantAccessModal(); // Refresh modal
+  } else {
+    toast('Permission already exists');
+  }
+}
+
+function revokeAccess(user, target) {
+  const perms = getAccessPermissions();
+  if (perms[user]) {
+    perms[user] = perms[user].filter(t => t !== target);
+    if (perms[user].length === 0) delete perms[user];
+    saveAccessPermissions(perms);
+    toast(`Revoked ${ORG[user] ? ORG[user].name : user}'s access to ${ORG[target] ? ORG[target].name : target}'s team`);
+    showGrantAccessModal(); // Refresh modal
+  }
+}
+
+// Add login display to header on load
+(function initLoginDisplay() {
+  const headerActions = document.querySelector('.header-actions');
+  if (headerActions) {
+    const loginDiv = document.createElement('div');
+    loginDiv.id = 'login-display';
+    loginDiv.style.display = 'flex';
+    loginDiv.style.alignItems = 'center';
+    loginDiv.style.gap = '6px';
+    headerActions.insertBefore(loginDiv, headerActions.firstChild);
+    
+    // Add permissions button
+    const permBtn = document.createElement('button');
+    permBtn.className = 'btn btn-s btn-sm';
+    permBtn.innerHTML = '&#128274; Permissions';
+    permBtn.onclick = showGrantAccessModal;
+    headerActions.insertBefore(permBtn, loginDiv.nextSibling);
+    
+    setTimeout(updateLoginDisplay, 100);
+  }
+})();
+
 // ========== CHARTS ON DASHBOARD ==========
 function renderCharts() {
   var ics = getICs(state.mgr);
@@ -1686,5 +1999,1706 @@ function renderCharts() {
   return h;
 }
 
+
+// ========== INDIAN HOLIDAYS DATABASE (2025-2026) ==========
+const INDIAN_HOLIDAYS = {
+  1: [{ name: "New Year's Day", day: 1 }, { name: 'Makar Sankranti/Pongal', day: 14 }, { name: 'Republic Day', day: 26 }],
+  2: [{ name: 'Maha Shivaratri', day: 15 }],
+  3: [{ name: 'Holi', day: 4 }, { name: 'Id-ul-Fitr (Eid)', day: 21 }, { name: 'Ram Navami', day: 26 }, { name: 'Mahavir Jayanti', day: 31 }],
+  4: [{ name: 'Good Friday', day: 3 }, { name: 'Ambedkar Jayanti', day: 14 }],
+  5: [{ name: 'May Day/Buddha Purnima', day: 1 }, { name: 'Id-ul-Zuha (Bakrid)', day: 27 }],
+  6: [{ name: 'Muharram', day: 26 }],
+  7: [{ name: 'Rath Yatra', day: 16 }],
+  8: [{ name: 'Independence Day', day: 15 }, { name: 'Id-e-Milad', day: 26 }, { name: 'Raksha Bandhan', day: 28 }],
+  9: [{ name: 'Janmashtami', day: 4 }, { name: 'Ganesh Chaturthi', day: 14 }],
+  10: [{ name: 'Gandhi Jayanti', day: 2 }, { name: 'Dussehra', day: 20 }, { name: 'Bathukamma', day: 13 }],
+  11: [{ name: 'Diwali', day: 8 }, { name: 'Govardhan Puja', day: 9 }, { name: 'Bhai Dooj', day: 11 }, { name: 'Guru Nanak Jayanti', day: 24 }],
+  12: [{ name: 'Christmas', day: 25 }]
+};
+
+function getLeaveForcastData(selMonth, selYear, teamSize) {
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const forecast = [];
+  const leaves = getLeaves(state.mgr);
+
+  for (let i = 1; i <= 3; i++) {
+    const fMonthIdx = (selMonth + i) % 12;
+    const fYear = (selMonth + i) > 11 ? selYear + 1 : selYear;
+    const fMonthName = months[fMonthIdx];
+
+    // Get holidays for this month
+    const holidays = INDIAN_HOLIDAYS[fMonthIdx + 1] || [];
+    const holidayStr = holidays.map(function(hol) {
+      const d = new Date(fYear, fMonthIdx, hol.day);
+      const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+      return hol.name + ' (' + days[d.getDay()] + ', ' + fMonthName.slice(0,3) + ' ' + hol.day + ')';
+    }).join('; ');
+
+    // Calculate likely leave patterns (long weekends, bridge days)
+    const patterns = [];
+    holidays.forEach(function(hol) {
+      const d = new Date(fYear, fMonthIdx, hol.day);
+      const dow = d.getDay(); // 0=Sun, 6=Sat
+      const mn = fMonthName.slice(0,3);
+      if (dow === 0) patterns.push(mn + ' ' + (hol.day-2) + '-' + hol.day + ' (Sat-Sun-Mon potential)');
+      else if (dow === 1) patterns.push(mn + ' ' + (hol.day-2) + '-' + hol.day + ' (long weekend)');
+      else if (dow === 5) patterns.push(mn + ' ' + hol.day + '-' + (hol.day+2) + ' (long weekend)');
+      else if (dow === 6) patterns.push(mn + ' ' + hol.day + '-' + (hol.day+1) + ' (Sat-Sun)');
+      else if (dow === 2) patterns.push(mn + ' ' + (hol.day-1) + '-' + hol.day + ' (bridge Mon)');
+      else if (dow === 4) patterns.push(mn + ' ' + hol.day + '-' + (hol.day+1) + ' (bridge Fri)');
+      else if (dow === 3) patterns.push(mn + ' ' + (hol.day-1) + '-' + (hol.day+1) + ' (mid-week break)');
+    });
+
+    // Calculate forecast % based on number of holidays and historical patterns
+    // More holidays = higher leave probability
+    let leavePct;
+    if (holidays.length >= 4) leavePct = 30;
+    else if (holidays.length >= 3) leavePct = 27;
+    else if (holidays.length >= 2) leavePct = 24;
+    else if (holidays.length >= 1) leavePct = 20;
+    else leavePct = 18;
+
+    // Check historical data for this month to refine
+    const historicalKey = (selYear - 1) + '-' + String(fMonthIdx + 1).padStart(2, '0');
+    const histLeaves = leaves.filter(function(l) { return l.from.startsWith(historicalKey); });
+    if (histLeaves.length > 0) {
+      const histDays = histLeaves.reduce(function(s, l) { return s + l.days; }, 0);
+      const histPct = Math.round((histDays / (teamSize * 22)) * 100);
+      // Blend historical with holiday-based estimate
+      leavePct = Math.round((leavePct + histPct) / 2);
+    }
+
+    const workPct = 100 - leavePct;
+    const empOnLeave = Math.round(teamSize * (leavePct / 100));
+
+    forecast.push({
+      month: fMonthName,
+      workPct: workPct,
+      leavePct: leavePct,
+      formula: teamSize + ' \u00d7 ' + (leavePct / 100).toFixed(2),
+      empOnLeave: empOnLeave,
+      holidays: holidayStr,
+      patterns: patterns.join('; ')
+    });
+  }
+  return forecast;
+}
+
+// ========== FLASH EMAIL GENERATOR (FULLY AUTOMATED) ==========
+function renderFlashEmail() {
+  const mgr = state.mgr;
+  const ics = getICs(mgr);
+  const leaves = getLeaves(mgr);
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const curMonth = new Date().getMonth();
+  const curYear = new Date().getFullYear();
+
+  let h = '<div class="card">';
+  h += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">';
+  h += '<h2 style="margin:0">&#9993; MCE Flash Report</h2>';
+  h += '<div style="display:flex;gap:8px;align-items:center">';
+  h += '<select id="flash-month" onchange="autoGenerateFlash()" style="padding:6px 10px;border:1px solid var(--border);border-radius:4px;font-size:13px">';
+  months.forEach((m, i) => { h += '<option value="' + i + '"' + (i === curMonth ? ' selected' : '') + '>' + m + '</option>'; });
+  h += '</select>';
+  h += '<select id="flash-year" onchange="autoGenerateFlash()" style="padding:6px 10px;border:1px solid var(--border);border-radius:4px;font-size:13px">';
+  for (let y = curYear - 1; y <= curYear + 1; y++) { h += '<option value="' + y + '"' + (y === curYear ? ' selected' : '') + '>' + y + '</option>'; }
+  h += '</select>';
+  h += '<button class="btn btn-p" onclick="copyFlashEmail()">&#128203; Copy to Clipboard</button>';
+  h += '<button class="btn btn-g" onclick="sendFlashEmail()">&#9993; Open in Email</button>';
+  h += '</div></div>';
+  h += '<div id="flash-output"></div>';
+  h += '</div>';
+  setTimeout(autoGenerateFlash, 50);
+  return h;
+}
+
+function autoGenerateFlash() {
+  const output = document.getElementById('flash-output');
+  if (!output) return;
+  output.innerHTML = buildFlashHTML();
+}
+
+function buildFlashHTML() {
+  var mgr = state.mgr;
+  var ics = getICs(mgr);
+  var leaves = getLeaves(mgr);
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var TARGET = 20;
+
+  var selMonth = parseInt(document.getElementById('flash-month').value);
+  var selYear = parseInt(document.getElementById('flash-year').value);
+  var monthName = months[selMonth];
+  var teamSize = ics.length;
+  var workDays = getWorkingDaysInMonth(selYear, selMonth);
+
+  // Previous month
+  var prevMonthIdx = (selMonth - 1 + 12) % 12;
+  var prevYear = selMonth === 0 ? selYear - 1 : selYear;
+  var prevMonthName = months[prevMonthIdx];
+  var prevMonthKey = prevYear + '-' + String(prevMonthIdx + 1).padStart(2, '0');
+  var prevWorkDays = getWorkingDaysInMonth(prevYear, prevMonthIdx);
+  var prevTotalPersonDays = teamSize * prevWorkDays;
+
+  // Weekly and MTD calculations
+  var weeklyWorkDays = 5;
+  // Calculate actual weeks in this month (Mon-Fri weeks)
+  var firstDay = new Date(selYear, selMonth, 1);
+  var lastDay = new Date(selYear, selMonth + 1, 0);
+  var daysInMonth = lastDay.getDate();
+  
+  // Get ISO week number
+  function getISOWeek(d) {
+    var date = new Date(d.getTime());
+    date.setHours(0, 0, 0, 0);
+    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+    var week1 = new Date(date.getFullYear(), 0, 4);
+    return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+  }
+
+  // Find all unique weeks in this month
+  var weeksInMonth = [];
+  var weekWorkingDays = {};
+  for (var d = 1; d <= daysInMonth; d++) {
+    var dt = new Date(selYear, selMonth, d);
+    var dow = dt.getDay();
+    if (dow !== 0 && dow !== 6) { // Only working days (Mon-Fri)
+      var wkNum = getISOWeek(dt);
+      if (weeksInMonth.indexOf(wkNum) === -1) weeksInMonth.push(wkNum);
+      if (!weekWorkingDays[wkNum]) weekWorkingDays[wkNum] = 0;
+      weekWorkingDays[wkNum]++;
+    }
+  }
+  var numWeeks = weeksInMonth.length;
+  var mtdWorkDays = workDays; // actual working days in month
+  var mtdPersonDays = teamSize * mtdWorkDays;
+
+  // Current month key
+  var monthKey = selYear + '-' + String(selMonth + 1).padStart(2, '0');
+  var monthLeaves = leaves.filter(function(l) { return l.from.startsWith(monthKey); });
+
+  function getWeekOfMonth(dateStr) {
+    var dt = new Date(dateStr);
+    return getISOWeek(dt);
+  }
+
+  // Build weekly breakdown using actual week numbers
+  var weekData = {};
+  weeksInMonth.forEach(function(wk) { weekData[wk] = {pl:0,ul:0,so:0}; });
+  var personData = {};
+  ics.forEach(function(a) { 
+    personData[a] = {};
+    weeksInMonth.forEach(function(wk) { personData[a][wk] = {pl:0,ul:0,so:0}; });
+  });
+
+  monthLeaves.forEach(function(l) {
+    var fromDate = new Date(l.from);
+    var toDate = l.to ? new Date(l.to) : fromDate;
+    var current = new Date(fromDate);
+    while (current <= toDate) {
+      if (current.getMonth() === selMonth && current.getFullYear() === selYear && current.getDay() !== 0 && current.getDay() !== 6) {
+        var wk = getISOWeek(current);
+        if (weekData[wk]) {
+          if (l.type === 'planned') { weekData[wk].pl++; if (personData[l.alias] && personData[l.alias][wk]) personData[l.alias][wk].pl++; }
+          else if (l.type === 'unplanned') { weekData[wk].ul++; if (personData[l.alias] && personData[l.alias][wk]) personData[l.alias][wk].ul++; }
+          else if (l.type === 'mandatory_off') { weekData[wk].so++; if (personData[l.alias] && personData[l.alias][wk]) personData[l.alias][wk].so++; }
+        }
+      }
+      current.setDate(current.getDate() + 1);
+    }
+  });
+
+  // Daily tracker site offs
+  var tracker = db.dailyTracker[mgr] || {};
+  ics.forEach(function(a) {
+    if (tracker[a]) {
+      Object.entries(tracker[a]).forEach(function(entry) {
+        var date = entry[0], rec = entry[1];
+        if (date.startsWith(monthKey) && rec.status === 'mandate_off') {
+          var dt = new Date(date);
+          if (dt.getDay() !== 0 && dt.getDay() !== 6) {
+            var wk = getISOWeek(dt);
+            if (weekData[wk]) {
+              weekData[wk].so++;
+              if (personData[a] && personData[a][wk]) personData[a][wk].so++;
+            }
+          }
+        }
+      });
+    }
+  });
+
+  // Previous month totals
+  var prevLeaves = leaves.filter(function(l) { return l.from.startsWith(prevMonthKey); });
+  var prevPL = 0, prevUL = 0, prevSO = 0;
+  prevLeaves.forEach(function(l) {
+    if (l.type === 'planned') prevPL += l.days;
+    else if (l.type === 'unplanned') prevUL += l.days;
+    else if (l.type === 'mandatory_off') prevSO += l.days;
+  });
+  var prevOOTO = prevPL + prevUL + prevSO;
+
+  // MTD totals
+  var mtdPL = 0, mtdUL = 0, mtdSO = 0;
+  weeksInMonth.forEach(function(wk) { mtdPL += weekData[wk].pl; mtdUL += weekData[wk].ul; mtdSO += weekData[wk].so; });
+  var mtdOOTO = mtdPL + mtdUL + mtdSO;
+
+  // Styles
+  var bs = 'font-family:Calibri,sans-serif;font-size:10pt;line-height:1.5;mso-line-height-rule:exactly;';
+  var tc = 'border:1px solid #999;padding:3px 6px;text-align:center;' + bs;
+  var th = tc + 'font-weight:bold;background:#d9e2f3;';
+  var tl = 'border:1px solid #999;padding:3px 6px;text-align:left;' + bs;
+  var tr = tc + 'color:#d13212;font-weight:bold;';
+  var ts = 'border-collapse:collapse;width:100%;font-family:Calibri,sans-serif;font-size:10pt;line-height:1.5;mso-line-height-rule:exactly;';
+
+  function pctE(val, total) {
+    var pct = total > 0 ? Math.round((val / total) * 100) : 0;
+    return pct > TARGET ? '<td style="' + tr + '">' + pct + '%</td>' : '<td style="' + tc + '">' + pct + '%</td>';
+  }
+
+  // ===== BUILD EMAIL HTML =====
+  var h = '<div style="font-family:Calibri,sans-serif;font-size:10pt;line-height:1.5;mso-line-height-rule:exactly;">';
+  h += '<p style="font-family:Calibri,sans-serif;font-size:14pt;font-weight:bold;line-height:1.5;margin:0 0 4px;">MCE Flash | ' + monthName.toUpperCase() + '</p>';
+  h += '<p style="' + bs + 'margin:0 0 12px;">Overview: This flash aims to provide the MCE Team Monthly Shrinkage Report covering Team Availability, People Availability for ' + monthName + ' MTD.</p>';
+  h += '<p style="' + bs + 'margin:0 0 4px;"><b>Table of Contents:</b></p>';
+  h += '<p style="' + bs + 'margin:0 0 16px;padding-left:16px;">1. Team Availability Report<br>2. People Availability Report<br>3. Leave Forecast Report<br>4. Callouts</p>';
+
+  // TABLE 1
+  h += '<p style="' + bs + 'font-weight:bold;margin:16px 0 6px;">Table 1: Team Availability Report</p>';
+  h += '<table style="' + ts + '">';
+  h += '<tr><td style="' + th + '">#</td><td style="' + th + 'text-align:left;">Available Days</td>';
+  h += '<td style="' + th + '">' + prevMonthName + '</td>';
+  weeksInMonth.forEach(function(wk) { h += '<td style="' + th + '">WK ' + wk + '</td>'; });
+  h += '<td style="' + th + '">MTD</td><td style="' + th + '">Vs Target</td></tr>';
+
+  // Row 1: Persons
+  h += '<tr><td style="' + tc + '">1</td><td style="' + tl + '">Total Persons (A)</td>';
+  h += '<td style="' + tc + '">' + teamSize + '</td>';
+  weeksInMonth.forEach(function() { h += '<td style="' + tc + '">' + teamSize + '</td>'; });
+  h += '<td style="' + tc + '">' + teamSize + '</td><td style="' + tc + '">-</td></tr>';
+
+  // Row 2: Working Days
+  h += '<tr><td style="' + tc + '">2</td><td style="' + tl + '">Total Working Days (B)</td>';
+  h += '<td style="' + tc + '">' + prevWorkDays + '</td>';
+  weeksInMonth.forEach(function(wk) { h += '<td style="' + tc + '">' + weekWorkingDays[wk] + '</td>'; });
+  h += '<td style="' + tc + '">' + mtdWorkDays + '</td><td style="' + tc + '">-</td></tr>';
+
+  // Row 3: Person Days
+  h += '<tr><td style="' + tc + '">3</td><td style="' + tl + '">Total Available Person Days (A*B)=(C)</td>';
+  h += '<td style="' + tc + '">' + prevTotalPersonDays + '</td>';
+  weeksInMonth.forEach(function(wk) { h += '<td style="' + tc + '">' + (teamSize * weekWorkingDays[wk]) + '</td>'; });
+  h += '<td style="' + tc + '">' + mtdPersonDays + '</td><td style="' + tc + '">-</td></tr>';
+
+  // Row 4: OOTO
+  var wkOOTO = [];
+  weeksInMonth.forEach(function(wk) { wkOOTO.push(weekData[wk].pl + weekData[wk].ul + weekData[wk].so); });
+  h += '<tr><td style="' + tc + '">4</td><td style="' + tl + 'font-weight:bold;">Total OOTO Person Days (D)</td>';
+  h += '<td style="' + tc + '">' + prevOOTO + '</td>';
+  wkOOTO.forEach(function(v) { h += '<td style="' + tc + '">' + v + '</td>'; });
+  h += '<td style="' + tc + '">' + mtdOOTO + '</td><td style="' + tc + '">-</td></tr>';
+
+  // Sub-rows
+  h += '<tr><td style="' + tc + '"></td><td style="' + tl + 'padding-left:20px;">i.) Planned Leaves</td>';
+  h += '<td style="' + tc + '">' + prevPL + '</td>';
+  weeksInMonth.forEach(function(wk) { h += '<td style="' + tc + '">' + weekData[wk].pl + '</td>'; });
+  h += '<td style="' + tc + '">' + mtdPL + '</td><td style="' + tc + '">-</td></tr>';
+
+  h += '<tr><td style="' + tc + '"></td><td style="' + tl + 'padding-left:20px;">ii.) Unplanned Leaves</td>';
+  h += '<td style="' + tc + '">' + prevUL + '</td>';
+  weeksInMonth.forEach(function(wk) { h += '<td style="' + tc + '">' + weekData[wk].ul + '</td>'; });
+  h += '<td style="' + tc + '">' + mtdUL + '</td><td style="' + tc + '">-</td></tr>';
+
+  h += '<tr><td style="' + tc + '"></td><td style="' + tl + 'padding-left:20px;">iii.) Site Offs/Optional Offs</td>';
+  h += '<td style="' + tc + '">' + prevSO + '</td>';
+  weeksInMonth.forEach(function(wk) { h += '<td style="' + tc + '">' + weekData[wk].so + '</td>'; });
+  h += '<td style="' + tc + '">' + mtdSO + '</td><td style="' + tc + '">-</td></tr>';
+
+  // Row 5: Shrinkage %
+  h += '<tr style="background:#fff2cc;"><td style="' + tc + 'font-weight:bold;">5</td><td style="' + tl + 'font-weight:bold;">OOTO Shrinkage% (D/C)</td>';
+  h += pctE(prevOOTO, prevTotalPersonDays);
+  weeksInMonth.forEach(function(wk, idx) { h += pctE(wkOOTO[idx], teamSize * weekWorkingDays[wk]); });
+  h += pctE(mtdOOTO, mtdPersonDays);
+  h += '<td style="' + tc + 'font-weight:bold;">' + TARGET + '%</td></tr>';
+  h += '</table>';
+
+  // LEGEND
+  h += '<p style="' + bs + 'margin:12px 0 4px;font-size:9pt;color:#545b64;"><b>Note:</b> PL - Planned Leave | UL - Unplanned Leave | SO - Site Off</p>';
+
+  // TABLE 2: People Availability
+  h += '<p style="' + bs + 'font-weight:bold;margin:20px 0 6px;">Table 2: People Availability Report</p>';
+  h += '<table style="' + ts + '">';
+  h += '<tr><td style="' + th + '" rowspan="2">Login</td>';
+  h += '<td style="' + th + '" colspan="3">' + prevMonthName + '</td>';
+  weeksInMonth.forEach(function(wk) { h += '<td style="' + th + '" colspan="3">WK ' + wk + '</td>'; });
+  h += '<td style="' + th + '" colspan="3">MTD</td></tr>';
+  h += '<tr>';
+  for (var c = 0; c < numWeeks + 2; c++) h += '<td style="' + th + '">PL</td><td style="' + th + '">UL</td><td style="' + th + '">SO</td>';
+  h += '</tr>';
+
+  var totRow = {prev:{pl:0,ul:0,so:0},mtd:{pl:0,ul:0,so:0}};
+  weeksInMonth.forEach(function(wk) { totRow[wk] = {pl:0,ul:0,so:0}; });
+
+  ics.forEach(function(a) {
+    var prevPersonLeaves = prevLeaves.filter(function(l) { return l.alias === a; });
+    var pPL = 0, pUL = 0, pSO = 0;
+    prevPersonLeaves.forEach(function(l) {
+      if (l.type === 'planned') pPL += l.days;
+      else if (l.type === 'unplanned') pUL += l.days;
+      else if (l.type === 'mandatory_off') pSO += l.days;
+    });
+    var pd = personData[a];
+    var mPL = 0, mUL = 0, mSO = 0;
+    weeksInMonth.forEach(function(wk) { mPL += pd[wk].pl; mUL += pd[wk].ul; mSO += pd[wk].so; });
+
+    totRow.prev.pl+=pPL; totRow.prev.ul+=pUL; totRow.prev.so+=pSO;
+    weeksInMonth.forEach(function(wk) { totRow[wk].pl+=pd[wk].pl; totRow[wk].ul+=pd[wk].ul; totRow[wk].so+=pd[wk].so; });
+    totRow.mtd.pl+=mPL; totRow.mtd.ul+=mUL; totRow.mtd.so+=mSO;
+
+    h += '<tr><td style="' + tl + 'font-weight:bold;">' + a + '</td>';
+    h += '<td style="' + tc + '">' + pPL + '</td><td style="' + tc + '">' + pUL + '</td><td style="' + tc + '">' + pSO + '</td>';
+    weeksInMonth.forEach(function(wk) { h += '<td style="' + tc + '">' + pd[wk].pl + '</td><td style="' + tc + '">' + pd[wk].ul + '</td><td style="' + tc + '">' + pd[wk].so + '</td>'; });
+    h += '<td style="' + tc + '">' + mPL + '</td><td style="' + tc + '">' + mUL + '</td><td style="' + tc + '">' + mSO + '</td></tr>';
+  });
+
+  // Totals row
+  h += '<tr style="background:#d9e2f3;font-weight:bold;"><td style="' + tl + 'font-weight:bold;">Total</td>';
+  h += '<td style="' + tc + '">' + totRow.prev.pl + '</td><td style="' + tc + '">' + totRow.prev.ul + '</td><td style="' + tc + '">' + totRow.prev.so + '</td>';
+  weeksInMonth.forEach(function(wk) { h += '<td style="' + tc + '">' + totRow[wk].pl + '</td><td style="' + tc + '">' + totRow[wk].ul + '</td><td style="' + tc + '">' + totRow[wk].so + '</td>'; });
+  h += '<td style="' + tc + '">' + totRow.mtd.pl + '</td><td style="' + tc + '">' + totRow.mtd.ul + '</td><td style="' + tc + '">' + totRow.mtd.so + '</td></tr>';
+  h += '</table>';
+
+  // TABLE 3: Leave Forecast
+  var forecast = getLeaveForcastData(selMonth, selYear, teamSize);
+  h += '<p style="' + bs + 'font-weight:bold;margin:20px 0 6px;">Table 3: Leave Forecast Report</p>';
+  h += '<table style="' + ts + '">';
+  h += '<tr><td style="' + th + '">Month</td><td style="' + th + '">Working %</td><td style="' + th + '">Leave %</td><td style="' + th + '">Formula</td><td style="' + th + '">Emp on Leave</td><td style="' + th + '">Key Holidays</td><td style="' + th + '">Likely Leave Pattern</td></tr>';
+  forecast.forEach(function(f) {
+    var lpStyle = f.leavePct > 20 ? tr : tc;
+    h += '<tr><td style="' + tc + '">' + f.month + '</td><td style="' + tc + '">' + f.workPct + '%</td><td style="' + lpStyle + '">' + f.leavePct + '%</td><td style="' + tc + '">' + f.formula + '</td><td style="' + tc + '">~' + f.empOnLeave + '</td><td style="' + tl + 'font-size:9pt;">' + f.holidays + '</td><td style="' + tl + 'font-size:9pt;">' + f.patterns + '</td></tr>';
+  });
+  h += '</table>';
+  h += '<p style="' + bs + 'font-size:9pt;color:#666;margin:4px 0 16px;">Note: Leave Forecast based on Indian festivals and historical trends. Saturday and Sunday weekly off.</p>';
+
+  // CALLOUTS
+  h += '<p style="' + bs + 'font-weight:bold;margin:16px 0 6px;">4. Callouts:</p>';
+  h += '<ol style="' + bs + 'margin:0 0 12px 20px;padding:0;">';
+  weeksInMonth.forEach(function(wk, idx) {
+    var wTotal = weekData[wk].pl + weekData[wk].ul + weekData[wk].so;
+    if (wTotal > 0) {
+      var parts = [];
+      if (weekData[wk].pl > 0) parts.push(weekData[wk].pl + ' planned leaves');
+      if (weekData[wk].ul > 0) parts.push(weekData[wk].ul + ' sick leaves');
+      if (weekData[wk].so > 0) parts.push(weekData[wk].so + ' optional offs');
+      h += '<li>In WK ' + wk + ', ' + wTotal + ' productivity days were lost due to ' + parts.join(' and ') + '.</li>';
+    }
+  });
+  h += '</ol>';
+
+  // Contact
+  h += '<p style="' + bs + 'margin:12px 0;">For any questions/concerns, please reach out to @KOTHA, SHARAN  @Gannamraju, Akhila</p>';
+  h += '<p style="' + bs + '"margin:16px 0 4px;">Regards,</p>';
+  h += '<p style="' + bs + '"font-weight:bold;margin:0;">Akhila Gannamraju</p>';
+  h += '</div>';
+  return h;
+}
+
+function getWorkingDaysInMonth(year, month) {
+  var count = 0;
+  var daysInMonth = new Date(year, month + 1, 0).getDate();
+  for (var d = 1; d <= daysInMonth; d++) {
+    var day = new Date(year, month, d).getDay();
+    if (day !== 0 && day !== 6) count++;
+  }
+  return count;
+}
+
+function copyFlashEmail() {
+  var output = document.getElementById('flash-output');
+  if (!output || !output.innerHTML.trim()) { toast('No flash report to copy!'); return; }
+  // Copy as rich HTML so it pastes with formatting in Outlook
+  var wrapStyle = '<html><head><style>body,p,td,th,div,span,li{font-family:Calibri,sans-serif !important;font-size:10pt !important;line-height:1.5 !important;}table{font-family:Calibri,sans-serif !important;font-size:10pt !important;line-height:1.5 !important;border-collapse:collapse;}</style></head><body style="font-family:Calibri,sans-serif;font-size:10pt;line-height:1.5;">';
+  var htmlContent = wrapStyle + output.innerHTML + '</body></html>';
+  var blob = new Blob([htmlContent], { type: 'text/html' });
+  var plainBlob = new Blob([output.innerText], { type: 'text/plain' });
+  var clipboardItem = new ClipboardItem({
+    'text/html': blob,
+    'text/plain': plainBlob
+  });
+  navigator.clipboard.write([clipboardItem]).then(function() {
+    toast('Flash report copied with formatting! Paste in Outlook.');
+  }).catch(function() {
+    // Fallback: copy plain text
+    navigator.clipboard.writeText(output.innerText).then(function() {
+      toast('Copied as plain text (rich copy not supported in this browser)');
+    });
+  });
+}
+
+
+function sendFlashEmail() {
+  var output = document.getElementById('flash-output');
+  if (!output || !output.innerHTML.trim()) { toast('No flash report to send!'); return; }
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var selMonth = parseInt(document.getElementById('flash-month').value);
+  var subject = 'MCE Flash | ' + months[selMonth].toUpperCase() + ' - Monthly Shrinkage Report';
+
+  // Get the manager's email
+  var mgr = state.mgr;
+  var mgrInfo = ORG[mgr];
+  var mgrEmail = mgr + '@amazon.com';
+  var mgrMgr = mgrInfo && mgrInfo.mgr ? mgrInfo.mgr + '@amazon.com' : '';
+
+  // Copy rich HTML to clipboard
+  var htmlContent = output.innerHTML;
+  var blob = new Blob([htmlContent], { type: 'text/html' });
+  var plainBlob = new Blob([output.innerText], { type: 'text/plain' });
+  var clipboardItem = new ClipboardItem({ 'text/html': blob, 'text/plain': plainBlob });
+  navigator.clipboard.write([clipboardItem]).then(function() {
+    // Open email client with To, CC, Subject pre-filled
+    var mailto = 'mailto:' + mgrEmail + '?subject=' + encodeURIComponent(subject);
+    if (mgrMgr) mailto += '&cc=' + mgrMgr;
+    window.location.href = mailto;
+    toast('Email opened for ' + (mgrInfo ? mgrInfo.name : mgr) + '. Press Ctrl+V to paste report.');
+  }).catch(function() {
+    // Fallback: open with plain text body
+    var body = buildFlashPlainText();
+    var mailto = 'mailto:' + mgrEmail + '?subject=' + encodeURIComponent(subject);
+    if (mgrMgr) mailto += '&cc=' + mgrMgr;
+    mailto += '&body=' + encodeURIComponent(body);
+    window.location.href = mailto;
+    toast('Email opened for ' + (mgrInfo ? mgrInfo.name : mgr));
+  });
+}
+
+function buildFlashPlainText() {
+  var mgr = state.mgr;
+  var ics = getICs(mgr);
+  var leaves = getLeaves(mgr);
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var TARGET = 20;
+  var selMonth = parseInt(document.getElementById('flash-month').value);
+  var selYear = parseInt(document.getElementById('flash-year').value);
+  var monthName = months[selMonth];
+  var teamSize = ics.length;
+  var workDays = getWorkingDaysInMonth(selYear, selMonth);
+  var prevMonthIdx = (selMonth - 1 + 12) % 12;
+  var prevYear = selMonth === 0 ? selYear - 1 : selYear;
+  var prevMonthName = months[prevMonthIdx];
+  var prevMonthKey = prevYear + '-' + String(prevMonthIdx + 1).padStart(2, '0');
+  var prevWorkDays = getWorkingDaysInMonth(prevYear, prevMonthIdx);
+  var prevTotalPersonDays = teamSize * prevWorkDays;
+  var monthKey = selYear + '-' + String(selMonth + 1).padStart(2, '0');
+  var monthLeaves = leaves.filter(function(l) { return l.from.startsWith(monthKey); });
+
+  function getISOWeek(d) {
+    var date = new Date(d.getTime()); date.setHours(0,0,0,0);
+    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+    var week1 = new Date(date.getFullYear(), 0, 4);
+    return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+  }
+
+  var daysInMonth = new Date(selYear, selMonth + 1, 0).getDate();
+  var weeksInMonth = [], weekWorkingDays = {};
+  for (var d = 1; d <= daysInMonth; d++) {
+    var dt = new Date(selYear, selMonth, d);
+    if (dt.getDay() !== 0 && dt.getDay() !== 6) {
+      var wkNum = getISOWeek(dt);
+      if (weeksInMonth.indexOf(wkNum) === -1) weeksInMonth.push(wkNum);
+      if (!weekWorkingDays[wkNum]) weekWorkingDays[wkNum] = 0;
+      weekWorkingDays[wkNum]++;
+    }
+  }
+  var mtdWorkDays = workDays;
+  var mtdPersonDays = teamSize * mtdWorkDays;
+
+  var weekData = {};
+  weeksInMonth.forEach(function(wk) { weekData[wk] = {pl:0,ul:0,so:0}; });
+  var personData = {};
+  ics.forEach(function(a) { personData[a] = {}; weeksInMonth.forEach(function(wk) { personData[a][wk] = {pl:0,ul:0,so:0}; }); });
+
+  monthLeaves.forEach(function(l) {
+    var current = new Date(l.from);
+    var toDate = l.to ? new Date(l.to) : new Date(l.from);
+    while (current <= toDate) {
+      if (current.getMonth() === selMonth && current.getFullYear() === selYear && current.getDay() !== 0 && current.getDay() !== 6) {
+        var wk = getISOWeek(current);
+        if (weekData[wk]) {
+          if (l.type === 'planned') { weekData[wk].pl++; if (personData[l.alias] && personData[l.alias][wk]) personData[l.alias][wk].pl++; }
+          else if (l.type === 'unplanned') { weekData[wk].ul++; if (personData[l.alias] && personData[l.alias][wk]) personData[l.alias][wk].ul++; }
+          else if (l.type === 'mandatory_off') { weekData[wk].so++; if (personData[l.alias] && personData[l.alias][wk]) personData[l.alias][wk].so++; }
+        }
+      }
+      current.setDate(current.getDate() + 1);
+    }
+  });
+
+  var tracker = db.dailyTracker[mgr] || {};
+  ics.forEach(function(a) {
+    if (tracker[a]) { Object.entries(tracker[a]).forEach(function(entry) {
+      if (entry[0].startsWith(monthKey) && entry[1].status === 'mandate_off') {
+        var dt2 = new Date(entry[0]);
+        if (dt2.getDay() !== 0 && dt2.getDay() !== 6) { var wk = getISOWeek(dt2); if (weekData[wk]) { weekData[wk].so++; if (personData[a] && personData[a][wk]) personData[a][wk].so++; } }
+      }
+    }); }
+  });
+
+  var prevLeaves = leaves.filter(function(l) { return l.from.startsWith(prevMonthKey); });
+  var prevPL = 0, prevUL = 0, prevSO = 0;
+  prevLeaves.forEach(function(l) { if (l.type === 'planned') prevPL += l.days; else if (l.type === 'unplanned') prevUL += l.days; else if (l.type === 'mandatory_off') prevSO += l.days; });
+  var prevOOTO = prevPL + prevUL + prevSO;
+  var mtdPL = 0, mtdUL = 0, mtdSO = 0;
+  weeksInMonth.forEach(function(wk) { mtdPL += weekData[wk].pl; mtdUL += weekData[wk].ul; mtdSO += weekData[wk].so; });
+  var mtdOOTO = mtdPL + mtdUL + mtdSO;
+
+  function pct(v, t) { return t > 0 ? Math.round((v/t)*100) + '%' : '0%'; }
+  var S = '\t';
+
+  var t = 'MCE Flash | ' + monthName.toUpperCase() + '\n\n';
+  t += 'Overview: MCE Team Monthly Shrinkage Report - Team Availability, People Availability for ' + monthName + ' MTD.\n\n';
+
+  // Table 1
+  t += 'Table 1: Team Availability Report\n\n';
+  t += '#' + S + 'Available Days' + S + prevMonthName;
+  weeksInMonth.forEach(function(wk) { t += S + 'WK ' + wk; });
+  t += S + 'MTD' + S + 'Vs Target\n';
+
+  t += '1' + S + 'Total Persons (A)' + S + teamSize;
+  weeksInMonth.forEach(function() { t += S + teamSize; });
+  t += S + teamSize + S + '-\n';
+
+  t += '2' + S + 'Total Working Days (B)' + S + prevWorkDays;
+  weeksInMonth.forEach(function(wk) { t += S + weekWorkingDays[wk]; });
+  t += S + mtdWorkDays + S + '-\n';
+
+  t += '3' + S + 'Total Available Person Days (A*B)=(C)' + S + prevTotalPersonDays;
+  weeksInMonth.forEach(function(wk) { t += S + (teamSize * weekWorkingDays[wk]); });
+  t += S + mtdPersonDays + S + '-\n';
+
+  var wkOOTO = weeksInMonth.map(function(wk) { return weekData[wk].pl + weekData[wk].ul + weekData[wk].so; });
+  t += '4' + S + 'Total OOTO Person Days (D)' + S + prevOOTO;
+  wkOOTO.forEach(function(v) { t += S + v; });
+  t += S + mtdOOTO + S + '-\n';
+
+  t += ' ' + S + 'i.) Planned Leaves' + S + prevPL;
+  weeksInMonth.forEach(function(wk) { t += S + weekData[wk].pl; });
+  t += S + mtdPL + S + '-\n';
+
+  t += ' ' + S + 'ii.) Unplanned Leaves' + S + prevUL;
+  weeksInMonth.forEach(function(wk) { t += S + weekData[wk].ul; });
+  t += S + mtdUL + S + '-\n';
+
+  t += ' ' + S + 'iii.) Site Offs/Optional Offs' + S + prevSO;
+  weeksInMonth.forEach(function(wk) { t += S + weekData[wk].so; });
+  t += S + mtdSO + S + '-\n';
+
+  t += '5' + S + 'OOTO Shrinkage% (D/C)' + S + pct(prevOOTO, prevTotalPersonDays);
+  weeksInMonth.forEach(function(wk, i) { t += S + pct(wkOOTO[i], teamSize * weekWorkingDays[wk]); });
+  t += S + pct(mtdOOTO, mtdPersonDays) + S + TARGET + '%\n';
+
+  // Table 2
+  t += '\n\nTable 2: People Availability Report\n\n';
+  t += 'Login' + S + 'PL' + S + 'UL' + S + 'SO';
+  weeksInMonth.forEach(function(wk) { t += S + 'PL' + S + 'UL' + S + 'SO'; });
+  t += S + 'PL' + S + 'UL' + S + 'SO\n';
+
+  ics.forEach(function(a) {
+    var pp = prevLeaves.filter(function(l) { return l.alias === a; });
+    var pPL=0, pUL=0, pSO=0;
+    pp.forEach(function(l) { if (l.type==='planned') pPL+=l.days; else if (l.type==='unplanned') pUL+=l.days; else if (l.type==='mandatory_off') pSO+=l.days; });
+    var pd = personData[a];
+    var mPL=0, mUL=0, mSO=0;
+    weeksInMonth.forEach(function(wk) { mPL+=pd[wk].pl; mUL+=pd[wk].ul; mSO+=pd[wk].so; });
+    t += a + S + pPL + S + pUL + S + pSO;
+    weeksInMonth.forEach(function(wk) { t += S + pd[wk].pl + S + pd[wk].ul + S + pd[wk].so; });
+    t += S + mPL + S + mUL + S + mSO + '\n';
+  });
+
+  // Callouts
+  t += '\n\n4. Callouts:\n\n';
+  var cn = 1;
+  weeksInMonth.forEach(function(wk) {
+    var wT = weekData[wk].pl + weekData[wk].ul + weekData[wk].so;
+    if (wT > 0) {
+      var p = [];
+      if (weekData[wk].pl > 0) p.push(weekData[wk].pl + ' planned leaves');
+      if (weekData[wk].ul > 0) p.push(weekData[wk].ul + ' sick leaves');
+      if (weekData[wk].so > 0) p.push(weekData[wk].so + ' optional offs');
+      t += cn + '. In WK ' + wk + ', ' + wT + ' productivity days lost due to ' + p.join(' and ') + '.\n';
+      cn++;
+    }
+  });
+
+  t += '\nFor any questions/concerns, please reach out to @KOTHA, SHARAN  @Gannamraju, Akhila';
+  t += '\n\nRegards,\nAkhila Gannamraju';
+  return t;
+}
+
+// ========== WBR (Weekly Business Review) ==========
+function renderWBR() {
+  var mgr = state.mgr;
+  var ics = getICs(mgr);
+  var info = ORG[mgr];
+  
+  // Get current week number
+  var today = new Date();
+  var startOfYear = new Date(today.getFullYear(), 0, 1);
+  var weekNum = Math.ceil(((today - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);
+  var weekKey = today.getFullYear() + '-W' + weekNum;
+  
+  // Initialize WBR data in db
+  if (!db.wbr) db.wbr = {};
+  if (!db.wbr[mgr]) db.wbr[mgr] = {};
+  if (!db.wbr[mgr][weekKey]) db.wbr[mgr][weekKey] = {};
+
+  var h = '<div class="card">';
+  h += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">';
+  h += '<h2 style="margin:0">&#128221; Weekly Business Review (WBR)</h2>';
+  h += '<div style="display:flex;gap:8px">';
+  h += '<button class="btn btn-p" onclick="generateTeamWBR()">&#128196; Generate Team WBR</button>';
+  h += '<button class="btn btn-g" onclick="sendWBRReminders()">&#128232; Send Reminders</button>';
+  h += '</div></div>';
+
+  // Week selector
+  h += '<div style="margin-bottom:16px;font-size:13px;color:var(--muted)">Week ' + weekNum + ' (' + getWeekDateRange(today) + ')</div>';
+
+  // Status overview - who has updated
+  var updatedCount = 0;
+  var notUpdated = [];
+  ics.forEach(function(a) {
+    if (db.wbr[mgr][weekKey] && db.wbr[mgr][weekKey][a] && db.wbr[mgr][weekKey][a].tasks && db.wbr[mgr][weekKey][a].tasks.length > 0) {
+      updatedCount++;
+    } else {
+      notUpdated.push(a);
+    }
+  });
+
+  h += '<div class="stats">';
+  h += '<div class="stat green"><div class="val">' + updatedCount + '/' + ics.length + '</div><div class="lbl">Updated</div></div>';
+  h += '<div class="stat ' + (notUpdated.length > 0 ? 'red' : 'green') + '"><div class="val">' + notUpdated.length + '</div><div class="lbl">Pending</div></div>';
+  h += '<div class="stat"><div class="val">' + Math.round((updatedCount/ics.length)*100) + '%</div><div class="lbl">Completion</div></div>';
+  h += '</div>';
+
+  // Not updated list with reminder
+  if (notUpdated.length > 0) {
+    h += '<div style="background:#fce9e6;border:1px solid #f5c6c0;border-radius:6px;padding:12px;margin-bottom:16px;font-size:12px">';
+    h += '<strong style="color:var(--danger)">&#9888; Not Updated:</strong> ';
+    h += notUpdated.map(function(a) { return '<span style="font-weight:600">' + a + '</span>'; }).join(', ');
+    h += '</div>';
+  }
+
+  
+    // WBR Data-Driven Narrative Email Section
+  h += '<hr style="margin:20px 0;border:none;border-top:2px solid var(--border)">';
+  h += renderWBRDataSection();
+  return h;
+}
+
+function getWeekDateRange(date) {
+  var d = new Date(date);
+  var day = d.getDay();
+  var diff = d.getDate() - day + (day === 0 ? -6 : 1);
+  var monday = new Date(d.setDate(diff));
+  var friday = new Date(monday);
+  friday.setDate(monday.getDate() + 4);
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return months[monday.getMonth()] + ' ' + monday.getDate() + ' - ' + months[friday.getMonth()] + ' ' + friday.getDate();
+}
+
+function saveWBREntry() {
+  var mgr = state.mgr;
+  var today = new Date();
+  var startOfYear = new Date(today.getFullYear(), 0, 1);
+  var weekNum = Math.ceil(((today - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);
+  var weekKey = today.getFullYear() + '-W' + weekNum;
+  var alias = document.getElementById('wbr-user').value;
+  var date = document.getElementById('wbr-date').value;
+  var program = document.getElementById('wbr-program').value;
+  var subProgram = document.getElementById('wbr-subprogram').value;
+  var tasks = document.getElementById('wbr-tasks').value.trim().split('\n').filter(function(t) { return t.trim(); });
+  var timeSpent = parseFloat(document.getElementById('wbr-timespent').value) || 8;
+  var availability = document.getElementById('wbr-availability').value;
+
+  if (tasks.length === 0 && availability.indexOf('leave') === -1 && availability !== 'site_off') { toast('Please enter at least one callout/activity!'); return; }
+
+  if (!db.wbr) db.wbr = {};
+  if (!db.wbr[mgr]) db.wbr[mgr] = {};
+  if (!db.wbr[mgr][weekKey]) db.wbr[mgr][weekKey] = {};
+  
+  // Store per date (not just per week) for daily tracking
+  if (!db.wbr[mgr][weekKey][alias]) db.wbr[mgr][weekKey][alias] = { entries: [] };
+  db.wbr[mgr][weekKey][alias].entries.push({
+    date: date,
+    program: program,
+    subProgram: subProgram,
+    tasks: tasks,
+    timeSpent: timeSpent,
+    availability: availability,
+    updatedAt: new Date().toISOString()
+  });
+  // Keep backward compatibility
+  db.wbr[mgr][weekKey][alias].tasks = tasks;
+  db.wbr[mgr][weekKey][alias].availability = availability;
+  
+  save();
+  toast((ORG[alias] ? ORG[alias].name : alias) + "'s update saved for " + date + "!");
+  render();
+}
+
+function generateTeamWBR() {
+  var mgr = state.mgr;
+  var ics = getICs(mgr);
+  var info = ORG[mgr];
+  var today = new Date();
+  var startOfYear = new Date(today.getFullYear(), 0, 1);
+  var weekNum = Math.ceil(((today - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);
+  var weekKey = today.getFullYear() + '-W' + weekNum;
+  var weekRange = getWeekDateRange(today);
+
+  var entries = db.wbr && db.wbr[mgr] && db.wbr[mgr][weekKey] ? db.wbr[mgr][weekKey] : {};
+
+  var subject = 'WBR - ' + info.name + "'s Team - Week " + weekNum + ' (' + weekRange + ')';
+  var body = 'WEEKLY BUSINESS REVIEW\n';
+  body += 'Team: ' + info.name + ' | Week ' + weekNum + ' (' + weekRange + ')\n';
+  body += '---------------------------------------\n\n';
+
+  // Summary
+  var totalTasks = 0, totalBlockers = 0;
+  ics.forEach(function(a) { if (entries[a]) { totalTasks += entries[a].tasks.length; if (entries[a].blockers) totalBlockers++; } });
+  body += 'SUMMARY: ' + Object.keys(entries).length + '/' + ics.length + ' reported | ' + totalTasks + ' tasks completed | ' + totalBlockers + ' blockers\n\n';
+
+  // Per person
+  body += 'TEAM UPDATES:\n';
+  body += '---------------------------------------\n';
+  ics.forEach(function(a) {
+    var name = ORG[a] ? ORG[a].name : a;
+    if (entries[a]) {
+      body += '\n' + name + ' (' + a + '):\n';
+      entries[a].tasks.forEach(function(t) { body += '  � ' + t + '\n'; });
+      if (entries[a].highlights) body += '  ? Highlight: ' + entries[a].highlights + '\n';
+      if (entries[a].blockers) body += '  ? Blocker: ' + entries[a].blockers + '\n';
+      if (entries[a].nextweek) body += '  ? Next week: ' + entries[a].nextweek + '\n';
+    } else {
+      body += '\n' + name + ' (' + a + '): ? Not submitted\n';
+    }
+  });
+
+  // Blockers summary
+  body += '\n\nBLOCKERS:\n';
+  body += '---------------------------------------\n';
+  var hasBlockers = false;
+  ics.forEach(function(a) { if (entries[a] && entries[a].blockers) { body += '� ' + a + ': ' + entries[a].blockers + '\n'; hasBlockers = true; } });
+  if (!hasBlockers) body += '� None reported\n';
+
+  body += '\n\n---\nGenerated by WBR Dashboard | ' + new Date().toLocaleDateString();
+
+  // Open email
+  var mgrMgr = info.mgr ? info.mgr + '@amazon.com' : '';
+  var mailto = 'mailto:' + mgrMgr + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  window.location.href = mailto;
+  toast('WBR email opened for ' + (ORG[info.mgr] ? ORG[info.mgr].name : info.mgr));
+}
+
+
+// ========== WBR DATA-DRIVEN EMAIL GENERATOR ==========
+// Paste SharePoint data -> Aggregate by week/program -> Generate narrative WBR email
+var wbrParsedData = [];
+var wbrWeekFilter = '';
+var wbrProgFilter = '';
+
+function renderWBRDataSection() {
+  var hasData = wbrParsedData.length > 0;
+  var h = '<div class="card">';
+  h += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">';
+  h += '<h2 style="margin:0">&#128232; WBR Narrative Email Generator</h2>';
+  if (hasData) h += '<button class="btn btn-p" onclick="generateWBRNarrativeEmail()">&#128228; Generate Narrative Email</button>';
+  h += '</div>';
+  h += '<p style="font-size:12px;color:var(--muted);margin-bottom:12px">Paste your SharePoint weekly data (tab-separated). Generates a manager-style narrative WBR email ready for Outlook (Calibri 10pt, 1.5 spacing).</p>';
+
+  // Tabs: Paste / Upload
+  h += '<div class="tabs" style="margin-bottom:12px"><div class="tab active" onclick="wbrDataTab(\'paste\',this)">Paste Data</div><div class="tab" onclick="wbrDataTab(\'upload\',this)">Upload CSV</div></div>';
+  h += '<div id="wbr-data-input">';
+  h += '<textarea id="wbr-data-paste" rows="8" style="width:100%;font-family:Consolas,monospace;font-size:11px;padding:10px;border:1px solid var(--border);border-radius:6px;resize:vertical" placeholder="Paste tab-separated data from SharePoint here...\nColumns: Login, HC, WK, Date, Program, Sub-Program, HC Utilization, Shrinkage Type, Target, Actual, Inflow, Backlog of the day, Comments"></textarea>';
+  h += '<div style="display:flex;gap:8px;margin-top:8px;align-items:center">';
+  h += '<button class="btn btn-p" onclick="parseWBRSheetData()">Parse & Load</button>';
+  h += '<button class="btn btn-s" onclick="loadWBRSampleData()">Load Sample</button>';
+  h += '<span id="wbr-data-status" style="font-size:12px;color:var(--muted)"></span>';
+  h += '</div></div>';
+  h += '</div>';
+
+  if (hasData) {
+    var agg = aggregateWBRData(getFilteredWBRData());
+    var achPct = agg.totalTarget > 0 ? ((agg.totalAudits / agg.totalTarget) * 100).toFixed(1) : 0;
+
+    // Stats
+    h += '<div class="stats">';
+    h += '<div class="stat"><div class="val">' + agg.uniqueAssociates + '</div><div class="lbl">Associates</div></div>';
+    h += '<div class="stat green"><div class="val">' + agg.totalAudits.toLocaleString() + '</div><div class="lbl">Total Actuals</div></div>';
+    h += '<div class="stat"><div class="val">' + agg.totalTarget.toLocaleString() + '</div><div class="lbl">Target</div></div>';
+    h += '<div class="stat ' + (achPct >= 100 ? 'green' : achPct >= 85 ? 'orange' : 'red') + '"><div class="val">' + achPct + '%</div><div class="lbl">Achievement</div></div>';
+    h += '<div class="stat ' + (agg.shrinkagePct > 15 ? 'red' : 'green') + '"><div class="val">' + agg.shrinkagePct.toFixed(0) + '%</div><div class="lbl">Shrinkage</div></div>';
+    h += '<div class="stat orange"><div class="val">' + agg.totalBacklog.toLocaleString() + '</div><div class="lbl">Backlog</div></div>';
+    h += '</div>';
+
+    
+    // Manager Brief - additional context for the WBR email
+    h += '<div class="card" style="padding:14px 16px;margin-bottom:12px;background:#f8f9fa">';
+    h += '<h3 style="margin-bottom:8px">&#128221; Manager Brief (Optional)</h3>';
+    h += '<p style="font-size:11px;color:var(--muted);margin-bottom:8px">Add key highlights, project updates, or business context to include in the WBR email. This will appear as a dedicated section.</p>';
+    h += '<textarea id="wbr-manager-brief" rows="4" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:inherit;resize:vertical" placeholder="Example: Completed 110K PT-MP-Attribute display properties audits and identified 30K defects (116 unique). 65 localization defects will auto-remediate via PKTW by 5/25. Remaining 51 defects (24 example text, 16 short descriptions, 11 labels) being fixed via self-service tooling, releasing 6/29."></textarea>';
+    h += '</div>';
+// Filters
+    var weeks = []; wbrParsedData.forEach(function(d) { if (d.week && weeks.indexOf(d.week) === -1) weeks.push(d.week); }); weeks.sort();
+    h += '<div class="card" style="padding:12px 16px"><div class="fr">';
+    h += '<div class="fg"><label>Week</label><select id="wbr-wk-filter" onchange="wbrWeekFilter=this.value;render()"><option value="">All Weeks</option>';
+    weeks.forEach(function(w) { h += '<option value="' + w + '" ' + (wbrWeekFilter === w ? 'selected' : '') + '>' + w + '</option>'; });
+    h += '</select></div>';
+    h += '<div class="fg"><label>Program</label><select id="wbr-prog-filter" onchange="wbrProgFilter=this.value;render()"><option value="">All Programs</option>';
+    var progs = ['CMDE Audit','LDX','Expo','NGS','MCE QA','MCE Dev','MCE Tickets','Listing deep dives','CMDE QC'];
+    progs.forEach(function(p) { h += '<option value="' + p + '" ' + (wbrProgFilter === p ? 'selected' : '') + '>' + p + '</option>'; });
+    h += '</select></div>';
+    h += '<div class="fg"><label>Tone</label><select id="wbr-tone"><option value="formal">Formal</option><option value="concise">Concise</option></select></div>';
+    h += '</div></div>';
+
+    // Program table
+    h += '<div class="card"><h3>Program Breakdown</h3><table><tr><th>Program</th><th>HC</th><th>Target</th><th>Actual</th><th>Achievement</th><th>Backlog</th><th>Per HC</th></tr>';
+    agg.byProgram.forEach(function(p) {
+      var pAch = p.target > 0 ? (p.actual / p.target * 100).toFixed(0) : 0;
+      h += '<tr><td><strong>' + p.program + '</strong></td><td class="num">' + p.hc + '</td><td class="num">' + p.target.toLocaleString() + '</td><td class="num">' + p.actual.toLocaleString() + '</td>';
+      h += '<td class="num"><span class="badge ' + (pAch >= 100 ? 'b-green' : pAch >= 85 ? 'b-orange' : 'b-red') + '">' + pAch + '%</span></td>';
+      h += '<td class="num">' + p.backlog.toLocaleString() + '</td><td class="num">' + (p.hc > 0 ? (p.actual / p.hc).toFixed(0) : '-') + '</td></tr>';
+    });
+    h += '</table></div>';
+  }
+
+  // Email preview area
+  h += '<div id="wbr-email-output" style="display:none"><div class="card">';
+  h += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">';
+  h += '<h3>&#128203; Generated WBR Email</h3>';
+  h += '<button class="btn btn-g" onclick="copyWBRNarrativeEmail()">&#128203; Copy to Clipboard (Outlook)</button>';
+  h += '</div>';
+  h += '<div id="wbr-email-html" style="background:#fafafa;border:1px solid var(--border);border-radius:6px;padding:20px;font-family:Calibri,sans-serif;font-size:10pt;line-height:1.5;max-height:500px;overflow-y:auto"></div>';
+  h += '</div></div>';
+
+  return h;
+}
+
+function wbrDataTab(tab, el) {
+  document.querySelectorAll('.tabs .tab').forEach(function(t) { t.classList.remove('active'); });
+  el.classList.add('active');
+  var area = document.getElementById('wbr-data-input');
+  if (tab === 'paste') {
+    area.innerHTML = '<textarea id="wbr-data-paste" rows="8" style="width:100%;font-family:Consolas,monospace;font-size:11px;padding:10px;border:1px solid var(--border);border-radius:6px;resize:vertical" placeholder="Paste tab-separated data..."></textarea><div style="display:flex;gap:8px;margin-top:8px;align-items:center"><button class="btn btn-p" onclick="parseWBRSheetData()">Parse & Load</button><button class="btn btn-s" onclick="loadWBRSampleData()">Load Sample</button><span id="wbr-data-status" style="font-size:12px;color:var(--muted)"></span></div>';
+  } else {
+    area.innerHTML = '<div class="fg"><label>Upload CSV / TSV</label><input type="file" id="wbr-file-upload" accept=".csv,.tsv" onchange="handleWBRFileUpload(event)" style="padding:8px"></div><span id="wbr-data-status" style="font-size:12px;color:var(--muted)"></span>';
+  }
+}
+
+function parseWBRSheetData() {
+  var el = document.getElementById('wbr-data-paste');
+  if (!el || !el.value.trim()) { toast('Paste data first'); return; }
+  var rows = el.value.trim().split('\n').map(function(r) { return r.split('\t'); });
+  if (rows.length < 2) { toast('Need header + data rows'); return; }
+  var headers = rows[0].map(function(h) { return h.trim().toLowerCase().replace(/^#$/, '_num'); });
+  var data = [];
+  for (var i = 1; i < rows.length; i++) {
+    if (rows[i].length < 4) continue;
+    var obj = {};
+    headers.forEach(function(hdr, idx) { obj[hdr] = (rows[i][idx] || '').trim(); });
+    data.push(obj);
+  }
+  wbrParsedData = normalizeWBRSheetData(data);
+  var status = document.getElementById('wbr-data-status');
+  if (status) { status.innerHTML = '<span style="color:var(--success)">&#10004; ' + wbrParsedData.length + ' rows loaded</span>'; }
+  render();
+  toast(wbrParsedData.length + ' rows loaded');
+}
+
+function handleWBRFileUpload(e) {
+  var file = e.target.files[0]; if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    var text = ev.target.result;
+    var delim = text.split('\n')[0].split('\t').length > 3 ? '\t' : ',';
+    var rows = text.split('\n').map(function(r) { return r.split(delim); });
+    if (rows.length < 2) { toast('No data in file'); return; }
+    var headers = rows[0].map(function(h) { return h.trim().toLowerCase().replace(/"/g, '').replace(/^#$/, '_num'); });
+    var data = [];
+    for (var i = 1; i < rows.length; i++) {
+      if (rows[i].length < 4) continue;
+      var obj = {};
+      headers.forEach(function(hdr, idx) { obj[hdr] = (rows[i][idx] || '').trim().replace(/"/g, ''); });
+      data.push(obj);
+    }
+    wbrParsedData = normalizeWBRSheetData(data);
+    toast(wbrParsedData.length + ' rows loaded from file');
+    render();
+  };
+  reader.readAsText(file);
+}
+
+function normalizeWBRSheetData(data) {
+  return data.map(function(row) {
+    var utilRaw = row['hc utilization'] || row['hcutilization'] || row['utilization'] || '';
+    var util = 0;
+    if (utilRaw.toLowerCase() === 'utilized') util = 100;
+    else if (utilRaw.toLowerCase() === 'shrinkage') util = 0;
+    else util = parseFloat(utilRaw) || 0;
+    var week = row['week'] || row['wk'] || '';
+    if (week && !isNaN(week)) week = 'Week ' + week;
+    return {
+      login: row['login'] || row['associate'] || row['name'] || '',
+      hc: parseFloat(row['hc'] || '1') || 1,
+      week: week,
+      date: row['date'] || '',
+      program: row['program'] || '',
+      subProgram: row['sub-program'] || row['subprogram'] || '',
+      hcUtilization: util,
+      shrinkageType: row['shrinkage type'] || row['shrinkagetype'] || '',
+      target: parseFloat(row['target'] || '0') || 0,
+      actual: parseFloat(row['actual'] || '0') || 0,
+      inflow: parseFloat(row['inflow'] || '0') || 0,
+      backlog: parseFloat(row['backlog of the day'] || row['backlog'] || '0') || 0,
+      comments: row['comments'] || row['comment'] || ''
+    };
+  }).filter(function(r) { return r.login; });
+}
+
+function getFilteredWBRData() {
+  var d = wbrParsedData;
+  if (wbrWeekFilter) d = d.filter(function(r) { return r.week === wbrWeekFilter; });
+  if (wbrProgFilter) d = d.filter(function(r) { return r.program === wbrProgFilter; });
+  return d;
+}
+
+function aggregateWBRData(data) {
+  var totalAudits = 0, totalTarget = 0, totalBacklog = 0, totalInflow = 0;
+  data.forEach(function(d) { totalAudits += d.actual; totalTarget += d.target; totalBacklog += d.backlog; totalInflow += d.inflow; });
+  var shrinkCount = data.filter(function(d) { return d.hcUtilization === 0; }).length;
+  var shrinkagePct = data.length > 0 ? (shrinkCount / data.length * 100) : 0;
+  var logins = {}; data.forEach(function(d) { if (d.login) logins[d.login] = true; });
+  var uniqueAssociates = Object.keys(logins).length;
+  var pm = {};
+  data.forEach(function(d) {
+    if (!d.program) return;
+    if (!pm[d.program]) pm[d.program] = { program: d.program, target: 0, actual: 0, inflow: 0, backlog: 0, hc: {} };
+    pm[d.program].target += d.target; pm[d.program].actual += d.actual;
+    pm[d.program].inflow += d.inflow; pm[d.program].backlog += d.backlog;
+    if (d.login) pm[d.program].hc[d.login] = true;
+  });
+  var byProgram = Object.keys(pm).map(function(k) { var p = pm[k]; return { program: p.program, target: p.target, actual: p.actual, inflow: p.inflow, backlog: p.backlog, hc: Object.keys(p.hc).length }; }).sort(function(a, b) { return b.actual - a.actual; });
+  var ppl = {};
+  data.forEach(function(d) {
+    if (!d.login) return;
+    if (!ppl[d.login]) ppl[d.login] = { login: d.login, target: 0, actual: 0, progs: {} };
+    ppl[d.login].target += d.target; ppl[d.login].actual += d.actual;
+    if (d.program) ppl[d.login].progs[d.program] = true;
+  });
+  var byPerson = Object.keys(ppl).map(function(k) { var p = ppl[k]; return { login: p.login, target: p.target, actual: p.actual, programs: Object.keys(p.progs).join(', '), ach: p.target > 0 ? (p.actual / p.target * 100) : 0 }; }).sort(function(a, b) { return b.actual - a.actual; });
+  return { totalAudits: totalAudits, totalTarget: totalTarget, totalBacklog: totalBacklog, totalInflow: totalInflow, shrinkagePct: shrinkagePct, uniqueAssociates: uniqueAssociates, byProgram: byProgram, byPerson: byPerson };
+}
+
+function generateWBRNarrativeEmail() {
+  var data = getFilteredWBRData();
+  if (!data.length) { toast('No data loaded'); return; }
+  var agg = aggregateWBRData(data);
+  var weekLabel = wbrWeekFilter || 'Month Summary';
+  var achPct = agg.totalTarget > 0 ? ((agg.totalAudits / agg.totalTarget) * 100).toFixed(1) : 0;
+  var tone = (document.getElementById('wbr-tone') || {}).value || 'formal';
+  var info = ORG[state.mgr] || { name: 'Manager' };
+  var mgrName = info.name || 'Akhila Gannamraju';
+
+  // Compute weekly breakdown
+  var weekMap = {};
+  data.forEach(function(d) {
+    if (!d.week) return;
+    if (!weekMap[d.week]) weekMap[d.week] = { week: d.week, target: 0, actual: 0, backlog: 0, inflow: 0, utilized: 0, shrinkage: 0, total: 0 };
+    weekMap[d.week].target += d.target;
+    weekMap[d.week].actual += d.actual;
+    weekMap[d.week].backlog += d.backlog;
+    weekMap[d.week].inflow += d.inflow;
+    weekMap[d.week].total++;
+    if (d.hcUtilization > 0) weekMap[d.week].utilized++;
+    else weekMap[d.week].shrinkage++;
+  });
+  var weeks = Object.keys(weekMap).sort();
+  var weekData = weeks.map(function(w) { var wd = weekMap[w]; wd.achPct = wd.target > 0 ? (wd.actual / wd.target * 100).toFixed(0) : 0; wd.shrinkPct = wd.total > 0 ? (wd.shrinkage / wd.total * 100).toFixed(0) : 0; return wd; });
+
+  // Shrinkage by type
+  var shrinkTypes = {};
+  data.forEach(function(d) { if (d.shrinkageType && d.shrinkageType !== 'NA' && d.shrinkageType !== '') shrinkTypes[d.shrinkageType] = (shrinkTypes[d.shrinkageType] || 0) + 1; });
+  var totalShrinkEntries = Object.keys(shrinkTypes).reduce(function(s, k) { return s + shrinkTypes[k]; }, 0);
+
+  // Top performers and bottom performers
+  var topPerf = agg.byPerson.filter(function(p) { return p.target > 0 && p.ach >= 100; });
+  var lowPerf = agg.byPerson.filter(function(p) { return p.target > 0 && p.ach < 80; });
+
+  // Build email
+  var e = '';
+
+  // Subject
+  e += '<b>Subject:</b> WBR \u2013 ' + weekLabel + ' | CMDE & Programs Update | ' + mgrName + '\'s Team<br><br>';
+
+  // Greeting
+  e += 'Hi Team,<br><br>';
+  e += 'Please find below the Weekly Business Review summary for <b>' + weekLabel + '</b>.<br><br>';
+
+  // ============ 1. EXECUTIVE SUMMARY ============
+  e += '<b style="font-size:11pt">1. Executive Summary</b><br><br>';
+  e += 'The team processed <b>' + agg.totalAudits.toLocaleString() + ' audits/actions</b> against a target of <b>' + agg.totalTarget.toLocaleString() + '</b>, ';
+  e += 'achieving <b>' + achPct + '% target attainment</b>. ';
+  if (parseFloat(achPct) >= 100) e += 'Target exceeded \u2014 strong execution across programs. ';
+  else if (parseFloat(achPct) >= 85) e += 'Slight miss primarily driven by shrinkage and tool limitations. ';
+  else e += 'Gap driven by high shrinkage (leaves/holidays) impacting productive capacity. ';
+  e += '<br><br>';
+  e += 'Shrinkage for the period: <b>' + agg.shrinkagePct.toFixed(1) + '%</b> (' + totalShrinkEntries + ' shrinkage entries out of ' + data.length + ' data points). ';
+  e += 'Team operated with <b>' + agg.uniqueAssociates + ' associates</b> across <b>' + agg.byProgram.length + ' active programs</b>. ';
+  e += 'Current open backlog: <b>' + agg.totalBacklog.toLocaleString() + '</b>.<br><br>';
+
+  // ============ MANAGER BRIEF (if provided) ============
+  var briefEl = document.getElementById('wbr-manager-brief');
+  var briefText = briefEl ? briefEl.value.trim() : '';
+  if (briefText) {
+    e += '<b style="font-size:11pt">2. Key Highlights & Business Context</b><br><br>';
+    // Format the brief - split by newlines or periods for readability
+    var briefLines = briefText.split('\n').filter(function(l) { return l.trim(); });
+    if (briefLines.length > 1) {
+      e += '<ul style="margin:0 0 12px 16px;font-size:10pt">';
+      briefLines.forEach(function(line) { e += '<li>' + line.trim() + '</li>'; });
+      e += '</ul><br>';
+    } else {
+      e += '<p style="font-size:10pt;margin-bottom:12px">' + briefText + '</p><br>';
+    }
+    // Shift all subsequent section numbers by 1
+    var sectionOffset = 1;
+  } else {
+    var sectionOffset = 0;
+  }
+
+  // ============ WEEKLY TREND ============
+  if (weekData.length > 1) {
+    e += '<b style="font-size:11pt">' + (2 + sectionOffset) + '. Weekly Trend</b><br><br>';
+    e += '<table style="border-collapse:collapse;font-family:Calibri,sans-serif;font-size:10pt;width:100%">';
+    e += '<tr style="background:#232f3e;color:#fff"><th style="padding:6px 10px;border:1px solid #545b64">Week</th><th style="padding:6px 10px;border:1px solid #545b64;text-align:center">Target</th><th style="padding:6px 10px;border:1px solid #545b64;text-align:center">Actual</th><th style="padding:6px 10px;border:1px solid #545b64;text-align:center">Ach%</th><th style="padding:6px 10px;border:1px solid #545b64;text-align:center">Shrinkage%</th><th style="padding:6px 10px;border:1px solid #545b64;text-align:center">Backlog</th></tr>';
+    weekData.forEach(function(w, i) {
+      var bg = i % 2 === 0 ? '#f4f4f4' : '#fff';
+      var c = w.achPct >= 100 ? '#1d8102' : w.achPct >= 85 ? '#c45500' : '#d13212';
+      var sc = w.shrinkPct > 30 ? '#d13212' : w.shrinkPct > 15 ? '#c45500' : '#1d8102';
+      e += '<tr style="background:' + bg + '"><td style="padding:5px 10px;border:1px solid #eaeded"><b>' + w.week + '</b></td><td style="padding:5px 10px;border:1px solid #eaeded;text-align:center">' + w.target.toLocaleString() + '</td><td style="padding:5px 10px;border:1px solid #eaeded;text-align:center">' + w.actual.toLocaleString() + '</td><td style="padding:5px 10px;border:1px solid #eaeded;text-align:center;color:' + c + ';font-weight:bold">' + w.achPct + '%</td><td style="padding:5px 10px;border:1px solid #eaeded;text-align:center;color:' + sc + '">' + w.shrinkPct + '%</td><td style="padding:5px 10px;border:1px solid #eaeded;text-align:center">' + w.backlog.toLocaleString() + '</td></tr>';
+    });
+    e += '</table><br>';
+  }
+
+  // ============ 3. PROGRAM PERFORMANCE ============
+  e += '<b style="font-size:11pt">' + (weekData.length > 1 ? (3 + sectionOffset) : (2 + sectionOffset)) + '. Program-wise Performance</b><br><br>';
+  e += '<table style="border-collapse:collapse;font-family:Calibri,sans-serif;font-size:10pt;width:100%">';
+  e += '<tr style="background:#232f3e;color:#fff"><th style="padding:6px 10px;border:1px solid #545b64;text-align:left">Program</th><th style="padding:6px 10px;border:1px solid #545b64;text-align:center">HC</th><th style="padding:6px 10px;border:1px solid #545b64;text-align:center">Target</th><th style="padding:6px 10px;border:1px solid #545b64;text-align:center">Actual</th><th style="padding:6px 10px;border:1px solid #545b64;text-align:center">Ach%</th><th style="padding:6px 10px;border:1px solid #545b64;text-align:center">Backlog</th><th style="padding:6px 10px;border:1px solid #545b64;text-align:center">Per HC/Day</th></tr>';
+  agg.byProgram.forEach(function(p, i) {
+    var bg = i % 2 === 0 ? '#f4f4f4' : '#fff';
+    var pAch = p.target > 0 ? (p.actual / p.target * 100).toFixed(0) : '-';
+    var c = pAch >= 100 ? '#1d8102' : pAch >= 85 ? '#c45500' : '#d13212';
+    var perHC = p.hc > 0 ? (p.actual / p.hc).toFixed(0) : '-';
+    e += '<tr style="background:' + bg + '"><td style="padding:5px 10px;border:1px solid #eaeded">' + p.program + '</td><td style="padding:5px 10px;border:1px solid #eaeded;text-align:center">' + p.hc + '</td><td style="padding:5px 10px;border:1px solid #eaeded;text-align:center">' + p.target.toLocaleString() + '</td><td style="padding:5px 10px;border:1px solid #eaeded;text-align:center">' + p.actual.toLocaleString() + '</td><td style="padding:5px 10px;border:1px solid #eaeded;text-align:center;color:' + c + ';font-weight:bold">' + pAch + '%</td><td style="padding:5px 10px;border:1px solid #eaeded;text-align:center">' + p.backlog.toLocaleString() + '</td><td style="padding:5px 10px;border:1px solid #eaeded;text-align:center">' + perHC + '</td></tr>';
+  });
+  e += '<tr style="background:#232f3e;color:#fff;font-weight:bold"><td style="padding:5px 10px;border:1px solid #545b64">TOTAL</td><td style="padding:5px 10px;border:1px solid #545b64;text-align:center">' + agg.uniqueAssociates + '</td><td style="padding:5px 10px;border:1px solid #545b64;text-align:center">' + agg.totalTarget.toLocaleString() + '</td><td style="padding:5px 10px;border:1px solid #545b64;text-align:center">' + agg.totalAudits.toLocaleString() + '</td><td style="padding:5px 10px;border:1px solid #545b64;text-align:center">' + achPct + '%</td><td style="padding:5px 10px;border:1px solid #545b64;text-align:center">' + agg.totalBacklog.toLocaleString() + '</td><td style="padding:5px 10px;border:1px solid #545b64;text-align:center">-</td></tr>';
+  e += '</table><br>';
+
+  // ============ 4. PER-PERSON PRODUCTIVITY ============
+  if (tone !== 'concise') {
+    var secNum = weekData.length > 1 ? '4' : '3';
+    e += '<b style="font-size:11pt">' + secNum + '. Per-Person Productivity</b><br><br>';
+    e += '<table style="border-collapse:collapse;font-family:Calibri,sans-serif;font-size:10pt;width:100%">';
+    e += '<tr style="background:#232f3e;color:#fff"><th style="padding:6px 10px;border:1px solid #545b64;text-align:left">Associate</th><th style="padding:6px 10px;border:1px solid #545b64;text-align:center">Target</th><th style="padding:6px 10px;border:1px solid #545b64;text-align:center">Actual</th><th style="padding:6px 10px;border:1px solid #545b64;text-align:center">Ach%</th><th style="padding:6px 10px;border:1px solid #545b64;text-align:left">Programs</th></tr>';
+    agg.byPerson.forEach(function(p, i) {
+      var bg = i % 2 === 0 ? '#f4f4f4' : '#fff';
+      var c = p.ach >= 100 ? '#1d8102' : p.ach >= 85 ? '#c45500' : '#d13212';
+      e += '<tr style="background:' + bg + '"><td style="padding:5px 10px;border:1px solid #eaeded">' + p.login + '</td><td style="padding:5px 10px;border:1px solid #eaeded;text-align:center">' + p.target.toLocaleString() + '</td><td style="padding:5px 10px;border:1px solid #eaeded;text-align:center">' + p.actual.toLocaleString() + '</td><td style="padding:5px 10px;border:1px solid #eaeded;text-align:center;color:' + c + ';font-weight:bold">' + p.ach.toFixed(0) + '%</td><td style="padding:5px 10px;border:1px solid #eaeded;font-size:9pt;color:#545b64">' + p.programs + '</td></tr>';
+    });
+    e += '</table><br>';
+  }
+
+  // ============ 5. SHRINKAGE ANALYSIS ============
+  var shrinkKeys = Object.keys(shrinkTypes);
+  if (shrinkKeys.length) {
+    var secNum2 = tone !== 'concise' ? (weekData.length > 1 ? (5 + sectionOffset) : (4 + sectionOffset)) : (weekData.length > 1 ? (4 + sectionOffset) : (3 + sectionOffset));
+    e += '<b style="font-size:11pt">' + secNum2 + '. Shrinkage & Utilization</b><br><br>';
+    e += 'Overall shrinkage rate: <b>' + agg.shrinkagePct.toFixed(1) + '%</b><br><br>';
+    e += '<table style="border-collapse:collapse;font-family:Calibri,sans-serif;font-size:10pt;width:80%">';
+    e += '<tr style="background:#232f3e;color:#fff"><th style="padding:6px 10px;border:1px solid #545b64;text-align:left">Shrinkage Type</th><th style="padding:6px 10px;border:1px solid #545b64;text-align:center">Count</th><th style="padding:6px 10px;border:1px solid #545b64;text-align:center">% of Total</th></tr>';
+    shrinkKeys.sort(function(a, b) { return shrinkTypes[b] - shrinkTypes[a]; }).forEach(function(type, i) {
+      var bg = i % 2 === 0 ? '#f4f4f4' : '#fff';
+      var pct = (shrinkTypes[type] / data.length * 100).toFixed(1);
+      e += '<tr style="background:' + bg + '"><td style="padding:5px 10px;border:1px solid #eaeded">' + type + '</td><td style="padding:5px 10px;border:1px solid #eaeded;text-align:center">' + shrinkTypes[type] + '</td><td style="padding:5px 10px;border:1px solid #eaeded;text-align:center">' + pct + '%</td></tr>';
+    });
+    e += '</table><br>';
+  }
+
+  // ============ 6. KEY CALLOUTS ============
+  var comments = data.filter(function(d) { return d.comments && d.comments.length > 10 && d.comments.indexOf('CMDE non-english') === -1 && d.comments.indexOf('CMDE non-english audits on CAT tool') === -1; });
+  if (comments.length) {
+    var secNum3 = tone !== 'concise' ? (weekData.length > 1 ? (6 + sectionOffset) : (5 + sectionOffset)) : (weekData.length > 1 ? (5 + sectionOffset) : (4 + sectionOffset));
+    e += '<b style="font-size:11pt">' + secNum3 + '. Key Callouts & Risks</b><br><br>';
+    e += '<ul style="margin:0 0 12px 16px;font-size:10pt">';
+    var uniqueComments = [];
+    var seenComments = {};
+    comments.forEach(function(d) {
+      var key = d.login + ':' + d.comments.substring(0, 30);
+      if (!seenComments[key]) { seenComments[key] = true; uniqueComments.push(d); }
+    });
+    uniqueComments.slice(0, 10).forEach(function(d) {
+      e += '<li><b>' + d.login + '</b> (' + d.program + ', ' + d.date + '): ' + d.comments + '</li>';
+    });
+    e += '</ul><br>';
+  }
+
+  // ============ 7. ACTIONS & NEXT STEPS ============
+  var lastSecNum = tone !== 'concise' ? (weekData.length > 1 ? (7 + sectionOffset) : (6 + sectionOffset)) : (weekData.length > 1 ? (6 + sectionOffset) : (5 + sectionOffset));
+  e += '<b style="font-size:11pt">' + lastSecNum + '. Actions & Next Steps</b><br><br>';
+  e += '<ul style="margin:0 0 12px 16px;font-size:10pt">';
+  if (agg.shrinkagePct > 25) e += '<li>High shrinkage (' + agg.shrinkagePct.toFixed(0) + '%) \u2014 review leave patterns and ensure coverage planning</li>';
+  if (agg.totalBacklog > 0) e += '<li>Backlog clearance plan needed \u2014 current open items: ' + agg.totalBacklog.toLocaleString() + '</li>';
+  if (lowPerf.length > 0) e += '<li>Coaching needed for ' + lowPerf.length + ' associate(s) below 80% achievement</li>';
+  if (topPerf.length > 0) e += '<li>Recognize top performers: ' + topPerf.slice(0, 3).map(function(p) { return p.login; }).join(', ') + ' (100%+ achievement)</li>';
+  e += '<li>Continue monitoring daily CAT tool output and flag translation availability issues</li>';
+  e += '</ul><br>';
+
+  // Closing
+  e += 'Please reach out for any deep-dives or additional data cuts.<br><br>';
+  e += 'Best regards,<br><b>' + mgrName + '</b><br>';
+  e += '<span style="color:#545b64;font-size:9pt">Manager II, Prod Compliance | Selling Partner Experience - VAR</span>';
+
+  document.getElementById('wbr-email-output').style.display = 'block';
+  document.getElementById('wbr-email-html').innerHTML = e;
+  document.getElementById('wbr-email-output').scrollIntoView({ behavior: 'smooth' });
+  toast('WBR narrative email generated!');
+}
+function copyWBRNarrativeEmail() {
+  var el = document.getElementById('wbr-email-html');
+  if (!el || !el.innerHTML) { toast('Generate email first'); return; }
+  var html = '<div style="font-family:Calibri,sans-serif;font-size:10pt;line-height:1.5">' + el.innerHTML + '</div>';
+  var blob = new Blob([html], { type: 'text/html' });
+  if (navigator.clipboard && navigator.clipboard.write) {
+    navigator.clipboard.write([new ClipboardItem({ 'text/html': blob, 'text/plain': new Blob([el.innerText], { type: 'text/plain' }) })]).then(function() { toast('Copied! Paste in Outlook.'); }).catch(function() { fallbackCopyWBR(html); });
+  } else { fallbackCopyWBR(html); }
+}
+
+function fallbackCopyWBR(html) {
+  var t = document.createElement('div');
+  t.style.cssText = 'position:fixed;left:-9999px';
+  t.innerHTML = html;
+  document.body.appendChild(t);
+  var r = document.createRange(); r.selectNodeContents(t);
+  var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+  try { document.execCommand('copy'); toast('Copied!'); } catch(e) { toast('Copy failed'); }
+  s.removeAllRanges(); document.body.removeChild(t);
+}
+
+function loadWBRSampleData() {
+  var s = "Login\tHC\tWK\tDate\tProgram\tSub-Program\tHC Utilization\tShrinkage Type\tTarget\tActual\tInflow\tBacklog of the day\tComments\n" +
+"muqeemah\t1\t1\t1-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t350\t400\t350\t-50\tCMDE non-english audits on CAT tool\n" +
+"ketiredd\t0.5\t1\t1-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tShrinkage\tLeave\t175\t0\t175\t175\tCMDE non-english audits on CAT tool\n" +
+"ketiredd\t0.5\t1\t1-Jan\tLDX\tLDX Tickets\tShrinkage\tLeave\t\t\t\t\tForte feedback\n" +
+"sharkoth\t1\t1\t1-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t350\t340\t350\t10\tCMDE non-english audits on CAT tool\n" +
+"vankithe\t1\t1\t1-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t350\t420\t350\t-70\tCMDE non-english audits on CAT tool\n" +
+"musaddm\t1\t1\t1-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t350\t400\t350\t-50\tCMDE non-english audits on CAT tool\n" +
+"syesule\t0.5\t1\t1-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t175\t227\t175\t-52\tCMDE non-english audits on CAT tool\n" +
+"syesule\t0.4\t1\t1-Jan\tLDX\tLDX Tickets\tUtilized\tNA\t\t\t\t\tLDX Tickets (assigned 3 | actioned 3)\n" +
+"syesule\t0.1\t1\t1-Jan\tMCE Tickets\tMat issue triage\tUtilized\tNA\t\t\t\t\t\n" +
+"gvatsala\t1\t1\t1-Jan\tMCE QA\tMat Testing\tUtilized\tNA\t\t\t\t\t\n" +
+"sudaveda\t1\t1\t1-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tShrinkage\tLeave\t350\t0\t350\t350\t\n" +
+"rundevak\t1\t1\t1-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t350\t400\t350\t-50\t\n" +
+"valavoju\t1\t1\t1-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tShrinkage\tLeave\t350\t0\t350\t350\t\n" +
+"ypreksha\t1\t1\t1-Jan\tListing deep dives\tInvisible PT Analysis\tShrinkage\tLeave\t\t\t\t\t\n" +
+"ahmshaiq\t1\t1\t1-Jan\tExpo\tExpo Tickets\tShrinkage\tLeave\t\t\t\t\t\n" +
+"vijaupot\t1\t1\t1-Jan\tListing deep dives\tCMDE SOP FAQ updates\tShrinkage\tLeave\t\t\t\t\t\n" +
+"abhanwad\t1\t1\t1-Jan\tExpo\tExpo Tickets\tShrinkage\tLeave\t\t\t\t\t\n" +
+"chikbal\t1\t1\t1-Jan\tExpo\tExpo Tickets\tShrinkage\tLeave\t\t\t\t\t\n" +
+"thotteja\t1\t1\t1-Jan\tNGS\tHMD Audits\tShrinkage\tLeave\t\t\t\t\t\n" +
+"cheedel\t1\t1\t1-Jan\tNGS\tHMD Audits\tShrinkage\tLeave\t\t\t\t\t\n" +
+"muqeemah\t1\t2\t5-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t400\t431\t400\t-31\t\n" +
+"sharkoth\t1\t2\t5-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t400\t360\t400\t40\t\n" +
+"vankithe\t1\t2\t5-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t400\t435\t400\t-35\t\n" +
+"musaddm\t1\t2\t5-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t400\t440\t400\t-40\t\n" +
+"sudaveda\t1\t2\t5-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t400\t405\t400\t-5\t\n" +
+"rundevak\t1\t2\t5-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t400\t420\t400\t-20\t\n" +
+"valavoju\t1\t2\t5-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t400\t444\t400\t-44\t\n" +
+"thotteja\t1\t2\t5-Jan\tNGS\tHMD Audits\tUtilized\tNA\t\t75\t\t\t\n" +
+"cheedel\t0.5\t2\t5-Jan\tNGS\tHMD Audits\tUtilized\tNA\t\t50\t\t\t\n" +
+"cheedel\t0.5\t2\t5-Jan\tNGS\tExit Survey\tUtilized\tNA\t\t20\t\t\tContacts with deep dive - 20\n" +
+"muqeemah\t1\t2\t7-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tShrinkage\tLeave\t1000\t0\t1000\t1000\t\n" +
+"sharkoth\t1\t2\t7-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t360\t1000\t640\t\n" +
+"sudaveda\t1\t2\t7-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t1000\t1000\t0\t\n" +
+"rundevak\t1\t2\t7-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t1000\t1000\t0\t\n" +
+"muqeemah\t1\t3\t12-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t750\t1000\t250\t\n" +
+"sharkoth\t1\t3\t12-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tShrinkage\tLeave\t1000\t0\t1000\t1000\t\n" +
+"vankithe\t1\t3\t12-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t755\t1000\t245\t\n" +
+"musaddm\t1\t3\t12-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t710\t1000\t290\t\n" +
+"sharkoth\t1\t3\t13-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t690\t1000\t310\ttook time to find defects in cattool for english\n" +
+"musaddm\t1\t3\t14-Jan\tMCE Dev\tMat Configurations\tUtilized\tNA\t\t\t\t\t\n" +
+"sudaveda\t1\t3\t12-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tShrinkage\tLeave\t1000\t0\t1000\t1000\t\n" +
+"rundevak\t1\t3\t12-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tShrinkage\tLeave\t1000\t0\t1000\t1000\t\n" +
+"valavoju\t1\t3\t12-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tShrinkage\tLeave\t1000\t0\t1000\t1000\t\n" +
+"ypreksha\t1\t3\t13-Jan\tListing deep dives\tInvisible PT Analysis\tShrinkage\tAdhoc Testing and Analysis\t\t\t\t\tQuicksuite Flash using Flow\n" +
+"vijaupot\t1\t3\t12-Jan\tCMDE QC\tCMDE QC Audits\tShrinkage\tLeave\t\t\t\t\t\n" +
+"thotteja\t1\t3\t12-Jan\tNGS\tHMD Audits\tUtilized\tNA\t\t75\t\t\tNGS Audits, Deep dive\n" +
+"cheedel\t0.5\t3\t12-Jan\tNGS\tHMD Audits\tUtilized\tNA\t\t41\t\t\t\n" +
+"cheedel\t0.5\t3\t12-Jan\tNGS\tExit Survey\tUtilized\tNA\t\t35\t\t\tContacts with deep dive(Business Page) - 35\n" +
+"muqeemah\t1\t4\t19-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t800\t1000\t200\t\n" +
+"sharkoth\t1\t4\t19-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tShrinkage\tLeave\t1000\t0\t1000\t1000\t\n" +
+"musaddm\t1\t4\t19-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tShrinkage\tLeave\t1000\t0\t1000\t1000\t\n" +
+"sudaveda\t1\t4\t19-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t1000\t1000\t0\t\n" +
+"rundevak\t1\t4\t19-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tShrinkage\tLeave\t1000\t0\t1000\t1000\t\n" +
+"valavoju\t1\t4\t19-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t700\t1000\t300\t\n" +
+"sharkoth\t1\t4\t20-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t630\t1000\t370\tno template values for PT BICYCLE_CARGO_RACK\n" +
+"sharkoth\t1\t4\t22-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t700\t1000\t300\taudited PT BICYCLE_CARGO_RACK - no template values generated\n" +
+"muqeemah\t1\t4\t22-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t1000\t1000\t0\t\n" +
+"sudaveda\t1\t4\t22-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t1000\t1000\t0\t\n" +
+"rundevak\t1\t4\t22-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t1000\t1000\t0\t\n" +
+"valavoju\t1\t4\t22-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t1005\t1000\t-5\t\n" +
+"thotteja\t1\t4\t22-Jan\tNGS\tHMD Audits\tUtilized\tNA\t\t64\t\t\tNGS URL based testing, fba page tested\n" +
+"chikbal\t0.6\t4\t22-Jan\tNGS\tHMD Audits\tUtilized\tNA\t\t67\t\t\tNGS flash metrics\n" +
+"muqeemah\t1\t5\t26-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tShrinkage\tMandatory Off\t1000\t0\t1000\t1000\tRepublic Day\n" +
+"sharkoth\t1\t5\t26-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tShrinkage\tMandatory Off\t1000\t0\t1000\t1000\t\n" +
+"vankithe\t1\t5\t26-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tShrinkage\tMandatory Off\t1000\t0\t1000\t1000\t\n" +
+"musaddm\t1\t5\t26-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tShrinkage\tMandatory Off\t1000\t0\t1000\t1000\t\n" +
+"sudaveda\t1\t5\t26-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tShrinkage\tMandatory Off\t1000\t0\t1000\t1000\t\n" +
+"rundevak\t1\t5\t26-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tShrinkage\tMandatory Off\t1000\t0\t1000\t1000\t\n" +
+"valavoju\t1\t5\t26-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tShrinkage\tMandatory Off\t1000\t0\t1000\t1000\t\n" +
+"muqeemah\t1\t5\t27-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t1000\t1000\t0\t\n" +
+"sharkoth\t1\t5\t27-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tShrinkage\tLeave\t1000\t0\t1000\t1000\t\n" +
+"sudaveda\t1\t5\t27-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t1000\t1000\t0\t\n" +
+"rundevak\t1\t5\t27-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t1000\t1000\t0\t\n" +
+"valavoju\t1\t5\t27-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t1004\t1000\t-4\t\n" +
+"sudaveda\t1\t5\t28-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t250\t1000\t750\tIssue in audit allocation BOOKMARK PT\n" +
+"rundevak\t1\t5\t28-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t239\t1000\t761\tPT BOOKMARK - Template & Translated values not present\n" +
+"valavoju\t1\t5\t28-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t275\t1000\t725\tIssue with Allocation (PT: BOOKMARK)\n" +
+"syesule\t0.5\t5\t29-Jan\tCMDE QC\tCMDE QC Audits\tUtilized\tNA\t\t340\t\t\t\n" +
+"ypreksha\t0.5\t5\t29-Jan\tCMDE QC\tCMDE QC Audits\tUtilized\tNA\t\t200\t\t\t\n" +
+"vijaupot\t1\t5\t29-Jan\tCMDE QC\tCMDE QC Audits\tUtilized\tNA\t\t450\t\t\t\n" +
+"muqeemah\t1\t5\t29-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t1000\t1000\t0\t\n" +
+"sharkoth\t1\t5\t29-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t1000\t1000\t0\t\n" +
+"sudaveda\t1\t5\t29-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t1000\t1000\t0\t\n" +
+"rundevak\t1\t5\t29-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t1000\t1000\t0\t\n" +
+"valavoju\t1\t5\t29-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t1005\t1000\t-5\t\n" +
+"syesule\t0.9\t5\t30-Jan\tCMDE QC\tCMDE QC Audits\tUtilized\tNA\t\t400\t\t\t\n" +
+"ypreksha\t0.8\t5\t30-Jan\tCMDE QC\tCMDE QC Audits\tUtilized\tNA\t\t350\t\t\t\n" +
+"muqeemah\t1\t5\t30-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t1000\t1000\t0\t\n" +
+"sharkoth\t1\t5\t30-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t913\t1000\t87\t\n" +
+"vankithe\t1\t5\t30-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t1000\t1000\t0\t\n" +
+"sudaveda\t1\t5\t30-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t1000\t1000\t0\t\n" +
+"rundevak\t1\t5\t30-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t1000\t1000\t0\t\n" +
+"valavoju\t1\t5\t30-Jan\tCMDE Audit\tDisplay properties 1x1 Audit\tUtilized\tNA\t1000\t1003\t1000\t-3\t\n" +
+"thotteja\t1\t5\t30-Jan\tNGS\tHMD Audits\tUtilized\tNA\t\t68\t\t\tNGS Audits, deep dive\n" +
+"cheedel\t0.7\t5\t30-Jan\tNGS\tExit Survey\tUtilized\tNA\t\t60\t\t\t\n" +
+"cheedel\t0.3\t5\t30-Jan\tNGS\tHMD Audits\tUtilized\tNA\t\t30\t\t\t";
+  var el = document.getElementById('wbr-data-paste');
+  if (el) { el.value = s; toast('Full January sample loaded (Jan Wk1-5) \u2014 click Parse & Load'); }
+  else {
+    var rows = s.split('\n').map(function(r) { return r.split('\t'); });
+    var headers = rows[0].map(function(h) { return h.trim().toLowerCase().replace(/^#$/, '_num'); });
+    var data = [];
+    for (var i = 1; i < rows.length; i++) { var obj = {}; headers.forEach(function(hdr, idx) { obj[hdr] = (rows[i][idx] || '').trim(); }); data.push(obj); }
+    wbrParsedData = normalizeWBRSheetData(data);
+    toast(wbrParsedData.length + ' rows loaded (Full January)');
+    render();
+  }
+}
+
+function sendWBRReminders() {
+  var mgr = state.mgr;
+  var ics = getICs(mgr);
+  var today = new Date();
+  var startOfYear = new Date(today.getFullYear(), 0, 1);
+  var weekNum = Math.ceil(((today - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);
+  var weekKey = today.getFullYear() + '-W' + weekNum;
+
+  var notUpdated = [];
+  ics.forEach(function(a) {
+    if (!db.wbr || !db.wbr[mgr] || !db.wbr[mgr][weekKey] || !db.wbr[mgr][weekKey][a] || !db.wbr[mgr][weekKey][a].tasks || db.wbr[mgr][weekKey][a].tasks.length === 0) {
+      notUpdated.push(a);
+    }
+  });
+
+  if (notUpdated.length === 0) { toast('Everyone has updated! No reminders needed.'); return; }
+
+  var emails = notUpdated.map(function(a) { return a + '@amazon.com'; }).join(',');
+  var subject = 'Reminder: Please update your WBR for Week ' + weekNum;
+  var body = 'Hi,\n\nThis is a reminder to update your Weekly Business Review (WBR) for Week ' + weekNum + '.\n\n';
+  body += 'Please update your tasks, blockers, and highlights in the dashboard:\n';
+  body += '? Open Dashboard ? Select your team ? Click "WBR" tab ? Submit your update\n\n';
+  body += 'Deadline: End of day Friday\n\n';
+  body += 'Pending updates from: ' + notUpdated.join(', ') + '\n\n';
+  body += 'Thanks,\n' + (ORG[mgr] ? ORG[mgr].name : mgr);
+
+  var mailto = 'mailto:' + emails + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  window.location.href = mailto;
+  toast('Reminder email opened for ' + notUpdated.length + ' people');
+}
+
+// ========== CONSOLIDATED VIEW (Multi-Manager) ==========
+// Allows a higher-level manager to select sub-managers and see all their associates' data in one place
+
+var consolidatedSelection = []; // selected sub-manager aliases
+
+function renderConsolidatedView() {
+  const mgr = state.mgr;
+  const subMgrs = getMgrs(mgr);
+  
+  if (subMgrs.length === 0) {
+    return '<div class="card"><p>No sub-managers found. This view is for managers who have other managers reporting to them.</p></div>';
+  }
+  
+  // Initialize selection with all sub-managers if empty
+  if (consolidatedSelection.length === 0) {
+    consolidatedSelection = [...subMgrs];
+  }
+  
+  let h = '<div class="card">';
+  h += '<h2>&#128203; Consolidated View � Select Teams</h2>';
+  h += '<p style="font-size:12px;color:var(--muted);margin-bottom:12px">Select which managers\' teams to include in the consolidated report below.</p>';
+  
+  // Manager selection checkboxes
+  h += '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px">';
+  subMgrs.forEach(a => {
+    const info = ORG[a];
+    const teamSize = allReports(a).length;
+    const checked = consolidatedSelection.includes(a) ? 'checked' : '';
+    h += `<label style="display:flex;align-items:center;gap:6px;padding:8px 14px;background:${checked ? '#e6f2ff' : '#f7f8f8'};border:1px solid ${checked ? 'var(--primary)' : 'var(--border)'};border-radius:6px;cursor:pointer;font-size:12px">`;
+    h += `<input type="checkbox" ${checked} onchange="toggleConsolidatedMgr('${a}')">`;
+    h += `<strong>${info.name}</strong> <span style="color:var(--muted)">(${teamSize} people)</span>`;
+    h += '</label>';
+  });
+  h += '</div>';
+  
+  h += '<div style="display:flex;gap:8px;margin-bottom:16px">';
+  h += '<button class="btn btn-s btn-sm" onclick="selectAllConsolidated()">Select All</button>';
+  h += '<button class="btn btn-s btn-sm" onclick="selectNoneConsolidated()">Clear All</button>';
+  h += '</div>';
+  h += '</div>';
+  
+  // Get all ICs from selected managers
+  const allICs = [];
+  const allLeaves = [];
+  consolidatedSelection.forEach(mgrAlias => {
+    const ics = getICs(mgrAlias);
+    ics.forEach(ic => allICs.push({ alias: ic, mgr: mgrAlias }));
+    const leaves = getLeaves(mgrAlias);
+    leaves.forEach(l => allLeaves.push({ ...l, mgrAlias }));
+  });
+  
+  if (allICs.length === 0) {
+    h += '<div class="card"><p>No teams selected. Check at least one manager above.</p></div>';
+    return h;
+  }
+  
+  // Stats
+  const today = new Date().toISOString().slice(0, 10);
+  const onLeaveToday = allLeaves.filter(l => l.status === 'approved' && l.from <= today && l.to >= today).length;
+  const totalPeople = allICs.length;
+  const presentToday = totalPeople - onLeaveToday;
+  const shrinkageToday = totalPeople > 0 ? ((onLeaveToday / totalPeople) * 100).toFixed(1) : 0;
+  const pendingLeaves = allLeaves.filter(l => l.status === 'pending').length;
+  
+  h += '<div class="stats">';
+  h += `<div class="stat"><div class="val">${totalPeople}</div><div class="lbl">Total Associates</div></div>`;
+  h += `<div class="stat green"><div class="val">${presentToday}</div><div class="lbl">Present Today</div></div>`;
+  h += `<div class="stat red"><div class="val">${onLeaveToday}</div><div class="lbl">On Leave Today</div></div>`;
+  h += `<div class="stat ${parseFloat(shrinkageToday) > 20 ? 'red' : 'orange'}"><div class="val">${shrinkageToday}%</div><div class="lbl">Shrinkage Today</div></div>`;
+  h += `<div class="stat"><div class="val">${consolidatedSelection.length}</div><div class="lbl">Teams Selected</div></div>`;
+  if (pendingLeaves > 0) h += `<div class="stat orange"><div class="val">${pendingLeaves}</div><div class="lbl">Pending Approvals</div></div>`;
+  h += '</div>';
+  
+  // Today's Availability Grid
+  h += '<div class="card"><h2>&#128994; Today\'s Availability (All Selected Teams)</h2>';
+  h += '<div class="avail-grid">';
+  allICs.forEach(({ alias, mgr: mgrAlias }) => {
+    const name = ORG[alias] ? ORG[alias].name : alias;
+    const mgrName = ORG[mgrAlias] ? ORG[mgrAlias].name.split(' ')[0] : mgrAlias;
+    const isOnLeave = allLeaves.some(l => l.alias === alias && l.status === 'approved' && l.from <= today && l.to >= today);
+    const isHalf = allLeaves.some(l => l.alias === alias && l.status === 'approved' && l.type === 'halfday' && l.from <= today && l.to >= today);
+    
+    let cls = 'available', statusText = '? Present';
+    if (isHalf) { cls = 'half'; statusText = '� Half-day'; }
+    else if (isOnLeave) { cls = 'on-leave'; statusText = '? On Leave'; }
+    
+    h += `<div class="avail-card ${cls}"><div class="aa">${name}</div><div style="font-size:10px;color:var(--muted)">${mgrName}'s team</div><div>${statusText}</div></div>`;
+  });
+  h += '</div></div>';
+  
+  // Leave Records Table (consolidated)
+  h += '<div class="card"><h2>&#128221; All Leave Records (Consolidated)</h2>';
+  h += '<table><thead><tr><th>Associate</th><th>Manager</th><th>Type</th><th>From</th><th>To</th><th>Days</th><th>Status</th><th>Reason</th></tr></thead><tbody>';
+  
+  const sortedLeaves = allLeaves.sort((a, b) => new Date(b.from) - new Date(a.from)).slice(0, 100);
+  sortedLeaves.forEach(l => {
+    const name = ORG[l.alias] ? ORG[l.alias].name : l.alias;
+    const mgrName = ORG[l.mgrAlias] ? ORG[l.mgrAlias].name.split(' ')[0] : l.mgrAlias;
+    const typeBadge = l.type === 'planned' ? 'b-blue' : l.type === 'unplanned' ? 'b-red' : l.type === 'halfday' ? 'b-orange' : 'b-purple';
+    const statusBadge = l.status === 'approved' ? 'b-green' : l.status === 'pending' ? 'b-orange' : 'b-red';
+    h += `<tr><td>${name}</td><td>${mgrName}</td><td><span class="badge ${typeBadge}">${l.type}</span></td><td>${l.from}</td><td>${l.to}</td><td class="num">${l.days}</td><td><span class="badge ${statusBadge}">${l.status}</span></td><td>${l.reason || '-'}</td></tr>`;
+  });
+  h += '</tbody></table>';
+  if (allLeaves.length > 100) h += `<p style="font-size:11px;color:var(--muted)">Showing latest 100 of ${allLeaves.length} records</p>`;
+  h += '</div>';
+  
+  // Per-Manager Shrinkage Summary
+  h += '<div class="card"><h2>&#128200; Shrinkage by Team</h2>';
+  h += '<table><thead><tr><th>Manager</th><th>Team Size</th><th>On Leave Today</th><th>Shrinkage %</th><th>Pending Approvals</th></tr></thead><tbody>';
+  consolidatedSelection.forEach(mgrAlias => {
+    const mgrInfo = ORG[mgrAlias];
+    const ics = getICs(mgrAlias);
+    const mgrLeaves = getLeaves(mgrAlias);
+    const mgrOnLeave = mgrLeaves.filter(l => l.status === 'approved' && l.from <= today && l.to >= today).length;
+    const mgrShrinkage = ics.length > 0 ? ((mgrOnLeave / ics.length) * 100).toFixed(1) : '0.0';
+    const mgrPending = mgrLeaves.filter(l => l.status === 'pending').length;
+    const shrinkStyle = parseFloat(mgrShrinkage) > 20 ? 'color:#d13212;font-weight:700' : '';
+    h += `<tr><td><a onclick="goMgr('${mgrAlias}')">${mgrInfo.name}</a></td><td class="num">${ics.length}</td><td class="num">${mgrOnLeave}</td><td class="num" style="${shrinkStyle}">${mgrShrinkage}%</td><td class="num">${mgrPending}</td></tr>`;
+  });
+  h += '</tbody></table></div>';
+  
+  return h;
+}
+
+function toggleConsolidatedMgr(alias) {
+  const idx = consolidatedSelection.indexOf(alias);
+  if (idx >= 0) consolidatedSelection.splice(idx, 1);
+  else consolidatedSelection.push(alias);
+  render();
+}
+
+function selectAllConsolidated() {
+  consolidatedSelection = [...getMgrs(state.mgr)];
+  render();
+}
+
+function selectNoneConsolidated() {
+  consolidatedSelection = [];
+  render();
+}
+
 // ========== INIT ==========
 render();
+
+
+// ========== PHONE TOOL AUTO-SYNC (Monthly) ==========
+// Automatically syncs org hierarchy with Phone Tool every 30 days
+// No button needed � runs silently on page load when due
+
+const ORG_SYNC_KEY = 'org_last_sync';
+const ORG_SYNC_INTERVAL_DAYS = 30;
+const ORG_SYNC_CHANGES_KEY = 'org_sync_changes';
+
+async function fetchPhoneTool(alias) {
+  try {
+    const resp = await fetch(`https://phonetool.amazon.com/users/${alias}.json`, { credentials: 'include' });
+    if (!resp.ok) return null;
+    return await resp.json();
+  } catch (e) {
+    console.warn('PhoneTool fetch failed for', alias, e);
+    return null;
+  }
+}
+
+async function autoSyncOrg() {
+  // Check if sync is due (every 30 days)
+  const lastSync = localStorage.getItem(ORG_SYNC_KEY);
+  if (lastSync) {
+    const daysSince = (Date.now() - new Date(lastSync).getTime()) / (1000 * 60 * 60 * 24);
+    if (daysSince < ORG_SYNC_INTERVAL_DAYS) {
+      console.log(`[OrgSync] Last synced ${Math.floor(daysSince)} days ago. Next sync in ${Math.ceil(ORG_SYNC_INTERVAL_DAYS - daysSince)} days.`);
+      return;
+    }
+  }
+  
+  console.log('[OrgSync] Monthly sync triggered. Checking Phone Tool...');
+  
+  const ROOT = 'agasarad';
+  const visited = new Set();
+  const queue = [ROOT];
+  const newOrg = {};
+  let fetchCount = 0;
+  let failed = false;
+  
+  // BFS through org tree
+  while (queue.length > 0) {
+    const alias = queue.shift();
+    if (visited.has(alias)) continue;
+    visited.add(alias);
+    
+    const data = await fetchPhoneTool(alias);
+    fetchCount++;
+    
+    // If root fetch fails, Phone Tool is unreachable � abort silently
+    if (!data && alias === ROOT) {
+      console.warn('[OrgSync] Cannot reach Phone Tool. Will retry next load.');
+      failed = true;
+      break;
+    }
+    
+    if (!data) continue;
+    
+    const directs = (data.direct_reports || []).map(d => d.login);
+    const mgrLogin = data.manager ? data.manager.login : null;
+    const isMgr = data.is_manager && directs.length > 0;
+    
+    newOrg[alias] = {
+      name: data.name || alias,
+      title: data.job_title || 'Unknown',
+      level: data.job_level || 3,
+      isMgr: isMgr,
+      mgr: (alias === ROOT) ? null : mgrLogin,
+      directs: directs
+    };
+    
+    // Queue directs
+    directs.forEach(d => {
+      if (!visited.has(d)) queue.push(d);
+    });
+    
+    // Rate limit: small delay every 5 requests
+    if (fetchCount % 5 === 0) {
+      await new Promise(r => setTimeout(r, 300));
+    }
+  }
+  
+  if (failed || Object.keys(newOrg).length === 0) return;
+  
+  // Compare with current ORG
+  const changes = detectOrgChanges(newOrg);
+  
+  // Apply changes automatically
+  if (changes.length > 0) {
+    console.log(`[OrgSync] ${changes.length} change(s) detected. Auto-applying...`);
+    applyOrgChanges(newOrg);
+    localStorage.setItem(ORG_SYNC_CHANGES_KEY, JSON.stringify({
+      date: new Date().toISOString(),
+      changes: changes
+    }));
+    // Show notification after render
+    setTimeout(() => {
+      showOrgSyncNotification(changes);
+    }, 1000);
+  } else {
+    console.log(`[OrgSync] No changes. Org is up to date (${Object.keys(newOrg).length} people).`);
+  }
+  
+  // Mark sync complete
+  localStorage.setItem(ORG_SYNC_KEY, new Date().toISOString());
+  console.log('[OrgSync] Sync complete. Next sync in 30 days.');
+}
+
+function detectOrgChanges(newOrg) {
+  const changes = [];
+  const currentAliases = new Set(Object.keys(ORG));
+  const newAliases = new Set(Object.keys(newOrg));
+  
+  // People who left
+  currentAliases.forEach(alias => {
+    if (!newAliases.has(alias)) {
+      changes.push({ type: 'left', alias, name: ORG[alias].name, mgr: ORG[alias].mgr });
+    }
+  });
+  
+  // New people
+  newAliases.forEach(alias => {
+    if (!currentAliases.has(alias)) {
+      changes.push({ type: 'new', alias, name: newOrg[alias].name, mgr: newOrg[alias].mgr });
+    }
+  });
+  
+  // Reporting changes
+  newAliases.forEach(alias => {
+    if (currentAliases.has(alias)) {
+      const oldMgr = ORG[alias].mgr;
+      const newMgr = newOrg[alias].mgr;
+      if (oldMgr !== newMgr && alias !== 'agasarad') {
+        changes.push({ type: 'moved', alias, name: newOrg[alias].name, from: oldMgr, to: newMgr });
+      }
+      // Check directs changes
+      const oldDirects = new Set(ORG[alias].directs || []);
+      const newDirects = new Set(newOrg[alias].directs || []);
+      const gained = [...newDirects].filter(d => !oldDirects.has(d));
+      const lost = [...oldDirects].filter(d => !newDirects.has(d));
+      if (gained.length > 0) {
+        changes.push({ type: 'gained_directs', alias, name: newOrg[alias].name, directs: gained });
+      }
+      if (lost.length > 0) {
+        changes.push({ type: 'lost_directs', alias, name: newOrg[alias].name, directs: lost });
+      }
+    }
+  });
+  
+  return changes;
+}
+
+function applyOrgChanges(newOrg) {
+  // Clear current ORG
+  Object.keys(ORG).forEach(k => delete ORG[k]);
+  
+  // Apply new data
+  Object.entries(newOrg).forEach(([alias, data]) => {
+    ORG[alias] = data;
+  });
+  
+  // Re-render
+  render();
+}
+
+function showOrgSyncNotification(changes) {
+  let msg = '?? Org auto-synced with Phone Tool: ';
+  const left = changes.filter(c => c.type === 'left');
+  const added = changes.filter(c => c.type === 'new');
+  const moved = changes.filter(c => c.type === 'moved');
+  
+  const parts = [];
+  if (left.length) parts.push(left.length + ' left');
+  if (added.length) parts.push(added.length + ' new');
+  if (moved.length) parts.push(moved.length + ' moved');
+  msg += parts.join(', ');
+  
+  toast(msg);
+  
+  // Also show a detailed modal
+  let h = '<h2>?? Monthly Org Sync Complete</h2>';
+  h += `<p style="font-size:12px;color:var(--muted)">Auto-synced on ${new Date().toLocaleDateString()} | ${Object.keys(ORG).length} people in org</p>`;
+  h += '<table style="width:100%;font-size:12px;margin:10px 0"><thead><tr><th>Change</th><th>Alias</th><th>Name</th><th>Details</th></tr></thead><tbody>';
+  
+  changes.forEach(c => {
+    if (c.type === 'left') {
+      h += `<tr style="background:#fce9e6"><td><span class="badge b-red">LEFT</span></td><td>${c.alias}</td><td>${c.name}</td><td>Was under ${c.mgr || 'unknown'}</td></tr>`;
+    } else if (c.type === 'new') {
+      h += `<tr style="background:#e6f9e6"><td><span class="badge b-green">NEW</span></td><td>${c.alias}</td><td>${c.name}</td><td>Under ${c.mgr || 'unknown'}</td></tr>`;
+    } else if (c.type === 'moved') {
+      h += `<tr style="background:#fff3e0"><td><span class="badge b-orange">MOVED</span></td><td>${c.alias}</td><td>${c.name}</td><td>${c.from} ? ${c.to}</td></tr>`;
+    } else if (c.type === 'gained_directs') {
+      h += `<tr style="background:#e6f9e6"><td><span class="badge b-blue">+DIRECTS</span></td><td>${c.alias}</td><td>${c.name}</td><td>Gained: ${c.directs.join(', ')}</td></tr>`;
+    } else if (c.type === 'lost_directs') {
+      h += `<tr style="background:#fce9e6"><td><span class="badge b-orange">-DIRECTS</span></td><td>${c.alias}</td><td>${c.name}</td><td>Lost: ${c.directs.join(', ')}</td></tr>`;
+    }
+  });
+  
+  h += '</tbody></table>';
+  h += '<p style="font-size:11px;color:var(--muted)">Changes have been applied automatically. Next sync in 30 days.</p>';
+  h += '<div style="margin-top:12px"><button class="btn btn-p" onclick="hideModal()">OK</button></div>';
+  
+  showModal(h);
+}
+
+// ========== TRIGGER AUTO-SYNC ON PAGE LOAD ==========
+// Runs silently in background after dashboard loads
+setTimeout(() => {
+  autoSyncOrg().catch(e => console.warn('[OrgSync] Error:', e));
+}, 3000); // Wait 3 seconds after page load to not block UI
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
