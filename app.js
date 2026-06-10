@@ -1393,7 +1393,13 @@ function renderTeam() {
   h += '<div class="fg" style="margin:0"><label>Status</label><select id="wbr-availability" style="width:100%"><option value="present">Present</option><option value="halfday">Half Day</option><option value="wfh">WFH</option><option value="planned_leave">On Leave</option></select></div>';
   h += '<div class="fg" style="margin:0"><label>Hrs</label><input type="number" id="wbr-timespent" value="8" min="0" max="12" step="0.5" style="width:60px"></div>';
   h += '</div>';
-  h += '<div class="fg" style="margin:0 0 10px"><label>Activities (one per line)</label><textarea id="wbr-tasks" rows="2" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:4px;font-size:12px" placeholder="Completed 400 audits on CAT tool&#10;Resolved SIM-12345"></textarea></div>';
+    h += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:10px">';
+  h += '<div class="fg" style="margin:0"><label>Target</label><input type="number" id="wbr-target" placeholder="1000" style="width:100%"></div>';
+  h += '<div class="fg" style="margin:0"><label>Actual</label><input type="number" id="wbr-actual" placeholder="700" style="width:100%"></div>';
+  h += '<div class="fg" style="margin:0"><label>Shrinkage</label><select id="wbr-shrinkage" style="width:100%"><option value="NA">NA (Utilized)</option><option value="Leave">Leave</option><option value="Mandatory Off">Mandatory Off</option><option value="Adhoc Testing and Analysis">Adhoc Testing</option></select></div>';
+  h += '<div class="fg" style="margin:0"><label>HC</label><input type="number" id="wbr-hc" value="1" min="0" max="1" step="0.1" style="width:100%"></div>';
+  h += '</div>';
+h += '<div class="fg" style="margin:0 0 10px"><label>Activities (one per line)</label><textarea id="wbr-tasks" rows="2" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:4px;font-size:12px" placeholder="Completed 400 audits on CAT tool&#10;Resolved SIM-12345"></textarea></div>';
   h += '<input type="hidden" id="wbr-name" value="' + (ORG[ics[0]] ? ORG[ics[0]].name : ics[0]) + '">';
   h += '<div style="display:flex;align-items:center;gap:12px">';
   h += '<button class="btn btn-p" onclick="saveWBREntry()">&#10004; Submit</button>';
@@ -2726,7 +2732,7 @@ function saveWBREntry() {
   // Store per date (not just per week) for daily tracking
   if (!db.wbr[mgr][weekKey][alias]) db.wbr[mgr][weekKey][alias] = { entries: [] };
   db.wbr[mgr][weekKey][alias].entries.push({
-    date: date,
+    date: date, target: parseInt(document.getElementById('wbr-target').value) || 0, actual: parseInt(document.getElementById('wbr-actual').value) || 0, shrinkage: document.getElementById('wbr-shrinkage').value, hc: parseFloat(document.getElementById('wbr-hc').value) || 1,
     program: program,
     subProgram: subProgram,
     tasks: tasks,
@@ -2752,41 +2758,91 @@ function generateTeamWBR() {
   var weekNum = Math.ceil(((today - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);
   var weekKey = today.getFullYear() + '-W' + weekNum;
   var weekRange = getWeekDateRange(today);
-
   var entries = db.wbr && db.wbr[mgr] && db.wbr[mgr][weekKey] ? db.wbr[mgr][weekKey] : {};
 
   var subject = 'WBR - ' + info.name + "'s Team - Week " + weekNum + ' (' + weekRange + ')';
   var body = 'WEEKLY BUSINESS REVIEW\n';
   body += 'Team: ' + info.name + ' | Week ' + weekNum + ' (' + weekRange + ')\n';
-  body += '---------------------------------------\n\n';
+  body += '-----------------------------------------------\n\n';
 
-  // Summary
-  var totalTasks = 0, totalBlockers = 0;
-  ics.forEach(function(a) { if (entries[a]) { totalTasks += entries[a].tasks.length; if (entries[a].blockers) totalBlockers++; } });
-  body += 'SUMMARY: ' + Object.keys(entries).length + '/' + ics.length + ' reported | ' + totalTasks + ' tasks completed | ' + totalBlockers + ' blockers\n\n';
+  // Aggregate metrics
+  var totalTarget = 0, totalActual = 0, totalHC = 0, shrinkageDays = 0, utilizedDays = 0;
+  var programStats = {};
+  var personStats = [];
 
-  // Per person
-  body += 'TEAM UPDATES:\n';
-  body += '---------------------------------------\n';
   ics.forEach(function(a) {
     var name = ORG[a] ? ORG[a].name : a;
-    if (entries[a]) {
-      body += '\n' + name + ' (' + a + '):\n';
-      entries[a].tasks.forEach(function(t) { body += '  � ' + t + '\n'; });
-      if (entries[a].highlights) body += '  ? Highlight: ' + entries[a].highlights + '\n';
-      if (entries[a].blockers) body += '  ? Blocker: ' + entries[a].blockers + '\n';
-      if (entries[a].nextweek) body += '  ? Next week: ' + entries[a].nextweek + '\n';
+    var pTarget = 0, pActual = 0, pShrinkage = 0, pUtilized = 0, pPrograms = [];
+    if (entries[a] && entries[a].entries) {
+      entries[a].entries.forEach(function(e) {
+        pTarget += (e.target || 0);
+        pActual += (e.actual || 0);
+        if (e.shrinkage && e.shrinkage !== 'NA') { pShrinkage += (e.hc || 1); shrinkageDays += (e.hc || 1); }
+        else { pUtilized += (e.hc || 1); utilizedDays += (e.hc || 1); }
+        totalHC += (e.hc || 1);
+        if (e.program && pPrograms.indexOf(e.program) === -1) pPrograms.push(e.program);
+        if (e.program) {
+          if (!programStats[e.program]) programStats[e.program] = { target: 0, actual: 0, hc: 0, people: [] };
+          programStats[e.program].target += (e.target || 0);
+          programStats[e.program].actual += (e.actual || 0);
+          programStats[e.program].hc += (e.hc || 1);
+          if (programStats[e.program].people.indexOf(a) === -1) programStats[e.program].people.push(a);
+        }
+      });
+    }
+    totalTarget += pTarget;
+    totalActual += pActual;
+    personStats.push({ alias: a, name: name, target: pTarget, actual: pActual, shrinkage: pShrinkage, utilized: pUtilized, programs: pPrograms, hasData: !!(entries[a] && entries[a].entries && entries[a].entries.length > 0) });
+  });
+
+  var productivity = totalTarget > 0 ? Math.round((totalActual / totalTarget) * 100) : 0;
+  var shrinkagePct = totalHC > 0 ? Math.round((shrinkageDays / totalHC) * 100) : 0;
+  var backlog = totalTarget - totalActual;
+
+  // SUMMARY
+  body += 'SUMMARY\n';
+  body += '-----------------------------------------------\n';
+  body += 'Total HC Days: ' + totalHC.toFixed(1) + ' | Utilized: ' + utilizedDays.toFixed(1) + ' | Shrinkage: ' + shrinkageDays.toFixed(1) + ' (' + shrinkagePct + '%)\n';
+  body += 'Target: ' + totalTarget + ' | Actual: ' + totalActual + ' | Productivity: ' + productivity + '%\n';
+  body += 'Backlog: ' + (backlog > 0 ? backlog : 0) + '\n';
+  body += 'Reported: ' + personStats.filter(function(p) { return p.hasData; }).length + '/' + ics.length + '\n\n';
+
+  // PROGRAM-WISE BREAKDOWN
+  body += 'PROGRAM-WISE BREAKDOWN\n';
+  body += '-----------------------------------------------\n';
+  Object.keys(programStats).forEach(function(prog) {
+    var s = programStats[prog];
+    var pProd = s.target > 0 ? Math.round((s.actual / s.target) * 100) : 0;
+    body += prog + ': ' + s.people.length + ' people | Target: ' + s.target + ' | Actual: ' + s.actual + ' | ' + pProd + '% productivity\n';
+  });
+  body += '\n';
+
+  // PER PERSON BREAKDOWN
+  body += 'INDIVIDUAL PERFORMANCE\n';
+  body += '-----------------------------------------------\n';
+  personStats.forEach(function(p) {
+    if (p.hasData) {
+      var pProd = p.target > 0 ? Math.round((p.actual / p.target) * 100) : 0;
+      var flag = pProd < 70 ? ' [LOW]' : '';
+      body += p.name + ' (' + p.alias + '): Target ' + p.target + ' | Actual ' + p.actual + ' | ' + pProd + '%' + flag;
+      if (p.shrinkage > 0) body += ' | Shrinkage: ' + p.shrinkage.toFixed(1) + ' days';
+      body += ' | Programs: ' + p.programs.join(', ') + '\n';
     } else {
-      body += '\n' + name + ' (' + a + '): ? Not submitted\n';
+      body += p.name + ' (' + p.alias + '): NOT SUBMITTED\n';
     }
   });
 
-  // Blockers summary
-  body += '\n\nBLOCKERS:\n';
-  body += '---------------------------------------\n';
-  var hasBlockers = false;
-  ics.forEach(function(a) { if (entries[a] && entries[a].blockers) { body += '� ' + a + ': ' + entries[a].blockers + '\n'; hasBlockers = true; } });
-  if (!hasBlockers) body += '� None reported\n';
+  // ALERTS
+  var alerts = [];
+  personStats.forEach(function(p) {
+    if (!p.hasData) alerts.push(p.name + ' - not submitted');
+    else if (p.target > 0 && (p.actual / p.target) < 0.7) alerts.push(p.name + ' - productivity below 70% (' + Math.round((p.actual/p.target)*100) + '%)');
+  });
+  if (alerts.length > 0) {
+    body += '\nALERTS\n';
+    body += '-----------------------------------------------\n';
+    alerts.forEach(function(a) { body += '! ' + a + '\n'; });
+  }
 
   body += '\n\n---\nGenerated by WBR Dashboard | ' + new Date().toLocaleDateString();
 
@@ -2794,7 +2850,7 @@ function generateTeamWBR() {
   var mgrMgr = info.mgr ? info.mgr + '@amazon.com' : '';
   var mailto = 'mailto:' + mgrMgr + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
   window.location.href = mailto;
-  toast('WBR email opened for ' + (ORG[info.mgr] ? ORG[info.mgr].name : info.mgr));
+  toast('WBR email generated with metrics for ' + ics.length + ' associates');
 }
 
 
@@ -2964,6 +3020,8 @@ function normalizeWBRSheetData(data) {
 
 function getFilteredWBRData() {
   var d = wbrParsedData;
+  var ics = getICs(state.mgr);
+  d = d.filter(function(r) { return ics.indexOf(r.login) !== -1; });
   if (wbrWeekFilter) d = d.filter(function(r) { return r.week === wbrWeekFilter; });
   if (wbrProgFilter) d = d.filter(function(r) { return r.program === wbrProgFilter; });
   return d;
