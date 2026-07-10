@@ -76,7 +76,6 @@ async function syncFromCloud() {
 }
 
 // ========== ORG DATA ==========
-const ORG = {...}` block in app.js) =====
 const ORG = {
   'agasarad': { name: 'Sarad Agarwal', title: 'Manager, TPM', level: 6, isMgr: true, mgr: 'jaysell', directs: ['shoyaba', 'jorrigal', 'sidhanp', 'duraiv', 'kumarshu', 'girisada', 'sylimm', 'nidhivya', 'bhrgar', 'prtbht'] },
 
