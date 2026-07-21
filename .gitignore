@@ -1,0 +1,5 @@
+﻿
+# Added to prevent leaking real leave data to the public repo
+data_backups/
+deploy_backup/
+leave-shrinkage-dashboard-files.zip
